@@ -104,7 +104,7 @@ Once you've initialized Tabletop you can access its good parts.
 
 `.model_names` are the names of the models [read: sheets] that Tabletop knows about
 
-`.data()` returns the rows of the first model if you're in simpleSheet mode. It's the same as `.models` otherwise. This is just a little sugar.
+`.data()` returns the rows of the first model if you're in simpleSheet mode. It's the same as `.sheets()` otherwise. This is just a little sugar.
 
 ### Tabletop.Model
 
@@ -149,7 +149,7 @@ You can see this in the examples directory, but here are the important parts.
             'display_date' column as 'displaydate' and you need to parse the date
             into the 'timestamp' field for TimelineSetter
           simpleSheet: true sends array of rows to callback, so you don't need to
-            do the whole Tabletop.models('Sheet1').all() thing.
+            do the whole Tabletop.sheets('Sheet1').all() thing.
         */
         Tabletop.init( { key: public_spreadshseet_url,
                          callback: drawTimeline,
