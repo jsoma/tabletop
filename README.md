@@ -98,19 +98,23 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 Once you've initialized Tabletop you can access its good parts.
 
-`models` are the `Tabletop.Model`s that were populated, one per worksheet. You access the sheet by its name. Say I have one called **Cats I Know**, I'll access it via `Tabletop.models["Cats I Know"]`
+`.models` are the `Tabletop.Model`s that were populated, one per worksheet. You access the sheet by its name. Say I have one called **Cats I Know**, I'll access it via `Tabletop.models["Cats I Know"]`
 
-`data()` returns the rows of the first model if you're in simpleSheet mode. It's the same as `.models` otherwise. This is just a little sugar.
+`.model_names` are the names of the models [read: sheets] that Tabletop knows about
+
+`.data()` returns the rows of the first model if you're in simpleSheet mode. It's the same as `.models` otherwise. This is just a little sugar.
 
 ### Tabletop.Model
 
 Tabletop.Model is pretty boring, let's be honest.
 
-`.name`: The name of the worksheet it came from (the tab at the bottom of the Spreadsheet)
+`.name` is the name of the worksheet it came from (the tab at the bottom of the spreadsheet)
 
-`.all()`: Returns an array of the rows of the table, in the style of `[ { name: "Tom", age: 5}, { name: "Liz", age: 12 } ]`
+`.column_names` gives you the names of the columns in that table
 
-`.toArray()`: Returns the rows of the table with numbered indices instead of named ones [ [ "Tom", 5] , [ "Liz", 12 ] ]
+`.all()` returns an array of the rows of the table, in the style of `[ { name: "Tom", age: 5}, { name: "Liz", age: 12 } ]`
+
+`.toArray()` returns the rows of the table with numbered indices instead of named ones [ [ "Tom", 5] , [ "Liz", 12 ] ]
 
 ## What the hell do I do with this?
 
