@@ -1,0 +1,393 @@
+.timeline_setter {
+  width:85%;
+  margin:0 auto;
+  padding:10px;
+  position:relative;
+  height:100%;
+  background-color:white;
+}
+.TS-item {
+  z-index:1;
+  position:absolute;
+  border:1px solid #EBEBEB;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding:10px;
+  background:#F7F7F7;
+  color:#333;
+  min-width: 150px;
+}
+.TS-item_user_html {
+  padding-bottom:5px;
+}
+.TS-item_label {
+  font-family:Georgia,"Times New Roman",Times,serif;
+  font-size:12px;
+  line-height:16px;
+  height:85%;
+  display:block;
+}
+.TS-item_year {
+  font-family:"Helvetica Neue",Helvetica,arial,sans-serif;
+  font-weight:bold;
+  font-size:16px;
+  padding-top:10px;
+  float:left;
+  clear:left;
+  display:block;
+  width:150px;
+}
+.TS-item_year_text {
+  float:left;
+}
+.TS-css_arrow {
+  border-style: solid;
+  height: 0px;
+  width: 0px;
+  position:relative;
+  top: 2px;
+  border-width: 10px 10px 10px 10px;
+}
+.TS-css_arrow_up {
+  border-color: transparent transparent #7C93AF transparent;
+}
+.TS-read_btn {
+  -webkit-box-shadow: #CECECE 0px 0px 2px;
+  -moz-box-shadow: #CECECE 0px 0px 2px;
+  box-shadow: #CECECE 0px 0px 2px;
+  -webkit-user-select: none;
+  background: #E9F0F8;
+  border-bottom-left-radius: 4px 4px;
+  border-bottom-right-radius: 4px 4px;
+  border-top-left-radius: 4px 4px;
+  border-top-right-radius: 4px 4px;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px;
+  margin-top:8px;
+  font-size:11px;
+  font-family:"Helvetica Neue",arial,sans-serif;
+  text-transform:uppercase;
+  font-weight:normal;
+  text-align:center;
+  display:block;
+}
+.TS-read_btn:hover {
+  color:black;cursor:pointer;text-decoration:none;background:#cecece;
+}
+.timeline_setter a {
+  text-decoration:none;
+  color:#333;
+}
+
+.TS-top_matter_container {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  overflow:visible;
+}
+.TS-notchbar_container {
+  border:1px solid #cecece;
+  -webkit-box-shadow: #CECECE 0px 0px 2px;
+  -moz-box-shadow: #CECECE 0px 0px 2px;
+  box-shadow: #CECECE 0px 0px 2px;
+  background:#f7f7f7;
+  width:100%;
+  height:20px;
+  position:relative;
+  overflow:hidden;
+  clear:left;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: col-resize;
+}
+.TS-card_scroller {
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  height:800px; /* FIX THIS!!! */
+}
+.TS-card_scroller_inner {
+  width:100%;
+  position:relative;
+}
+.TS-notchbar {
+  height:20px;
+  position:relative;
+  width:100%;
+  margin: 0 auto;
+}
+.TS-notchbar_draggable {
+  cursor: col-resize;
+}
+.TS-notch, .TS-year_notch {
+  height:100%;
+  position:absolute;
+  color:#999;
+}
+.TS-year_notch {
+  border-left: 1px solid #999;
+}
+.TS-year_notch_year_text {
+  display:block;
+  /* 
+    Arial actually looks better than Helvetica at
+    small sizes. See Comment 6 here:
+    http://www.subtraction.com/2007/11/01/the-elements#7497
+  */
+  font-family:Arial,sans-serif;
+  font-size:9px;
+  padding:2px 0 0 5px;
+}
+.TS-year_notch:hover {
+}
+.TS-notch{
+  width:4px;
+  cursor:pointer;
+}
+.TS-card_container {
+  position:absolute;
+  margin-left:-5px;
+  z-index: 9999;
+}
+.TS-controls {
+  margin: 0 0 0 0;
+  float:right;
+  height:2%;
+  overflow:visible;
+  text-align: right;
+    width: 220px;
+}
+.TS-controls a {
+  border:1px solid #cecece;
+  background-color:#f0f0f0;
+  padding:3px 5px 3px 5px;
+  color:#999;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-weight:normal;
+  height: 14px;
+  font-size:14px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;      
+  display: inline;
+}
+.TS-choose_next {
+  margin-left:4px;
+}
+.TS-controls_inner_text {
+  font-size:11px; 
+  text-transform:uppercase;
+}
+.TS-controls a.TS-controls_disabled {
+  color:#cecece;
+  background-color:#f7f7f7;
+  cursor:default;
+}
+.TS-controls a:hover {
+  background-color:#fff;
+}
+.TS-notch_active {
+  -webkit-box-shadow: 0px 0px 10px #333; 
+  -moz-box-shadow: 0px 0px 10px #333; 
+  box-shadow: 0px 0px 10px #333;
+  
+  /* let's throw IE7 users a bone */
+  *border: 1px solid #333;
+}
+.TS-zoom {
+  background-repeat:no-repeat;
+  background-position:center center;
+  width:20px !important;
+  padding:3px 8px 3px 8px !important;
+  margin-right:4px;
+}
+.TS-zoom_inner_text {
+  display:none;
+  /* IE7 */
+  *display:inline;
+}
+.TS-zoom_in {
+  background-image:url("data:image/gif;charset=utf-8;base64,R0lGODlhCgAKALMAADMzM//M/5GRkdXV1fDw8GZmZk1NTf////r6+gAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEHAAEALAAAAAAKAAoAAAQpMMhJpyiihjLIKJTQGV4mFYShEqAkHIiBHKYEHHhhVAWgY5qToFZRRQAAOw==");
+}
+.TS-zoom_out {
+  background-image:url("data:image/gif;charset=utf-8;base64,R0lGODlhCgAKALMAADMzM//M/5GRkdXV1fDw8GZmZk1NTf////r6+gAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEHAAEALAAAAAAKAAoAAAQoMMhJpyiihjLIKJTQEV4mFYShEqAkHAh8mBJw3IVRFUCOaScBraKKAAA7");
+}
+
+/* legend */
+
+.TS-series_nav_container {
+  font-family:Arial,sans-serif;
+  font-size:11px;
+  height:30px;
+  margin-left:-10px;
+}
+.TS-series_legend_swatch {
+  background-image:url("data:image/gif;charset=utf-8;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIBJREFUeNrskksKwCAMBev9byS4UfEOoh7AA4hu9JUG2kVb+8FVoYFsQmbghTAA00ix7wumRfC0nXPYz97Ca70ThBA20hhzL7DWIsZIi957AmutB7gryDkTlFLaYKUUznZPBUIIlFIIbq1BSolevG5uzjnF0Frj6j7sf+VxwSzAAG/ifZQMhRJhAAAAAElFTkSuQmCC");
+  background-repeat:no-repeat;
+  background-position:center center;
+  width: 16px;
+  height: 16px;
+  display: block;
+  float: left;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border-top-left-radius: 2px 2px;
+  border-top-right-radius: 2px 2px;
+  border-bottom-right-radius: 2px 2px;
+  border-bottom-left-radius: 2px 2px;
+  margin-right:5px;
+}
+.TS-series_legend_item {
+  float:left;
+  margin:-3px 10px 0 10px;
+  cursor:pointer;
+}
+.TS-series_legend_item_inactive {}
+.TS-series_legend_item_inactive .TS-series_legend_swatch {
+  background-image:none !important;
+  filter:alpha(opacity=40); /* IE can't do data URLs, so this will serve as 'inactive' UI for series heds in IE */
+}
+.TS-item h2, .TS-img-hed {
+  font-family: 'Helvetica Neue',arial,sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  display:inline-block;
+  margin:0;
+  margin-bottom: 10px;
+  line-height:20px;
+}
+.TS-permalink {
+  font-family:"Helvetica Neue",arial,sans-serif;
+  font-size:12px;
+  color:#404040;
+  cursor:pointer;
+  padding:0 0 0 15px;
+  margin-top:-5px;
+  float:left;
+  -webkit-transform:rotate(45deg);
+  -moz-transform:rotate(45deg);
+}
+
+/* color priority */
+/* "#065718", "#EDC047", "#91ADD1", "#929E5E", "#9E5E23", "#C44846", "#465363", "#EDD4A5", "#CECECE" */
+
+/* default */
+.TS-notch_color_default,.TS-series_legend_swatch_default {
+  background-color: #444;
+}
+.TS-css_arrow_color_default {
+  border-bottom-color:#444;
+}
+.TS-item_color_default {
+  border-top:1px solid #444;
+}
+
+/* 1 */
+.TS-notch_color_1,.TS-series_legend_swatch_1 {
+  background-color: #065718 !important;
+}
+.TS-css_arrow_color_1 {
+  border-bottom-color:#065718 !important;
+}
+.TS-item_color_1 {
+  border-top:1px solid #065718 !important;
+}
+
+/* 2 */
+.TS-notch_color_2,.TS-series_legend_swatch_2 {
+  background-color: #EDC047 !important;
+}
+.TS-css_arrow_color_2 {
+  border-bottom-color:#EDC047 !important;
+}
+.TS-item_color_2 {
+  border-top:1px solid #EDC047 !important;
+}
+
+/* 3 */    
+.TS-notch_color_3,.TS-series_legend_swatch_3 {
+  background-color: #91ADD1 !important;
+}
+.TS-css_arrow_color_3 {
+  border-bottom-color:#91ADD1 !important;
+}
+.TS-item_color_3 {
+  border-top:1px solid #91ADD1 !important;
+}
+
+/* 4 */
+.TS-notch_color_4,.TS-series_legend_swatch_4 {
+  background-color: #929E5E !important;
+}
+.TS-css_arrow_color_4 {
+  border-bottom-color:#929E5E !important;
+}
+.TS-item_color_4 {
+  border-top:1px solid #929E5E !important;
+}
+
+/* 5 */    
+.TS-notch_color_5,.TS-series_legend_swatch_5 {
+  background-color: #9E5E23 !important;
+}
+.TS-css_arrow_color_5 {
+  border-bottom-color:#9E5E23 !important;
+}
+.TS-item_color_5 {
+  border-top:1px solid #9E5E23 !important;
+}
+
+/* 6 */    
+.TS-notch_color_6,.TS-series_legend_swatch_6 {
+  background-color: #C44846 !important;
+}
+.TS-css_arrow_color_6 {
+  border-bottom-color:#C44846 !important;
+}
+.TS-item_color_6 {
+  border-top:1px solid #C44846 !important;
+}
+
+/* 7 */
+.TS-notch_color_7,.TS-series_legend_swatch_7 {
+  background-color: #465363 !important;
+}
+.TS-css_arrow_color_7 {
+  border-bottom-color:#465363 !important;
+}
+.TS-item_color_7 {
+  border-top:1px solid #465363 !important;
+}
+
+
+/* 8 */    
+.TS-notch_color_8,.TS-series_legend_swatch_8 {
+  background-color: #EDD4A5 !important;
+}
+.TS-css_arrow_color_8 {
+  border-bottom-color:#EDD4A5 !important;
+}
+.TS-item_color_8 {
+  border-top:1px solid #EDD4A5 !important;
+}
+
+/* 9 */
+.TS-notch_color_9,.TS-series_legend_swatch_9 {
+  background-color: #CECECE !important;
+}
+.TS-css_arrow_color_9 {
+  border-bottom-color:#CECECE !important;
+}
+.TS-item_color_9 {
+  border-top:1px solid #CECECE !important;
+}
+

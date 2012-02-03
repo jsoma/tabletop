@@ -1,0 +1,20 @@
+body {
+  background: yellow;
+  font-family: "Comic Sans MS";
+}
+
+.entry {
+  float: left;
+  width: 200px;
+  border: solid black 3px;
+  height: 250px;
+  padding: 30px;
+  margin: 30px;
+  background: white;
+}
+h2 {
+  font-size: 2em;
+  color: black;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 20px red;
+}

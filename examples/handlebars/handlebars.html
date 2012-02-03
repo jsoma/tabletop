@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="../common/cats.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>A Handlebars example about cats I've met</h1>
+    <marquee><p>As you can tell, you can make a very pretty web page with this stuff.</p></marquee>
+    
+    <div id="content"></div>
+    
+    <script id="cat-template" type="text/x-handlebars-template">
+      <div class="entry">
+        <h2>{{name}}!</h2>
+        <h3>age {{age}}</h3>
+        <div class="body">
+          {{{description}}}
+        </div>
+      </div>
+    </script>
+
+    <!-- Don't need jQuery for Tabletop, but using it for this example -->
+    <script type="text/javascript" src="handlebars.js"></script>
+    <script type="text/javascript" src="../common/jquery.js"></script>
+    <script type="text/javascript" src="../../src/tabletop.js"></script>
+    <script type="text/javascript">
+      var public_spreadshseet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
+
+      $(document).ready( function() {
+        Tabletop.init( { key: public_spreadshseet_url,
+                         callback: showInfo,
+                         parseNumbers: true } );
+      });
+        
+      function showInfo() {
+        var source   = $("#cat-template").html();
+        var template = Handlebars.compile(source);
+
+        $.each( Tabletop.sheets("Cats").all(), function(i, cat) {
+          console.log(cat);
+          var html = template(cat);
+          $("#content").append(html);
+        });
+      }
+    
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadshseet_url + "'>" + public_spreadshseet_url + "</a>");    
+    </script>
+  </body>
+</html>

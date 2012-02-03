@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="../common/cats.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>A Backbone.js example about cats I've met</h1>
+    <marquee><p>As you can tell, you can make a very complicated web page with this stuff.</p></marquee>
+
+    <script id="cat-template" type="text/underscore-template">
+      <div class="entry">
+        <h2><%= name %>!</h2>
+        <h3>age <%= age %></h3>
+        <div class="body">
+          <%= description %>
+        </div>
+      </div>
+    </script>
+
+
+    <div id="content"></div>
+
+    <script type="text/javascript" src="../common/jquery.js"></script>
+    <script type="text/javascript" src="../common/underscore.js"></script>
+    <script type="text/javascript" src="backbone.js"></script>
+    <script type="text/javascript" src="../../src/backbone.tabletopSync.js"></script>
+    <script type="text/javascript" src="../../src/tabletop.js"></script>
+    <script type="text/javascript">
+      /*
+       Need to specify that you'd like to sync using Backbone.tabletopSync
+       Need to specify a sheetName if you want to use .fetch() on a model
+      */
+      var Cat = Backbone.Model.extend({
+        idAttribute: 'name',
+        sheetName: 'Cats',
+        sync: Backbone.tabletopSync
+      })
+
+      /*
+       Need to specify that you'd like to sync using Backbone.tabletopSync
+       Need to specify a sheetName if you want to use .fetch() on a collection
+      */
+      var CatCollection = Backbone.Collection.extend({
+          // Reference to this collection's model.
+          model: Cat,
+          sheetName: 'Cats',
+          sync: Backbone.tabletopSync
+      });
+
+      var CatView = Backbone.View.extend({
+          tagname: 'div',
+          template: _.template($('#cat-template').html()),
+
+          render: function() {
+            $(this.el).html(this.template(this.model.toJSON()));
+            return this;
+          }
+      })
+    </script>
+    <script type="text/javascript">
+      var public_spreadshseet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
+
+      /*
+        You need to initialize Tabletop before you do aaaaanything.
+        You might think it'd be a good idea to put that into backbone.tabletopSync,
+          but IMHO the fact that you could put the key/url into any model anywhere
+          ever sounds like trouble.
+      */
+      $(document).ready( function() {
+        Tabletop.init( { key: public_spreadshseet_url,
+                         callback: showInfo,
+                         parseNumbers: true } );
+      });
+      
+      function showInfo() {
+        /*
+          Fetching on collections is pretty simple, just specify
+          a sheetName and don't attempt to fetch until Tabletop has 
+          initialized. 
+        */
+
+        cats = new CatCollection();
+        cats.fetch();
+        
+        var bosco_view = new CatView({ model: cats.get('Bosco') });
+
+        $("#content").append( bosco_view.render().el );
+        
+        /*
+          Fetching on models works as long as you've specified a sheet
+          and an idAttribute for the Backbone.Model (you can always
+          use rowNumber, it comes baked in to Tabletop)
+        */
+        thomas = new Cat({name: 'Thomas'})
+        thomas.fetch();
+
+        var thomas_view = new CatView({ model: thomas });
+        $("#content").append( thomas_view.render().el );
+      }
+    
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadshseet_url + "'>" + public_spreadshseet_url + "</a>");    
+    </script>
+  </body>
+</html>
