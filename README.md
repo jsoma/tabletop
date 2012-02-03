@@ -98,7 +98,9 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 Once you've initialized Tabletop you can access its good parts.
 
-`.models` are the `Tabletop.Model`s that were populated, one per worksheet. You access the sheet by its name. Say I have one called **Cats I Know**, I'll access it via `Tabletop.models["Cats I Know"]`
+`.sheets()` are the `Tabletop.Model`s that were populated, one per worksheet. You access a sheet by its name. 
+
+`.sheets(name)` is how you access a specific sheet. Say I have a worksheet called **Cats I Know**, I'll access it via `Tabletop.sheets("Cats I Know")`
 
 `.model_names` are the names of the models [read: sheets] that Tabletop knows about
 
