@@ -1,4 +1,4 @@
-(function(tabletop) {
+(function(global) {
   
   /*
     Initialize with Tabletop.init( { key: '0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc' } )
@@ -7,26 +7,30 @@
       OR!
     Initialize with Tabletop.init('0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc')
   */
-  
-  tabletop.init = function(options) {
+
+  var Tabletop = global.Tabletop = global.Tabletop || function(options) {
+    if(this === global) {
+      return new Tabletop(options);
+    }
+
     if(typeof(options) == 'string') {
       options = { key : options };
     }
-    
+
     this.callback = options.callback;
     this.key = options.key;
     this.simpleSheet = !!options.simpleSheet;
     this.parseNumbers = !!options.parseNumbers;
     this.postProcess = options.postProcess;
     this.debug = !!options.debug;
-    
+
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
       if(this.debug)
         console.debug("You passed a key as a URL! Attempting to parse.");
       this.key = this.key.match("key=(.*?)&")[1];
     }
-    
+
     if(!this.key) {
       alert("You need to pass Tabletop a key!");
       return;
@@ -37,11 +41,15 @@
 
     this.models = {};
     this.model_names = [];
-    
+
     var callback = "Tabletop.loadSheets";
     var json_url = "https://spreadsheets.google.com/feeds/worksheets/" + this.key + "/public/basic?alt=json-in-script&callback=" + callback;
 
     this.injectScript(json_url);
+  };
+
+  Tabletop.init = function(options) {
+    return new Tabletop(options);
   };
 
   /* 
@@ -198,4 +206,4 @@
     return array;
   };
   
-}(window.Tabletop = window.Tabletop || {}));
+}(this);
