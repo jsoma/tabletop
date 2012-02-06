@@ -151,7 +151,7 @@
     */
     doCallback: function() {
       if(this.sheetsToLoad === 0)
-        this.callback(this.data());
+        this.callback(this.data(), this);
     }
   };
 

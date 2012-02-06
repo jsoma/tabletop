@@ -32,11 +32,11 @@
                          parseNumbers: true } );
       });
         
-      function showInfo() {
+      function showInfo(data, tabletop) {
         var source   = $("#cat-template").html();
         var template = Handlebars.compile(source);
 
-        $.each( Tabletop.sheets("Cats").all(), function(i, cat) {
+        $.each( tabletop.sheets("Cats").all(), function(i, cat) {
           console.log(cat);
           var html = template(cat);
           $("#content").append(html);
