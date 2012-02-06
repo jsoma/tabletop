@@ -11,6 +11,7 @@
   "use strict";
 
   var Tabletop = global.Tabletop = function(options) {
+    // Make sure Tabletop is being used as a constructor no matter what.
     if(!this || this === global) {
       return new Tabletop(options);
     }
@@ -50,8 +51,10 @@
     this.injectScript(json_url, this.loadSheets);
   };
 
+  // A global storage for callbacks.
   Tabletop.callbacks = {};
 
+  // Backwards compatibility.
   Tabletop.init = function(options) {
     return new Tabletop(options);
   };
@@ -69,6 +72,8 @@
       var script = document.createElement('script'),
           self = this,
           callbackName = 'tt' + (+new Date()) + (Math.floor(Math.random()*100000));
+      // Create a temp callback which will get removed once it has executed,
+      // this allows multiple instances of Tabletop to coexist.
       Tabletop.callbacks[ callbackName ] = function () {
         var args = Array.prototype.slice.call( arguments, 0 );
         callback.apply(self, args);
@@ -86,6 +91,8 @@
       only return the first one's elements
     */
     data: function() {
+      // If the instance is being queried before the data's been fetched
+      // then return undefined.
       if(this.model_names.length === 0) {
         return undefined;
       }
