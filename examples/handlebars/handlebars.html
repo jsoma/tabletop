@@ -37,7 +37,6 @@
         var template = Handlebars.compile(source);
 
         $.each( Tabletop.sheets("Cats").all(), function(i, cat) {
-          console.log(cat);
           var html = template(cat);
           $("#content").append(html);
         });
