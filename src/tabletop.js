@@ -7,6 +7,8 @@
       OR!
     Initialize with Tabletop.init('0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc')
   */
+
+  "use strict";
   
   tabletop.init = function(options) {
     if(typeof(options) == 'string') {
@@ -22,8 +24,7 @@
     
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
-      if(this.debug)
-        console.debug("You passed a key as a URL! Attempting to parse.");
+      this.log("You passed a key as a URL! Attempting to parse.");
       this.key = this.key.match("key=(.*?)&")[1];
     }
     
@@ -32,8 +33,7 @@
       return;
     }
 
-    if(this.debug)
-      console.debug("Initializing with key %s", this.key);
+    this.log("Initializing with key %s", this.key);
 
     this.models = {};
     this.model_names = [];
@@ -54,9 +54,10 @@
   
   tabletop.injectScript = function(url) {
     var script = document.createElement('script');
-    script['type'] = "text/javascript";
-    script['src'] = url;
+    script.type = "text/javascript";
+    script.src = url;
     document.getElementsByTagName('body')[0].appendChild(script);
+    this.log("Appended script " + url);
   };
   
   /*
@@ -67,8 +68,8 @@
   
   tabletop.data = function() {
     if(this.simpleSheet) {
-      if(this.models.length > 1 && this.debug)
-        console.debug("WARNING You have more than one sheet but are using simple sheet mode! Don't blame me when something goes wrong.");
+      if(this.models.length > 1)
+        this.log("WARNING You have more than one sheet but are using simple sheet mode! Don't blame me when something goes wrong.");
 
       return this.models[ this.model_names[0] ].all();
     } else {
@@ -87,8 +88,8 @@
   
   tabletop.loadSheets = function(data) {
     this.sheetsToLoad = data.feed.entry.length;
-    for(i = 0; i < data.feed.entry.length; i++) {
-      var sheet_id = data.feed.entry[i].link[3].href.substr(-3, 3);
+    for(var i = 0; i < data.feed.entry.length; i++) {
+      var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
       var callback = "Tabletop.loadSheet";
       var json_url = "https://spreadsheets.google.com/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script&callback=" + callback;
       this.injectScript(json_url);
@@ -103,7 +104,7 @@
   
   tabletop.sheets = function(sheetName) {
     if(sheetName == undefined)
-      return this.models
+      return this.models;
     else
       return this.models[ sheetName ];
   };
@@ -123,6 +124,14 @@
     this.sheetsToLoad--;
     if(this.sheetsToLoad == 0)
       this.doCallback();
+  };
+  
+  tabletop.log = function(msg) {
+    if(this.debug) {
+      if(typeof console !== "undefined" && typeof console.log !== "undefined") {
+          console.log(msg)
+      }
+    }
   };
   
   /*
@@ -153,11 +162,11 @@
       }
     }
     
-    for(i = 0; i < options.data.feed.entry.length; i++) {
+    for(var i = 0; i < options.data.feed.entry.length; i++) {
       var source = options.data.feed.entry[i];
       var element = {};
 
-      for(j = 0; j < this.column_names.length; j++) {
+      for(var j = 0; j < this.column_names.length; j++) {
         var cell = source[ "gsx$" + this.column_names[j] ];
         if(options.parseNumbers && cell.$t != '' && !isNaN(cell.$t)) {
           element[ this.column_names[j] ] = +cell.$t;
@@ -188,9 +197,9 @@
   
   tabletop.Model.prototype.toArray = function() {
     var array = [];
-    for(i = 0; i < this.elements.length; i++) {
+    for(var i = 0; i < this.elements.length; i++) {
       var row = [];
-      for(j = 0; j < this.column_names.length; j++) {
+      for(var j = 0; j < this.column_names.length; j++) {
         row.push( this.elements[i][ this.column_names[j] ] );
       }
       array.push(row);
