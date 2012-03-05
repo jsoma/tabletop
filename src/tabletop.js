@@ -29,9 +29,7 @@
 
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
-      if(this.debug)
-        console.debug("You passed a key as a URL! Attempting to parse.");
-
+      this.log("You passed a key as a URL! Attempting to parse.");
       this.key = this.key.match("key=(.*?)&")[1];
     }
 
@@ -40,8 +38,7 @@
       return;
     }
 
-    if(this.debug)
-      console.debug("Initializing with key %s", this.key);
+    this.log("Initializing with key %s", this.key);
 
     this.models = {};
     this.model_names = [];
@@ -159,7 +156,16 @@
     doCallback: function() {
       if(this.sheetsToLoad === 0)
         this.callback(this.data(), this);
+    },
+
+    log: function(msg) {
+      if(this.debug) {
+        if(typeof console !== "undefined" && typeof console.log !== "undefined") {
+            console.log(msg)
+        }
+      }
     }
+
   };
 
   /*
@@ -183,7 +189,7 @@
       var source = options.data.feed.entry[i];
       var element = {};
 
-      for(j = 0; j < this.column_names.length; j++) {
+      for(var j = 0; j < this.column_names.length; j++) {
         var cell = source[ "gsx$" + this.column_names[j] ];
         if(options.parseNumbers && cell.$t !== '' && !isNaN(cell.$t))
           element[ this.column_names[j] ] = +cell.$t;
