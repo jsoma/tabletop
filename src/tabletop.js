@@ -163,10 +163,10 @@
       Used as a callback for the worksheet-based JSON
     */
     loadSheets: function(data) {
-      var i;
+      var i, ilen;
       var toInject = [];
 
-      for(i = 0; i < data.feed.entry.length; i++) {
+      for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
         // Only pull in desired sheets to reduce loading
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
@@ -176,7 +176,7 @@
       }
 
       this.sheetsToLoad = toInject.length;
-      for(i = 0; i < toInject.length; i++) {
+      for(i = 0, ilen = toInject.length; i < ilen; i++) {
         this.injectScript(toInject[i], this.loadSheet);
       }
     },
@@ -243,7 +243,7 @@
     Options should be in the format { data: XXX }, with XXX being the list-based worksheet
   */
   Tabletop.Model = function(options) {
-    var i, j;
+    var i, j, ilen, jlen;
     this.column_names = [];
     this.name = options.data.feed.title.$t;
     this.elements = [];
@@ -253,11 +253,10 @@
         this.column_names.push( key.replace("gsx$","") );
     }
 
-    for(i = 0; i < options.data.feed.entry.length; i++) {
+    for(i = 0, ilen =  options.data.feed.entry.length ; i < ilen; i++) {
       var source = options.data.feed.entry[i];
       var element = {};
-
-      for(var j = 0; j < this.column_names.length; j++) {
+      for(var j = 0, jlen = this.column_names.length; j < jlen ; j++) {
         var cell = source[ "gsx$" + this.column_names[j] ];
         if(options.parseNumbers && cell.$t !== '' && !isNaN(cell.$t))
           element[ this.column_names[j] ] = +cell.$t;
@@ -286,10 +285,10 @@
     */
     toArray: function() {
       var array = [],
-          i, j;
-      for(i = 0; i < this.elements.length; i++) {
+          i, j, ilen, jlen;
+      for(i = 0, ilen = this.elements.length; i < ilen; i++) {
         var row = [];
-        for(j = 0; j < this.column_names.length; j++) {
+        for(j = 0, jlen = this.column_names.length; j < jlen ; j++) {
           row.push( this.elements[i][ this.column_names[j] ] );
         }
         array.push(row);
