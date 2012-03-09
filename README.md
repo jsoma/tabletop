@@ -1,14 +1,14 @@
-# **Tabletop!** (gives spreadsheets legs)
+# **Tabletop.js** (gives spreadsheets legs)
 
-**Tabletop** takes a Google Spreadsheet and makes it easily accessible through JavaScript. With zero dependencies!
+**Tabletop.js** takes a Google Spreadsheet and makes it easily accessible through JavaScript. With zero dependencies!
 
-Tabletop easily integrates Google Spreadsheets with Backbone.js, Handlebars, and anything else that is hip and cool. It will also help you make new friends and play jazz piano.
+Tabletop.js easily integrates Google Spreadsheets with Backbone.js, Handlebars, and anything else that is hip and cool. It will also help you make new friends and play jazz piano.
 
 ### Like how easy?
 
     function init() {
       Tabletop.init( { key: '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE',
-                       callback: function(data) { console.log(data) },
+                       callback: function(data, tabletop) { console.log(data) },
                        simpleSheet: true } )
     }
 
@@ -19,6 +19,14 @@ Will give you
       { name: "Bubblegum", category: "Candy", healthiness: "Super High"} ]
 
 Yes, that easy.
+
+## Notes
+
+### To existing users: things have changed!
+
+Not too much, though.
+
+We now support multiple instances of Tabletop, so no more `Tabletop.sheets('Cats')`. You'll want to assign your init to a variable and use <em>that</em>. Take a look at the examples, it's not too tough to switch over.
 
 ## Getting Started
 
@@ -41,20 +49,20 @@ Copy that! In theory you're interested in the part between `key=` and `&` but yo
 
 _Now you're going to feed your spreadsheet into Tabletop_
 
-Include Tabletop in your HTML, then try the following, substituting your URL for `public_spreadshseet_url`
+Include Tabletop in your HTML, then try the following, substituting your URL for `public_spreadsheet_url`
 
     <script type="text/javascript">
       window.onload = function() { init() };
     
-      var public_spreadshseet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
 
       function init() {
-        Tabletop.init( { key: public_spreadshseet_url,
+        Tabletop.init( { key: public_spreadsheet_url,
                          callback: showInfo,
                          simpleSheet: true } )
       }
 
-      function showInfo(data) {
+      function showInfo(data, tabletop) {
         alert("Successfully processed!")
         console.log(data);
       }
@@ -78,7 +86,7 @@ You might also be interested in the publishing/republishing/publish-as-it-change
 
 The simplest Tabletop initialization works like this
 
-    Tabletop.init( { key: public_spreadshseet_url, callback: showInfo } )
+    var tabletop = Tabletop.init( { key: public_spreadsheet_url, callback: showInfo } )
   
 With a function living somewhere else called `showInfo`.
 
@@ -86,7 +94,7 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `key` is the key of the published spreadsheet or the URL of the published spreadsheet.
 
-`callback` is the callback for when the data has been successfully pulled. It will be passed an object containing the models found in the spreadsheet (worksheets => models). Each of these models contains the rows on that worksheet (see Tabletop.Model). If simpleSheet is turned on it simply receives an array of rows of the first worksheet.
+`callback` is the callback for when the data has been successfully pulled. It will be passed an object containing the models found in the spreadsheet (worksheets => models), and the tabletop instance. Each of these models contains the rows on that worksheet (see Tabletop.Model). If simpleSheet is turned on it simply receives an array of rows of the first worksheet.
 
 `simpleSheet` can be true or false (default false). It assumes you have one table and you don't care what it's called, so it sends the callback an array of rows instead of a list of models. Peek at the examples for more info.
 
@@ -94,17 +102,25 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `postProcess` is a function that processes each row after it has been created. Use this to rename columns, compute attributes, etc. See the TimelineSetter example below.
 
+`wanted` is an array of sheets you'd like to pull. If you have 20 sheets in a public spreadsheet you might as well only pull what you need to access. See the example in simple/multiple.html. Defaults to all.
+
+`wait` prevents tabletop from pulling the Google spreadsheet until you're ready. Used in the backbone.js example.
+
 ### Tabletop itself
 
-Once you've initialized Tabletop you can access its good parts.
+Once you've initialized a `tabletop` object you can access its good parts.
 
 `.sheets()` are the `Tabletop.Model`s that were populated, one per worksheet. You access a sheet by its name. 
 
-`.sheets(name)` is how you access a specific sheet. Say I have a worksheet called **Cats I Know**, I'll access it via `Tabletop.sheets("Cats I Know")`
+`.sheets(name)` is how you access a specific sheet. Say I have a worksheet called **Cats I Know**, I'll access it via `tabletop.sheets("Cats I Know")`
 
 `.model_names` are the names of the models [read: sheets] that Tabletop knows about
 
 `.data()` returns the rows of the first model if you're in simpleSheet mode. It's the same as `.sheets()` otherwise. This is just a little sugar.
+
+`.fetch()` manually initializes a pulling of the data
+
+`.addWanted(name)` adds a sheet to the list that are updated with `.fetch`
 
 ### Tabletop.Model
 
@@ -141,7 +157,7 @@ With Tabletop, though, you get to hook right into a Google Spreadsheet for all o
 You can see this in the examples directory, but here are the important parts.
 
     <script type="text/javascript">
-      var public_spreadshseet_url = "https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdHk2akhfdG5iTk96OUt6UjJJX1dYMFE&single=true&gid=0&output=html"
+      var public_spreadsheet_url = "https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdHk2akhfdG5iTk96OUt6UjJJX1dYMFE&single=true&gid=0&output=html"
 
       $(document).ready( function() {
          /* 
@@ -151,7 +167,7 @@ You can see this in the examples directory, but here are the important parts.
           simpleSheet: true sends array of rows to callback, so you don't need to
             do the whole Tabletop.sheets('Sheet1').all() thing.
         */
-        Tabletop.init( { key: public_spreadshseet_url,
+        Tabletop.init( { key: public_spreadsheet_url,
                          callback: drawTimeline,
                          simpleSheet: true,
                          postProcess: function(element) {
@@ -161,7 +177,7 @@ You can see this in the examples directory, but here are the important parts.
         })
       })
     
-      function drawTimeline(data) {
+      function drawTimeline(data, tabletop) {
         var currentTimeline = TimelineSetter.Timeline.boot(
           data,
           {"container":"#timeline","interval":""}
@@ -177,12 +193,10 @@ A sample lives in `/examples/timeline_setter/`
 
 ## Bugs and TODO
 
-* Support multiple spreadsheets/keys
-* Error handling on injection of incorrect key
-* Lazy loading?
-
 Let me know what you need, I have no clue.
 
 ## Credits
 
 <a href="http://twitter.com/dangerscarf">Jonathan Soma</a>, who would rather be cooking than coding. Inspired by the relentless demands of <a href="https://twitter.com/jkeefe">John Keefe</a> of WNYC.
+
+Thanks to <a href="https://github.com/plainview">Scott Seaward</a> for implementing multi-instance Tabletop.

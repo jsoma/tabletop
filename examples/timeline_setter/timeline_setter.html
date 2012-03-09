@@ -13,7 +13,7 @@
     <script type="text/javascript" src="timeline_setter.js"></script>
     <script type="text/javascript" src="../../src/tabletop.js"></script>
     <script type="text/javascript">
-      var public_spreadshseet_url = "https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdHk2akhfdG5iTk96OUt6UjJJX1dYMFE&single=true&gid=0&output=html"
+      var public_spreadsheet_url = "https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdHk2akhfdG5iTk96OUt6UjJJX1dYMFE&single=true&gid=0&output=html"
 
       $(document).ready( function() {
          /* 
@@ -23,7 +23,7 @@
           simpleSheet: true sends array of rows to callback, so you don't need to
             do the whole Tabletop.sheets('Sheet1').all() thing.
         */
-        Tabletop.init( { key: public_spreadshseet_url,
+        Tabletop.init( { key: public_spreadsheet_url,
                          callback: drawTimeline,
                          simpleSheet: true,
                          postProcess: function(element) {
@@ -40,7 +40,7 @@
         );
       }
 
-      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadshseet_url + "'>" + public_spreadshseet_url + "</a>");        
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");        
     </script>
   </body>
 </html>

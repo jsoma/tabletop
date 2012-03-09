@@ -18,7 +18,32 @@ Backbone.tabletopSync = function(method, model, options, error) {
   
   var resp;
 
-  var sheet = Tabletop.sheets( model.sheetName );
+  var tabletopOptions = model.tabletop || model.collection.tabletop;
+
+  var instance = tabletopOptions.instance;
+
+  if(typeof(instance) == "undefined") {
+    instance = Tabletop.init( { key: tabletopOptions.key,
+                                wanted: [ tabletopOptions.sheet ],
+                                wait: true } )
+    tabletopOptions.instance = instance;
+  } else {
+    instance.addWanted(tabletopOptions.sheet);
+  }
+  
+  if(typeof(tabletopOptions.sheet) == "undefined") {
+    return;
+  }
+  
+  var sheet = instance.sheets( tabletopOptions.sheet );
+
+  if(typeof(sheet) === "undefined") {
+    // Hasn't been fetched yet, let's fetch!
+    instance.fetch( function() {
+      Backbone.tabletopSync(method, model, options, error);
+    })
+    return;
+  }
   
   switch (method) {
     case "read":
@@ -39,4 +64,5 @@ Backbone.tabletopSync = function(method, model, options, error) {
   } else {
     options.error("Record not found");
   }
+
 };

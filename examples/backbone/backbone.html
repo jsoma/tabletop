@@ -26,24 +26,39 @@
     <script type="text/javascript" src="../../src/backbone.tabletopSync.js"></script>
     <script type="text/javascript" src="../../src/tabletop.js"></script>
     <script type="text/javascript">
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
+        
+      /* 
+        You need to declare the tabletop instance separately, then feed it into the model/collection
+        You *must* specify wait: true so that it doesn't try to fetch when you initialize
+      */
+      var storage = Tabletop.init( { key: public_spreadsheet_url,
+                                      wait: true } )
+
       /*
        Need to specify that you'd like to sync using Backbone.tabletopSync
-       Need to specify a sheetName if you want to use .fetch() on a model
+       Can specify tabletop attributes, or you can do it on the collection
       */
       var Cat = Backbone.Model.extend({
         idAttribute: 'name',
-        sheetName: 'Cats',
+        tabletop: {
+          instance: storage,
+          sheet: 'Cats'
+        },
         sync: Backbone.tabletopSync
       })
 
       /*
        Need to specify that you'd like to sync using Backbone.tabletopSync
-       Need to specify a sheetName if you want to use .fetch() on a collection
+       Need to specify a tabletop key and sheet
       */
       var CatCollection = Backbone.Collection.extend({
           // Reference to this collection's model.
           model: Cat,
-          sheetName: 'Cats',
+          tabletop: {
+            instance: storage,
+            sheet: 'Cats'
+          },
           sync: Backbone.tabletopSync
       });
 
@@ -58,7 +73,6 @@
       })
     </script>
     <script type="text/javascript">
-      var public_spreadshseet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
 
       /*
         You need to initialize Tabletop before you do aaaaanything.
@@ -67,21 +81,11 @@
           ever sounds like trouble.
       */
       $(document).ready( function() {
-        Tabletop.init( { key: public_spreadshseet_url,
-                         callback: showInfo,
-                         parseNumbers: true } );
+        var cats = new CatCollection();
+        cats.fetch({ success: showInfo });
       });
       
-      function showInfo() {
-        /*
-          Fetching on collections is pretty simple, just specify
-          a sheetName and don't attempt to fetch until Tabletop has 
-          initialized. 
-        */
-
-        cats = new CatCollection();
-        cats.fetch();
-        
+      function showInfo(cats) {
         var bosco_view = new CatView({ model: cats.get('Bosco') });
 
         $("#content").append( bosco_view.render().el );
@@ -98,7 +102,7 @@
         $("#content").append( thomas_view.render().el );
       }
     
-      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadshseet_url + "'>" + public_spreadshseet_url + "</a>");    
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");    
     </script>
   </body>
 </html>

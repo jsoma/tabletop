@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../common/jquery.js"></script>
     <script type="text/javascript" src="../../src/tabletop.js"></script>
     <script type="text/javascript">
-      var public_spreadshseet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
 
       $(document).ready( function() {
-        Tabletop.init( { key: public_spreadshseet_url,
+        Tabletop.init( { key: public_spreadsheet_url,
                          callback: showInfo,
                          parseNumbers: true } );
       });
@@ -42,7 +42,7 @@
         });
       }
     
-      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadshseet_url + "'>" + public_spreadshseet_url + "</a>");    
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");    
     </script>
   </body>
 </html>

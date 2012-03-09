@@ -8,10 +8,10 @@
     <script type="text/javascript">
       window.onload = function() { init() };
 
-      var public_spreadshseet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
 
       function init() {
-        Tabletop.init( { key: public_spreadshseet_url,
+        Tabletop.init( { key: public_spreadsheet_url,
                          callback: showInfo,
                          simpleSheet: true } );
       }
@@ -23,7 +23,7 @@
         console.log(data);
       }
 
-      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadshseet_url + "'>" + public_spreadshseet_url + "</a>");        
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");        
     </script>
   </body>
 </html>

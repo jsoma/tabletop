@@ -1,5 +1,20 @@
 (function(global) {
 
+  if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (obj, fromIndex) {
+      if (fromIndex == null) {
+          fromIndex = 0;
+      } else if (fromIndex < 0) {
+          fromIndex = Math.max(0, this.length + fromIndex);
+      }
+      for (var i = fromIndex, j = this.length; i < j; i++) {
+          if (this[i] === obj)
+              return i;
+      }
+      return -1;
+    };
+  }
+  
   /*
     Initialize with Tabletop.init( { key: '0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc' } )
       OR!
@@ -21,9 +36,11 @@
     }
 
     this.callback = options.callback;
+    this.wanted = options.wanted || [];
     this.key = options.key;
     this.simpleSheet = !!options.simpleSheet;
     this.parseNumbers = !!options.parseNumbers;
+    this.wait = !!options.wait;
     this.postProcess = options.postProcess;
     this.debug = !!options.debug;
 
@@ -43,9 +60,11 @@
     this.models = {};
     this.model_names = [];
 
-    var json_url = "https://spreadsheets.google.com/feeds/worksheets/" + this.key + "/public/basic?alt=json-in-script";
-
-    this.injectScript(json_url, this.loadSheets);
+    this.base_json_url = "https://spreadsheets.google.com/feeds/worksheets/" + this.key + "/public/basic?alt=json-in-script";
+    
+    if(!this.wait) {
+      this.fetch();
+    }
   };
 
   // A global storage for callbacks.
@@ -56,8 +75,19 @@
     return new Tabletop(options);
   };
 
+  Tabletop.sheets = function() {
+    alert("Times have changed! You'll want to use var tabletop = Tabletop.init(...); tabletop.sheets(...); instead of Tabletop.sheets(...)");
+  };
+
   Tabletop.prototype = {
 
+    fetch: function(callback) {
+      if(typeof(callback) !== "undefined") {
+        this.callback = callback;
+      }
+      this.injectScript(this.base_json_url, this.loadSheets);
+    },
+    
     /*
       Insert the URL into the page as a script tag. Once it's loaded the spreadsheet data
       it triggers the callback. This helps you avoid cross-domain errors
@@ -82,6 +112,19 @@
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
     },
 
+    /* 
+      Is this a sheet you want to pull?
+      If { wanted: ["Sheet1"] } has been specified, only Sheet1 is imported
+      Pulls all sheets if none are specified
+    */
+    isWanted: function(sheetName) {
+      if(this.wanted.length === 0) {
+        return true;
+      } else {
+        return this.wanted.indexOf(sheetName) != -1;
+      }
+    },
+    
     /*
       What gets send to the callback
       if simpleSheet == true, then don't return an array of Tabletop.this.models,
@@ -103,6 +146,15 @@
     },
 
     /*
+      Add another sheet to the wanted list
+    */
+    addWanted: function(sheet) {
+      if(this.wanted.indexOf(sheet) == -1) {
+        this.wanted.push(sheet)
+      }
+    },
+    
+    /*
       Load all worksheets of the spreadsheet, turning each into a Tabletop Model.
       Need to use injectScript because the worksheet view that you're working from
       doesn't actually include the data. The list-based feed (/feeds/list/key..) does, though.
@@ -112,11 +164,20 @@
     */
     loadSheets: function(data) {
       var i;
-      this.sheetsToLoad = data.feed.entry.length;
+      var toInject = [];
+
       for(i = 0; i < data.feed.entry.length; i++) {
-        var sheet_id = data.feed.entry[i].link[3].href.substr(-3, 3);
-        var json_url = "https://spreadsheets.google.com/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script";
-        this.injectScript(json_url, this.loadSheet);
+        // Only pull in desired sheets to reduce loading
+        if( this.isWanted(data.feed.entry[i].content.$t) ) {
+          var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
+          var json_url = "https://spreadsheets.google.com/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script";
+          toInject.push(json_url);
+        }
+      }
+
+      this.sheetsToLoad = toInject.length;
+      for(i = 0; i < toInject.length; i++) {
+        this.injectScript(toInject[i], this.loadSheet);
       }
     },
 
@@ -129,7 +190,12 @@
       if(typeof sheetName === "undefined")
         return this.models;
       else
-        return this.models[ sheetName ];
+        if(typeof(this.models[ sheetName ]) === "undefined") {
+          // alert( "Can't find " + sheetName );
+          return;
+        } else {
+          return this.models[ sheetName ];
+        }
     },
 
     /*
@@ -142,7 +208,9 @@
                                     parseNumbers: this.parseNumbers,
                                     postProcess: this.postProcess } );
       this.models[ model.name ] = model;
-      this.model_names.push(model.name);
+      if(this.model_names.indexOf(model.name) == -1) {
+        this.model_names.push(model.name);
+      }
       this.sheetsToLoad--;
       if(this.sheetsToLoad === 0)
         this.doCallback();
