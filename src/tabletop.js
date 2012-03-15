@@ -228,7 +228,7 @@
     log: function(msg) {
       if(this.debug) {
         if(typeof console !== "undefined" && typeof console.log !== "undefined") {
-            console.log(msg)
+          Function.prototype.apply.apply(console.log, [console, arguments]);
         }
       }
     }
