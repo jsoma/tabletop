@@ -1,4 +1,5 @@
 (function(global) {
+  "use strict";
 
   if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (obj, fromIndex) {
@@ -22,8 +23,6 @@
       OR!
     Initialize with Tabletop.init('0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc')
   */
-
-  "use strict";
 
   var Tabletop = global.Tabletop = function(options) {
     // Make sure Tabletop is being used as a constructor no matter what.
