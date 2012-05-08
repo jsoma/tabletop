@@ -247,6 +247,7 @@
     this.column_names = [];
     this.name = options.data.feed.title.$t;
     this.elements = [];
+    this.raw = options.data; // A copy of the sheet's raw data, for accessing minutiae
 
     for(var key in options.data.feed.entry[0]){
       if(/^gsx/.test(key))
