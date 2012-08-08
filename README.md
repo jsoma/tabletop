@@ -191,9 +191,9 @@ A sample lives in `/examples/timeline_setter/`
 
 # Notes
 
-## Bugs and TODO
+## Should I use Tabletop.js for high-traffic wild intense insane things?
 
-Let me know what you need, I have no clue.
+You certainly can, and people certainly do, but who *really* knows what Google Spreadsheets can handle? In the words of <a href="https://twitter.com/a_l/status/233201727887785986">Al Shaw</a>, *Why would you risk it? Have a task that grabs the sheet and uploads it to s3*. Confirmed as a Good And Useful Practice by <a href="https://twitter.com/jkeefe/status/233205875697926145">John Keefe</a>.
 
 ## Credits
 
