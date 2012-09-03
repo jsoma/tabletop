@@ -1,4 +1,5 @@
 (function(global) {
+  "use strict";
 
   if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (obj, fromIndex) {
@@ -23,8 +24,6 @@
     Initialize with Tabletop.init('0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc')
   */
 
-  "use strict";
-
   var Tabletop = global.Tabletop = function(options) {
     // Make sure Tabletop is being used as a constructor no matter what.
     if(!this || this === global) {
@@ -43,6 +42,7 @@
     this.wait = !!options.wait;
     this.postProcess = options.postProcess;
     this.debug = !!options.debug;
+    this.query = options.query || '';
 
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
@@ -170,7 +170,8 @@
         // Only pull in desired sheets to reduce loading
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
-          var json_url = "https://spreadsheets.google.com/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script";
+          var json_url = "https://spreadsheets.google.com/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script&sq=" + this.query;
+          this.log(json_url);
           toInject.push(json_url);
         }
       }
@@ -230,7 +231,7 @@
     log: function(msg) {
       if(this.debug) {
         if(typeof console !== "undefined" && typeof console.log !== "undefined") {
-            console.log(msg)
+          Function.prototype.apply.apply(console.log, [console, arguments]);
         }
       }
     }
