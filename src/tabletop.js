@@ -55,7 +55,7 @@
       return;
     }
 
-    this.log("Initializing with key %s", this.key);
+    this.log("Initializing with key " + this.key);
 
     this.models = {};
     this.model_names = [];
@@ -206,7 +206,8 @@
     loadSheet: function(data) {
       var model = new Tabletop.Model( { data: data, 
                                     parseNumbers: this.parseNumbers,
-                                    postProcess: this.postProcess } );
+                                    postProcess: this.postProcess,
+                                    tabletop: this } );
       this.models[ model.name ] = model;
       if(this.model_names.indexOf(model.name) == -1) {
         this.model_names.push(model.name);
@@ -249,6 +250,12 @@
     this.elements = [];
     this.raw = options.data; // A copy of the sheet's raw data, for accessing minutiae
 
+    if(typeof(options.data.feed.entry) === 'undefined') {
+      options.tabletop.log("Missing data for " + this.name + ", make sure you didn't forget column headers");
+      this.elements = [];
+      return;
+    };
+    
     for(var key in options.data.feed.entry[0]){
       if(/^gsx/.test(key))
         this.column_names.push( key.replace("gsx$","") );
