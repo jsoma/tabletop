@@ -106,6 +106,10 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `wait` prevents tabletop from pulling the Google spreadsheet until you're ready. Used in the backbone.js example.
 
+`query` sends a <a href="https://developers.google.com/google-apps/spreadsheets/#sending_a_structured_query_for_rows">structured query</a> along with the spreadsheet request, so you can ask for rows with `age > 55` and the like. Right now it's passed with *every request*, though, so if you're using multiple tables you'll end up in Problem City. It should work great with `simpleSheet` situations, though.
+
+`debug` returns on debug mode, which gives you plenty of messaging about what's going on under the hood.
+
 ### Tabletop itself
 
 Once you've initialized a `tabletop` object you can access its good parts.
