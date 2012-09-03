@@ -106,7 +106,7 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `wait` prevents tabletop from pulling the Google spreadsheet until you're ready. Used in the backbone.js example.
 
-`query` sends a <a href="https://developers.google.com/google-apps/spreadsheets/#sending_a_structured_query_for_rows">structured query</a> along with the spreadsheet request, so you can ask for rows with `age > 55` and the like. Right now it's passed with *every request*, though, so if you're using multiple tables you'll end up in Problem City. It should work great with `simpleSheet` situations, though.
+`query` sends a [structured query](https://developers.google.com/google-apps/spreadsheets/#sending_a_structured_query_for_rows) along with the spreadsheet request, so you can ask for rows with `age > 55` and the like. Right now it's passed with *every request*, though, so if you're using multiple tables you'll end up in Problem City. It should work great with `simpleSheet` situations, though.
 
 `debug` returns on debug mode, which gives you plenty of messaging about what's going on under the hood.
 
@@ -203,12 +203,18 @@ A sample lives in `/examples/timeline_setter/`
 
 Turn on debugging by passing `debug: true` when you initialize Tabletop. Check out the console, I try to keep my error messages chatty and informative.
 
-## Should I use Tabletop.js for high-traffic wild intense insane things?
+## Tabletop.js in the wild
 
-You certainly can, and people certainly do, but who *really* knows what Google Spreadsheets can handle? In the words of <a href="https://twitter.com/a_l/status/233201727887785986">Al Shaw</a>, *Why would you risk it? Have a task that grabs the sheet and uploads it to s3*. Confirmed as a Good And Useful Practice by <a href="https://twitter.com/jkeefe/status/233205875697926145">John Keefe</a>.
+**The more examples the better, right?** Feel free to fork or contact me if you have a good example of something you've done.
+
+A [contextual video player](http://www.aljazeera.com/indepth/interactive/2012/04/20124107156511888.html) with [popcorn.js](http://popcornjs.org) by [@maboa](https://twitter.com/maboa) 
+
+The [WNYC mayoral tracker](http://project.wnyc.org/elections/mayor-tracker/) uses Tabletop along with [Backbone.js](http://backbonejs.org)
+
+A [Facebook-esque timeline](http://builtbybalance.com/github-timeline/) from [Balance Media](http://builtbybalance.com) (with a [git repo](https://github.com/balancemedia/Timeline))
 
 ## Credits
 
-<a href="http://twitter.com/dangerscarf">Jonathan Soma</a>, who would rather be cooking than coding. Inspired by the relentless demands of <a href="https://twitter.com/jkeefe">John Keefe</a> of WNYC.
+[Jonathan Soma](http://twitter.com/dangerscarf), who would rather be cooking than coding. Inspired by the relentless demands of [John Keefe(https://twitter.com/jkeefe) of WNYC.
 
-Thanks to <a href="https://github.com/plainview">Scott Seaward</a> for implementing multi-instance Tabletop.
+Thanks to [Scott Seaward](https://github.com/plainview) for implementing multi-instance Tabletop.
