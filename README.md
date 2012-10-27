@@ -110,6 +110,8 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `debug` returns on debug mode, which gives you plenty of messaging about what's going on under the hood.
 
+`callbackContext` sets the `this` for your callback. It's the tabletop object by default.
+
 ### Tabletop itself
 
 Once you've initialized a `tabletop` object you can access its good parts.

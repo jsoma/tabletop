@@ -225,7 +225,7 @@
     */
     doCallback: function() {
       if(this.sheetsToLoad === 0)
-        this.callback(this.data(), this);
+      this.callback.apply(this.callbackContext || this, [this.data(), this]);
     },
 
     log: function(msg) {
