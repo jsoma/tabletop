@@ -215,6 +215,8 @@ The [WNYC mayoral tracker](http://project.wnyc.org/elections/mayor-tracker/) use
 
 A [Facebook-esque timeline](http://builtbybalance.com/github-timeline/) from [Balance Media](http://builtbybalance.com) (with a [git repo](https://github.com/balancemedia/Timeline))
 
+[Mapsheet](https://github.com/jsoma/mapsheet) creates super easy, customizable maps.
+
 ## Credits
 
 [Jonathan Soma](http://twitter.com/dangerscarf), who would rather be cooking than coding. Inspired by the relentless demands of [John Keefe(https://twitter.com/jkeefe) of WNYC.
