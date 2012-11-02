@@ -26,7 +26,7 @@
 
   var Tabletop = global.Tabletop = function(options) {
     // Make sure Tabletop is being used as a constructor no matter what.
-    if(!this || this === global) {
+    if(!this || !(this instanceof Tabletop)) {
       return new Tabletop(options);
     }
 
