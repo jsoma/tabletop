@@ -51,7 +51,7 @@
     }
 
     if(!this.key) {
-      alert("You need to pass Tabletop a key!");
+      this.log("You need to pass Tabletop a key!");
       return;
     }
 
@@ -76,7 +76,7 @@
   };
 
   Tabletop.sheets = function() {
-    alert("Times have changed! You'll want to use var tabletop = Tabletop.init(...); tabletop.sheets(...); instead of Tabletop.sheets(...)");
+    this.log("Times have changed! You'll want to use var tabletop = Tabletop.init(...); tabletop.sheets(...); instead of Tabletop.sheets(...)");
   };
 
   Tabletop.prototype = {
