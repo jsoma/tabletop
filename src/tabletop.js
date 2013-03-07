@@ -267,10 +267,14 @@
       var element = {};
       for(var j = 0, jlen = this.column_names.length; j < jlen ; j++) {
         var cell = source[ "gsx$" + this.column_names[j] ];
-        if(options.parseNumbers && cell.$t !== '' && !isNaN(cell.$t))
-          element[ this.column_names[j] ] = +cell.$t;
-        else
-          element[ this.column_names[j] ] = cell.$t;
+        if (!isNaN(cell)) {
+          if(options.parseNumbers && cell.$t !== '' && !isNaN(cell.$t))
+            element[ this.column_names[j] ] = +cell.$t;
+          else
+            element[ this.column_names[j] ] = cell.$t;
+        } else {
+            element[ this.column_names[j] ] = '';
+        }
       }
       if(element.rowNumber === undefined)
         element.rowNumber = i + 1;
