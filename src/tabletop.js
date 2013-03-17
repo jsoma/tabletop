@@ -267,7 +267,7 @@
       var element = {};
       for(var j = 0, jlen = this.column_names.length; j < jlen ; j++) {
         var cell = source[ "gsx$" + this.column_names[j] ];
-        if (cell != undefined) {
+        if (typeof(cell) !== 'undefined') {
           if(options.parseNumbers && cell.$t !== '' && !isNaN(cell.$t))
             element[ this.column_names[j] ] = +cell.$t;
           else

@@ -201,9 +201,11 @@ A sample lives in `/examples/timeline_setter/`
 
 **Empty tables are trouble.** We can't get column names from them (c'mon, Google!), so don't be too confused when a table with 0 rows is coming back with an empty `.column_names` or your code starts throwing weird errors when processing the results.
 
+**Empty rows are trouble.** If you have a row that's completely empty, Google doesn't return any rows after the empty row. As a result, you need to make sure every line in your spreadsheet has data in it.
+
 ## If you are having trouble
 
-Turn on debugging by passing `debug: true` when you initialize Tabletop. Check out the console, I try to keep my error messages chatty and informative.
+Turn on debugging by passing `debug: true` when you initialize Tabletop. Check out the console, I try to keep my error messages chatty and informative. Or just email me at [jonathan.soma@gmail.com](mailto:jonathan.soma@gmail.com), I'm happy to help!
 
 ## Tabletop.js in the wild
 
