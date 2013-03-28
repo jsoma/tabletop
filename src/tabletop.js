@@ -44,7 +44,15 @@
     this.debug = !!options.debug;
     this.query = options.query || '';
     this.endpoint = options.endpoint || "https://spreadsheets.google.com";
+    this.singleton = options.singleton || false;
 
+    if(this.singleton) {
+      if(typeof(Tabletop.singleton) !== 'undefined') {
+        this.log("WARNING! Tabletop singleton already defined");
+      }
+      Tabletop.singleton = this;
+    }
+    
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
       this.log("You passed a key as a URL! Attempting to parse.");
@@ -97,18 +105,28 @@
       Let's be plain-Jane and not use jQuery or anything.
     */
     injectScript: function(url, callback) {
-      var script = document.createElement('script'),
-          self = this,
-          callbackName = 'tt' + (+new Date()) + (Math.floor(Math.random()*100000));
-      // Create a temp callback which will get removed once it has executed,
-      // this allows multiple instances of Tabletop to coexist.
-      Tabletop.callbacks[ callbackName ] = function () {
-        var args = Array.prototype.slice.call( arguments, 0 );
-        callback.apply(self, args);
-        script.parentNode.removeChild(script);
-        delete Tabletop.callbacks[callbackName];
-      };
-      url = url + "&callback=" + 'Tabletop.callbacks.' + callbackName;
+      var script = document.createElement('script');
+      
+      if(this.singleton) {
+        if(callback == this.loadSheets) {
+          callbackName = 'Tabletop.singleton.loadSheets';
+        } else if (callback == this.loadSheet) {
+          callbackName = 'Tabletop.singleton.loadSheet';
+        }
+      } else {
+        var self = this,
+            callbackName = 'tt' + (+new Date()) + (Math.floor(Math.random()*100000));
+        // Create a temp callback which will get removed once it has executed,
+        // this allows multiple instances of Tabletop to coexist.
+        Tabletop.callbacks[ callbackName ] = function () {
+          var args = Array.prototype.slice.call( arguments, 0 );
+          callback.apply(self, args);
+          script.parentNode.removeChild(script);
+          delete Tabletop.callbacks[callbackName];
+        };
+        callbackName = 'Tabletop.callbacks.' + callbackName;
+      }
+      url = url + "&callback=" + callbackName;
       script.src = url;
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
     },
