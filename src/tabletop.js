@@ -45,7 +45,8 @@
     this.query = options.query || '';
     this.endpoint = options.endpoint || "https://spreadsheets.google.com";
     this.singleton = options.singleton || false;
-
+    this.shallow_url = options.shallow_url || false;
+    
     if(this.singleton) {
       if(typeof(Tabletop.singleton) !== 'undefined') {
         this.log("WARNING! Tabletop singleton already defined");
@@ -69,7 +70,7 @@
     this.models = {};
     this.model_names = [];
 
-    this.base_json_url = this.endpoint + "/feeds/worksheets/" + this.key + "/public/basic?alt=json-in-script";
+    this.base_json_path = "/feeds/worksheets/" + this.key + "/public/basic?alt=json-in-script";
     
     if(!this.wait) {
       this.fetch();
@@ -94,7 +95,7 @@
       if(typeof(callback) !== "undefined") {
         this.callback = callback;
       }
-      this.injectScript(this.base_json_url, this.loadSheets);
+      this.injectScript(this.base_json_path, this.loadSheets);
     },
     
     /*
@@ -104,7 +105,7 @@
 
       Let's be plain-Jane and not use jQuery or anything.
     */
-    injectScript: function(url, callback) {
+    injectScript: function(path, callback) {
       var script = document.createElement('script');
       
       if(this.singleton) {
@@ -126,8 +127,15 @@
         };
         callbackName = 'Tabletop.callbacks.' + callbackName;
       }
-      url = url + "&callback=" + callbackName;
-      script.src = url;
+      
+      var url = path + "&callback=" + callbackName;
+
+      if(this.shallow_url) {
+        script.src = this.endpoint + "/" + url.replace(/[^\w]/g,'');
+      } else {
+        script.src = this.endpoint + url;
+      }
+
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
     },
 
@@ -189,9 +197,9 @@
         // Only pull in desired sheets to reduce loading
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
-          var json_url = this.endpoint + "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script&sq=" + this.query;
-          this.log(json_url);
-          toInject.push(json_url);
+          var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script&sq=" + this.query;
+          this.log(json_path);
+          toInject.push(json_path);
         }
       }
 
