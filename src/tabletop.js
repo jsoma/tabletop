@@ -43,6 +43,7 @@
     this.postProcess = options.postProcess;
     this.debug = !!options.debug;
     this.query = options.query || '';
+    this.endpoint = options.endpoint || "https://spreadsheets.google.com";
 
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
@@ -60,7 +61,7 @@
     this.models = {};
     this.model_names = [];
 
-    this.base_json_url = "https://spreadsheets.google.com/feeds/worksheets/" + this.key + "/public/basic?alt=json-in-script";
+    this.base_json_url = this.endpoint + "/feeds/worksheets/" + this.key + "/public/basic?alt=json-in-script";
     
     if(!this.wait) {
       this.fetch();
@@ -170,7 +171,7 @@
         // Only pull in desired sheets to reduce loading
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
-          var json_url = "https://spreadsheets.google.com/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script&sq=" + this.query;
+          var json_url = this.endpoint + "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script&sq=" + this.query;
           this.log(json_url);
           toInject.push(json_url);
         }
