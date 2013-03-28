@@ -110,6 +110,8 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `shallow_url`, if true, strips all non-alphanumeric, non-underscore characters from injected script URLs (so, `/feeds/worksheets/D34DB33F?alt=json-in-script&callback=Tabletop.foo` would become `/feeds/worksheets/D34DB33FaltjsoninscriptcallbackTabletopfoo`). Defaults to `false`.
 
+`proxy` allows you to easily use spreadsheets not located on Google Spreadsheet servers. Setting `proxy: "http://www.proxy.com"` is equivalent to setting `{ shallow_url: true, singleton: true, endpoint: "http://www.proxy.com" }`. See below for more details.
+
 `wait` prevents tabletop from pulling the Google spreadsheet until you're ready. Used in the backbone.js example.
 
 `query` sends a [structured query](https://developers.google.com/google-apps/spreadsheets/#sending_a_structured_query_for_rows) along with the spreadsheet request, so you can ask for rows with `age > 55` and the like. Right now it's passed with *every request*, though, so if you're using multiple tables you'll end up in Problem City. It should work great with `simpleSheet` situations, though.

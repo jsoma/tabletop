@@ -44,8 +44,14 @@
     this.debug = !!options.debug;
     this.query = options.query || '';
     this.endpoint = options.endpoint || "https://spreadsheets.google.com";
-    this.singleton = options.singleton || false;
-    this.shallow_url = options.shallow_url || false;
+    this.singleton = !!options.singleton;
+    this.shallow_url = !!options.shallow_url;
+    
+    if(typeof(options.proxy) !== 'undefined') {
+      this.endpoint = options.proxy;
+      this.shallow_url = true;
+      this.singleton = true;
+    }
     
     if(this.singleton) {
       if(typeof(Tabletop.singleton) !== 'undefined') {
