@@ -112,6 +112,8 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `debug` returns on debug mode, which gives you plenty of messaging about what's going on under the hood.
 
+`parameterize` changes the src of all injected scripts. Instead of `src`, `src` is URI encoded and appended to `parameterize`, e.g. set it to `http://example.herokuapp.com/?url=`. Mostly for [gs-proxy](https://github.com/MinnPost/gs-proxy).
+
 `callbackContext` sets the `this` for your callback. It's the tabletop object by default.
 
 ### Tabletop itself
@@ -197,7 +199,7 @@ See the `postProcess` call? That's called on every row after Tabletop.Model gets
 
 A sample lives in `/examples/timeline_setter/`
 
-## Caching Google Spreadsheets
+## Caching/Proxying Google Spreadsheets
 
 Yeah, Google Spreadsheets can sometimes be slow or sometimes be overwhelmed or *maybe* one day Google will just up and disappear on us. So Tabletop.js now supports fetching your data from elsewhere, using options like `endpoint` and `proxy`.
 
@@ -206,6 +208,10 @@ Yeah, Google Spreadsheets can sometimes be slow or sometimes be overwhelmed or *
 ### Using Flatware
 
 If you don't mind running around with Heroku and AWS, [Flatware](https://github.com/jsoma/flatware) is an app I built that uploads the spreadsheet JSON response to S3.
+
+### Using gs-proxy
+
+[gs-proxy](https://github.com/MinnPost/gs-proxy) is another option that also uses Heroku. You'll set `parameterize` to something like `http://example.herokuapp.com/?url=` and off you go!
 
 ### Using other caching
 
@@ -240,3 +246,5 @@ A [Facebook-esque timeline](http://builtbybalance.com/github-timeline/) from [Ba
 [Jonathan Soma](http://twitter.com/dangerscarf), who would rather be cooking than coding. Inspired by the relentless demands of [John Keefe(https://twitter.com/jkeefe) of WNYC.
 
 Thanks to [Scott Seaward](https://github.com/plainview) for implementing multi-instance Tabletop.
+
+[Alan Palazzolo](https://github.com/zzolo) hooked the world up with [gs-proxy](https://github.com/MinnPost/gs-proxy) and added support for it into Tabletop via `parameterize`

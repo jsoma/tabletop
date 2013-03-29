@@ -54,9 +54,7 @@
       this.singleton = true;
     }
     
-    // The proxyPrefix allows for a proxy of type 
-    // http://example.com/proxy?url=http://originalrequest.com
-    this.proxyPrefix = options.proxyPrefix || false;
+    this.parameterize = options.parameterize || false;
     
     if(this.singleton) {
       if(typeof(Tabletop.singleton) !== 'undefined') {
@@ -154,9 +152,8 @@
         script.src = this.endpoint + url;
       }
       
-      // Handle a proxy prefix
-      if (this.proxyPrefix) {
-        script.src = this.proxyPrefix + encodeURIComponent(script.src);
+      if (this.parameterize) {
+        script.src = this.parameterize + encodeURIComponent(script.src);
       }
       
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);

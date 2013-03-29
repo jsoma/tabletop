@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>This isn't meant to work</h1>
+    <p>But that doesn't meant you can learn! It's meant to use something like <a href="https://github.com/MinnPost/gs-proxy">gs-proxy</a>.</p>
+    <p>I don't have an instance of gs-proxy running for this, just take a peek at the injected JavaScript.</p>
+    <!-- Don't need jQuery for Tabletop, but using it for this example -->
+    <script type="text/javascript" src="../common/jquery.js"></script>
+    <script type="text/javascript" src="../../src/tabletop.js"></script>
+    <script type="text/javascript">
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
+
+      $(document).ready( function() {
+        Tabletop.init( { key: public_spreadsheet_url,
+                         callback: function() {
+                           console.log("Completed'");
+                         },
+                         parameterize: 'https://www.example.com/?url=',
+                         debug: true } )
+      })
+
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");    
+    </script>
+  </body>
+</html>
