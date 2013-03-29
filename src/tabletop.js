@@ -54,6 +54,10 @@
       this.singleton = true;
     }
     
+    // The proxyPrefix allows for a proxy of type 
+    // http://example.com/proxy?url=http://originalrequest.com
+    this.proxyPrefix = options.proxyPrefix || false;
+    
     if(this.singleton) {
       if(typeof(Tabletop.singleton) !== 'undefined') {
         this.log("WARNING! Tabletop singleton already defined");
@@ -148,6 +152,11 @@
         }
       } else {
         script.src = this.endpoint + url;
+      }
+      
+      // Handle a proxy prefix
+      if (this.proxyPrefix) {
+        script.src = this.proxyPrefix + encodeURIComponent(script.src);
       }
       
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
