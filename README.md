@@ -108,9 +108,9 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `singleton` assigned the instantiated Tabletop object to Tabletop.singleton, implemented to simplify caching and proxying of requests. Defaults to `false`.
 
-`shallow_url`, if true, strips all non-alphanumeric, non-underscore characters from injected script URLs (so, `/feeds/worksheets/D34DB33F?alt=json-in-script&callback=Tabletop.foo` would become `/feeds/worksheets/D34DB33FaltjsoninscriptcallbackTabletopfoo`). Defaults to `false`.
+`simple_url`, if true, changes all requests to `KEY` and `KEY-SHEET_ID`. Defaults to `false`.
 
-`proxy` allows you to easily use spreadsheets not located on Google Spreadsheet servers. Setting `proxy: "http://www.proxy.com"` is equivalent to setting `{ shallow_url: true, singleton: true, endpoint: "http://www.proxy.com" }`. See below for more details.
+`proxy` allows you to easily use spreadsheets not located on Google Spreadsheet servers. Setting `proxy: "http://www.proxy.com"` is equivalent to setting `{ simple_url: true, singleton: true, endpoint: "http://www.proxy.com" }`. See below for more details.
 
 `wait` prevents tabletop from pulling the Google spreadsheet until you're ready. Used in the backbone.js example.
 

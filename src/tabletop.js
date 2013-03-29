@@ -45,11 +45,11 @@
     this.query = options.query || '';
     this.endpoint = options.endpoint || "https://spreadsheets.google.com";
     this.singleton = !!options.singleton;
-    this.shallow_url = !!options.shallow_url;
+    this.simple_url = !!options.simple_url;
     
     if(typeof(options.proxy) !== 'undefined') {
       this.endpoint = options.proxy;
-      this.shallow_url = true;
+      this.simple_url = true;
       this.singleton = true;
     }
     
@@ -135,13 +135,19 @@
       }
       
       var url = path + "&callback=" + callbackName;
-
-      if(this.shallow_url) {
-        script.src = this.endpoint + "/" + url.replace(/[^\w]/g,'');
+      
+      if(this.simple_url) {
+        // We've gone down a rabbit hole of passing injectScript the path, so let's
+        // just pull the sheet_id out of the path like the least efficient worker bees
+        if(path.indexOf("/list/") !== -1) {
+          script.src = this.endpoint + "/" + this.key + "-" + path.split("/")[4];
+        } else {
+          script.src = this.endpoint + "/" + this.key;
+        }
       } else {
         script.src = this.endpoint + url;
       }
-
+      
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
     },
 
@@ -204,7 +210,6 @@
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
           var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script&sq=" + this.query;
-          this.log(json_path);
           toInject.push(json_path);
         }
       }
