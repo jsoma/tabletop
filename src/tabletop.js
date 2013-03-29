@@ -3,7 +3,7 @@
 
   if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (obj, fromIndex) {
-      if (fromIndex == null) {
+      if (fromIndex === null) {
           fromIndex = 0;
       } else if (fromIndex < 0) {
           fromIndex = Math.max(0, this.length + fromIndex);
@@ -30,7 +30,7 @@
       return new Tabletop(options);
     }
 
-    if(typeof(options) == 'string') {
+    if(typeof(options) === 'string') {
       options = { key : options };
     }
 
@@ -115,9 +115,9 @@
       var script = document.createElement('script');
       
       if(this.singleton) {
-        if(callback == this.loadSheets) {
+        if(callback === this.loadSheets) {
           callbackName = 'Tabletop.singleton.loadSheets';
-        } else if (callback == this.loadSheet) {
+        } else if (callback === this.loadSheet) {
           callbackName = 'Tabletop.singleton.loadSheet';
         }
       } else {
@@ -166,7 +166,7 @@
     
     /*
       What gets send to the callback
-      if simpleSheet == true, then don't return an array of Tabletop.this.models,
+      if simpleSheet === true, then don't return an array of Tabletop.this.models,
       only return the first one's elements
     */
     data: function() {
@@ -188,7 +188,7 @@
       Add another sheet to the wanted list
     */
     addWanted: function(sheet) {
-      if(this.wanted.indexOf(sheet) == -1) {
+      if(this.wanted.indexOf(sheet) === -1) {
         this.wanted.push(sheet)
       }
     },
@@ -248,7 +248,7 @@
                                     postProcess: this.postProcess,
                                     tabletop: this } );
       this.models[ model.name ] = model;
-      if(this.model_names.indexOf(model.name) == -1) {
+      if(this.model_names.indexOf(model.name) === -1) {
         this.model_names.push(model.name);
       }
       this.sheetsToLoad--;
