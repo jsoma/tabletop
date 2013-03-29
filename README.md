@@ -203,6 +203,10 @@ See the `postProcess` call? That's called on every row after Tabletop.Model gets
 
 A sample lives in `/examples/timeline_setter/`
 
+### Caching/Not hitting Google Spreadsheets
+
+Use `proxy`! Generate flatfiles using [Flatware](https://github.com/jsoma/flatware) or set up your own cache using something like `/caching/local.rb`.
+
 # Notes
 
 ## Strange behavior
