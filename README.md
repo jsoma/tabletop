@@ -22,12 +22,6 @@ Yes, that easy.
 
 ## Notes
 
-### To existing users: things have changed!
-
-Not too much, though.
-
-We now support multiple instances of Tabletop, so no more `Tabletop.sheets('Cats')`. You'll want to assign your init to a variable and use <em>that</em>. Take a look at the examples, it's not too tough to switch over.
-
 ## Getting Started
 
 ### 1) Getting your data out there
@@ -110,7 +104,7 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `simple_url`, if true, changes all requests to `KEY` and `KEY-SHEET_ID`. Defaults to `false`.
 
-`proxy` allows you to easily use spreadsheets not located on Google Spreadsheet servers. Setting `proxy: "http://www.proxy.com"` is equivalent to setting `{ simple_url: true, singleton: true, endpoint: "http://www.proxy.com" }`. See below for more details.
+`proxy` allows you to easily use spreadsheets not located on Google Spreadsheet servers. Setting `proxy: "http://www.proxy.com"` is equivalent to setting `{ simple_url: true, singleton: true, endpoint: "http://www.proxy.com" }`. [Flatware](https://github.com/jsoma/flatware) might provide better documentation.
 
 `wait` prevents tabletop from pulling the Google spreadsheet until you're ready. Used in the backbone.js example.
 
