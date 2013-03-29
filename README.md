@@ -197,9 +197,19 @@ See the `postProcess` call? That's called on every row after Tabletop.Model gets
 
 A sample lives in `/examples/timeline_setter/`
 
-### Caching/Not hitting Google Spreadsheets
+## Caching Google Spreadsheets
 
-Use `proxy`! Generate flatfiles using [Flatware](https://github.com/jsoma/flatware) or set up your own cache using something like `/caching/local.rb`.
+Yeah, Google Spreadsheets can sometimes be slow or sometimes be overwhelmed or *maybe* one day Google will just up and disappear on us. So Tabletop.js now supports fetching your data from elsewhere, using options like `endpoint` and `proxy`.
+
+`proxy` is the fun one, in that it rewrites your requests to be simpler-looking and plays nicely with the app & example I put together.
+
+### Using Flatware
+
+If you don't mind running around with Heroku and AWS, [Flatware](https://github.com/jsoma/flatware) is an app I built that uploads the spreadsheet JSON response to S3.
+
+### Using other caching
+
+You can point `proxy` at anything you'd like as long as it has `KEY` and `KEY-SHEET_ID` files sitting in a directory. Feel free to host it on your own server! You can use `/caching/local.rb` if you want a pretty easy solution for generating the flat files.
 
 # Notes
 
