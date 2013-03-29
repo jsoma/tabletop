@@ -9,8 +9,9 @@
           fromIndex = Math.max(0, this.length + fromIndex);
       }
       for (var i = fromIndex, j = this.length; i < j; i++) {
-          if (this[i] === obj)
+          if (this[i] === obj) {
               return i;
+          }
       }
       return -1;
     };
@@ -113,6 +114,7 @@
     */
     injectScript: function(path, callback) {
       var script = document.createElement('script');
+      var callbackName;
       
       if(this.singleton) {
         if(callback === this.loadSheets) {
@@ -121,8 +123,8 @@
           callbackName = 'Tabletop.singleton.loadSheet';
         }
       } else {
-        var self = this,
-            callbackName = 'tt' + (+new Date()) + (Math.floor(Math.random()*100000));
+        var self = this;
+        callbackName = 'tt' + (+new Date()) + (Math.floor(Math.random()*100000));
         // Create a temp callback which will get removed once it has executed,
         // this allows multiple instances of Tabletop to coexist.
         Tabletop.callbacks[ callbackName ] = function () {
@@ -160,7 +162,7 @@
       if(this.wanted.length === 0) {
         return true;
       } else {
-        return this.wanted.indexOf(sheetName) != -1;
+        return this.wanted.indexOf(sheetName) !== -1;
       }
     },
     
@@ -176,8 +178,9 @@
         return undefined;
       }
       if(this.simpleSheet) {
-        if(this.model_names.length > 1 && this.debug)
-          console.debug("WARNING You have more than one sheet but are using simple sheet mode! Don't blame me when something goes wrong.");
+        if(this.model_names.length > 1 && this.debug) {
+          this.log("WARNING You have more than one sheet but are using simple sheet mode! Don't blame me when something goes wrong.");
+        }
         return this.models[ this.model_names[0] ].all();
       } else {
         return this.models;
@@ -189,7 +192,7 @@
     */
     addWanted: function(sheet) {
       if(this.wanted.indexOf(sheet) === -1) {
-        this.wanted.push(sheet)
+        this.wanted.push(sheet);
       }
     },
     
@@ -226,15 +229,16 @@
       .sheets('Sheet1') gets you the sheet named Sheet1
     */
     sheets: function(sheetName) {
-      if(typeof sheetName === "undefined")
+      if(typeof sheetName === "undefined") {
         return this.models;
-      else
+      } else {
         if(typeof(this.models[ sheetName ]) === "undefined") {
           // alert( "Can't find " + sheetName );
           return;
         } else {
           return this.models[ sheetName ];
         }
+      }
     },
 
     /*
@@ -293,7 +297,7 @@
       options.tabletop.log("Missing data for " + this.name + ", make sure you didn't forget column headers");
       this.elements = [];
       return;
-    };
+    }
     
     for(var key in options.data.feed.entry[0]){
       if(/^gsx/.test(key))
