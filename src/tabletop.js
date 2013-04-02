@@ -1,6 +1,7 @@
 (function(global) {
   "use strict";
 
+<<<<<<< HEAD
   var inNodeJS = false;
   if (typeof process !== 'undefined') {
     inNodeJS = true;
@@ -21,38 +22,21 @@
     }
   } catch (e) { }
 
-  // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
-  if (!Array.prototype.indexOf) {
-    Array.prototype.indexOf = function (searchElement, fromIndex) {
-      if (this == null) {
-        throw new TypeError();
-      }
-      var t = Object(this);
-      var len = t.length >>> 0;
-      if (len === 0) {
-        return -1;
-      }
-      var n = 0;
-      if (arguments.length > 1) {
-        n = Number(arguments[1]);
-        if (n != n) { // shortcut for verifying if it's NaN
-          n = 0;
-        } else if (n != 0 && n != Infinity && n != -Infinity) {
-          n = (n > 0 || -1) * Math.floor(Math.abs(n));
-        }
-      }
-      if (n >= len) {
-        return -1;
-      }
-      var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
-      for (; k < len; k++) {
-        if (k in t && t[k] === searchElement) {
-          return k;
-        }
-      }
-      return -1;
-    }
-  }
+  // Create a simple indexOf function for support
+  // of older browsers.  Uses native indexOf if 
+  // available.  Code similar to underscores.
+  // By making a separate function, instead of adding
+  // to the prototype, we will not break bad for loops
+  // in older browsers
+  var indexOfProto = Array.prototype.indexOf;
+  var ttIndexOf = function(array, item) {
+    var i = 0, l = array.length;
+    
+    if (indexOfProto && array.indexOf === indexOfProto) return array.indexOf(item);
+    for (; i < l; i++) if (array[i] === item) return i;
+    return -1;
+  };
+  
   /*
     Initialize with Tabletop.init( { key: '0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc' } )
       OR!
@@ -230,7 +214,7 @@
       if(this.simple_url) {
         // We've gone down a rabbit hole of passing injectScript the path, so let's
         // just pull the sheet_id out of the path like the least efficient worker bees
-        if(path.indexOf("/list/") !== -1) {
+        if(ttIndexOf(path, "/list/") !== -1) {
           script.src = this.endpoint + "/" + this.key + "-" + path.split("/")[4];
         } else {
           script.src = this.endpoint + "/" + this.key;
@@ -268,7 +252,7 @@
       if(this.wanted.length === 0) {
         return true;
       } else {
-        return this.wanted.indexOf(sheetName) !== -1;
+        return (ttIndexOf(this.wanted, sheetName) !== -1);
       }
     },
     
@@ -297,7 +281,7 @@
       Add another sheet to the wanted list
     */
     addWanted: function(sheet) {
-      if(this.wanted.indexOf(sheet) === -1) {
+      if(ttIndexOf(this.wanted, sheet) === -1) {
         this.wanted.push(sheet);
       }
     },
@@ -371,7 +355,7 @@
                                     postProcess: this.postProcess,
                                     tabletop: this } );
       this.models[ model.name ] = model;
-      if(this.model_names.indexOf(model.name) === -1) {
+      if(ttIndexOf(this.model_names, model.name) === -1) {
         this.model_names.push(model.name);
       }
       this.sheetsToLoad--;
