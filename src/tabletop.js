@@ -1,21 +1,20 @@
 (function(global) {
   "use strict";
 
-  if (!Array.prototype.indexOf) {
-    Array.prototype.indexOf = function (obj, fromIndex) {
-      if (fromIndex === null) {
-          fromIndex = 0;
-      } else if (fromIndex < 0) {
-          fromIndex = Math.max(0, this.length + fromIndex);
-      }
-      for (var i = fromIndex, j = this.length; i < j; i++) {
-          if (this[i] === obj) {
-              return i;
-          }
-      }
-      return -1;
-    };
-  }
+  // Create a simple indexOf function for support
+  // of older browsers.  Uses native indexOf if 
+  // available.  Code similar to underscores.
+  // By making a separate function, instead of adding
+  // to the prototype, we will not break bad for loops
+  // in older browsers
+  var indexOfProto = Array.prototype.indexOf;
+  var ttIndexOf = function(array, item) {
+    var i = 0, l = array.length;
+    
+    if (indexOfProto && array.indexOf === indexOfProto) return array.indexOf(item);
+    for (; i < l; i++) if (array[i] === item) return i;
+    return -1;
+  };
   
   /*
     Initialize with Tabletop.init( { key: '0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc' } )
@@ -168,7 +167,7 @@
       if(this.wanted.length === 0) {
         return true;
       } else {
-        return this.wanted.indexOf(sheetName) !== -1;
+        return (ttIndexOf(this.wanted, sheetName) !== -1);
       }
     },
     
@@ -197,7 +196,7 @@
       Add another sheet to the wanted list
     */
     addWanted: function(sheet) {
-      if(this.wanted.indexOf(sheet) === -1) {
+      if(ttIndexOf(this.wanted, sheet) === -1) {
         this.wanted.push(sheet);
       }
     },
@@ -258,7 +257,7 @@
                                     postProcess: this.postProcess,
                                     tabletop: this } );
       this.models[ model.name ] = model;
-      if(this.model_names.indexOf(model.name) === -1) {
+      if(ttIndexOf(this.model_names, model.name) === -1) {
         this.model_names.push(model.name);
       }
       this.sheetsToLoad--;
