@@ -241,9 +241,13 @@ A [Facebook-esque timeline](http://builtbybalance.com/github-timeline/) from [Ba
 
 [Mapsheet](https://github.com/jsoma/mapsheet) creates super easy, customizable maps.
 
+## Other Options
+
+If you aren't really feeling Tabletop, you should give [Dataset](http://misoproject.com/dataset/) a shot. It's "a JavaScript client-side data transformation and management library," which means it does a hell of a lot more than our dear Tabletop.
+
 ## Credits
 
-[Jonathan Soma](http://twitter.com/dangerscarf), who would rather be cooking than coding. Inspired by the relentless demands of [John Keefe(https://twitter.com/jkeefe) of WNYC.
+[Jonathan Soma](http://twitter.com/dangerscarf), who would rather be cooking than coding. Inspired by the relentless demands of [John Keefe](https://twitter.com/jkeefe) of WNYC.
 
 Thanks to [Scott Seaward](https://github.com/plainview) for implementing multi-instance Tabletop.
 
