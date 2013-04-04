@@ -39,6 +39,12 @@ Backbone.tabletopSync = function(method, model, options, error) {
 
   if(typeof(sheet) === "undefined") {
     // Hasn't been fetched yet, let's fetch!
+    
+    // Let's make sure we aren't re-requesting a sheet that doesn't exist
+    if(typeof(instance.foundSheetNames) !== 'undefined' && _.indexOf(instance.foundSheetNames, tabletopOptions.sheet) === -1) {
+      throw("Can't seem to find sheet " + tabletopOptions.sheet);
+    }
+
     instance.fetch( function() {
       Backbone.tabletopSync(method, model, options, error);
     })

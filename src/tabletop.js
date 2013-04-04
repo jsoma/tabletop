@@ -213,8 +213,10 @@
     loadSheets: function(data) {
       var i, ilen;
       var toInject = [];
+      this.foundSheetNames = [];
 
       for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
+        this.foundSheetNames.push(data.feed.entry[i].title.$t);
         // Only pull in desired sheets to reduce loading
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
