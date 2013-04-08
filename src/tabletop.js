@@ -1,6 +1,12 @@
 (function(global) {
   "use strict";
 
+  var inNodeJS = false;
+  if (typeof process !== 'undefined') {
+    inNodeJS = true;
+    var request = require('request');
+  }
+
   if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (obj, fromIndex) {
       if (fromIndex === null) {
@@ -30,7 +36,7 @@
     if(!this || !(this instanceof Tabletop)) {
       return new Tabletop(options);
     }
-
+    
     if(typeof(options) === 'string') {
       options = { key : options };
     }
@@ -79,7 +85,13 @@
     this.models = {};
     this.model_names = [];
 
-    this.base_json_path = "/feeds/worksheets/" + this.key + "/public/basic?alt=json-in-script";
+    this.base_json_path = "/feeds/worksheets/" + this.key + "/public/basic?alt=";
+
+    if (inNodeJS) {
+      this.base_json_path += 'json';
+    } else {
+      this.base_json_path += 'json-in-script';
+    }
     
     if(!this.wait) {
       this.fetch();
@@ -104,7 +116,20 @@
       if(typeof(callback) !== "undefined") {
         this.callback = callback;
       }
-      this.injectScript(this.base_json_path, this.loadSheets);
+      this.requestData(this.base_json_path, this.loadSheets);
+    },
+    
+    /*
+      This will call the environment appropriate request method.
+      
+      In browser it will use JSON-P, in node it will use request()
+    */
+    requestData: function(path, callback) {
+      if (inNodeJS) {
+        this.serverSideFetch(path, callback);
+      } else {
+        this.injectScript(path, callback);
+      }
     },
     
     /*
@@ -157,6 +182,19 @@
       }
       
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
+    },
+    
+    /* 
+      This will only run if tabletop is being run in node.js
+    */
+    serverSideFetch: function(path, callback) {
+      var self = this
+      request({url: this.endpoint + path, json: true}, function(err, resp, body) {
+        if (err) {
+          return console.error(err);
+        }
+        callback.call(self, body);
+      });
     },
 
     /* 
@@ -212,7 +250,7 @@
     */
     loadSheets: function(data) {
       var i, ilen;
-      var toInject = [];
+      var toLoad = [];
       this.foundSheetNames = [];
 
       for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
@@ -220,14 +258,19 @@
         // Only pull in desired sheets to reduce loading
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
-          var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=json-in-script&sq=" + this.query;
-          toInject.push(json_path);
+          var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?sq=" + this.query + '&alt='
+          if (inNodeJS) {
+            json_path += 'json';
+          } else {
+            json_path += 'json-in-script';
+          }
+          toLoad.push(json_path);
         }
       }
 
-      this.sheetsToLoad = toInject.length;
-      for(i = 0, ilen = toInject.length; i < ilen; i++) {
-        this.injectScript(toInject[i], this.loadSheet);
+      this.sheetsToLoad = toLoad.length;
+      for(i = 0, ilen = toLoad.length; i < ilen; i++) {
+        this.requestData(toLoad[i], this.loadSheet);
       }
     },
 
@@ -274,8 +317,9 @@
       Tests this.sheetsToLoad just in case a race condition happens to show up
     */
     doCallback: function() {
-      if(this.sheetsToLoad === 0)
-      this.callback.apply(this.callbackContext || this, [this.data(), this]);
+      if(this.sheetsToLoad === 0) {
+        this.callback.apply(this.callbackContext || this, [this.data(), this]);
+      }
     },
 
     log: function(msg) {
@@ -360,4 +404,4 @@
     }
   };
 
-})(this);
+})(typeof process === 'undefined' ? this : module.exports);
