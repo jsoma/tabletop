@@ -24,6 +24,8 @@ Yes, that easy.
 
 ## Getting Started
 
+You might have seen some instructions on [http://builtbybalance.com/Tabletop/](http://builtbybalance.com/Tabletop/), but please ignore them, because they're *super super out of date*. Probably don't *break* anything, but they sure ain't current (not my domain, can't take them down). These docs here are the most up-to-date, so treat them as the gospel truth!
+
 ### 1) Getting your data out there
 
 _The first step is to get your data out into a form Tabletop can digest_
@@ -252,3 +254,5 @@ If you aren't really feeling Tabletop, you should give [Dataset](http://misoproj
 Thanks to [Scott Seaward](https://github.com/plainview) for implementing multi-instance Tabletop.
 
 [Alan Palazzolo](https://github.com/zzolo) hooked the world up with [gs-proxy](https://github.com/MinnPost/gs-proxy) and added support for it into Tabletop via `parameterize`
+
+[Max Ogden](https://github.com/maxogden) was kind enough to lend Tabletop nodejs support as part of an [Open News](http://www.mozillaopennews.org) [code sprint](http://www.mozillaopennews.org/codesprints.html)
