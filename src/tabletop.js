@@ -31,7 +31,7 @@
     Initialize with Tabletop.init('0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc')
   */
 
-  var Tabletop = global.Tabletop = function(options) {
+  var Tabletop = function(options) {
     // Make sure Tabletop is being used as a constructor no matter what.
     if(!this || !(this instanceof Tabletop)) {
       return new Tabletop(options);
@@ -405,4 +405,10 @@
     }
   };
 
-})(typeof process === 'undefined' ? this : module.exports);
+  if(inNodeJS) {
+    module.exports = Tabletop;
+  } else {
+    global.Tabletop = Tabletop;
+  }
+
+})(this);
