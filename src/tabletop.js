@@ -53,6 +53,7 @@
     this.endpoint = options.endpoint || "https://spreadsheets.google.com";
     this.singleton = !!options.singleton;
     this.simple_url = !!options.simple_url;
+    this.callbackContext = options.callbackContext;
     
     if(typeof(options.proxy) !== 'undefined') {
       this.endpoint = options.proxy;
