@@ -1,4 +1,4 @@
-var Tabletop = require('../../').Tabletop;
+var Tabletop = require('../../');
 
 var testURL = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
 
