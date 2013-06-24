@@ -26,6 +26,8 @@ Yes, that easy.
 
 You might have seen some instructions on [http://builtbybalance.com/Tabletop/](http://builtbybalance.com/Tabletop/), but please ignore them, because they're *super super out of date*. Probably don't *break* anything, but they sure ain't current (not my domain, can't take them down). These docs here are the most up-to-date, so treat them as the gospel truth!
 
+*Important note!* Google's been throwing up weird logins walls every now and again to spreadsheet content, you might want to check out a caching mechanism like [Flatware](https://github.com/jsoma/flatware) to help you avoid those sorts of situations.
+
 ### 1) Getting your data out there
 
 _The first step is to get your data out into a form Tabletop can digest_
