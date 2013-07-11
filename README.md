@@ -4,6 +4,24 @@
 
 Tabletop.js easily integrates Google Spreadsheets with Backbone.js, Handlebars, and anything else that is hip and cool. It will also help you make new friends and play jazz piano.
 
+### Okay, wait, we've got a big problem. But a solution, too.
+
+**Google broke Tabletop**. Kind of.
+
+If you're signed in to Google and your session expires, Google now requires you to sign in to view published spreadsheets. Practically speaking, **this means Tabletop will fail for anyone who hasn't signed into Gmail for a while**.
+
+If you don't ever sign into Google, you're fine. If you're signed in, you're fine. It's only expired sessions that run into this issue, which is why it took so long for us to figure out what the deal was.
+
+This *will break* existing apps.
+
+Google knows it's an issue, but it isn't high priority, so they **don't have a fix planned until September 30th**. That's a long time to have a broken app, 'eh?
+
+I highly highly recommend you use [Flatware](https://github.com/jsoma/flatware) (or your own proxying solution) in the meantime. Proxies don't run into this bug since they never sign into a Google account, and they'll probably make your app faster, too.
+
+I tried to make Flatware pretty easy to set up, but if you'd like a hand feel free to drop me a line at [jonathan.soma@gmail.com](mailto:jonathan.soma@gmail.com).
+
+To ease the pain I've set up a public instance of Flatware at [http://flatware.herokuapp.com](http://flatware.herokuapp.com), although you're going to have to manually click `Sync all spreadsheets` when you want your updates to go out. If you plan on using it, you'll want to set `proxy: 'https://s3.amazonaws.com/flatware-live'` when initializing Tabletop. I'd also appreciate it if you dropped me an [email](mailto:jonathan.soma@gmail.com) or a [tweet](http://twitter.com/dangerscarf) giving me a heads up.
+
 ### Like how easy?
 
     function init() {
@@ -25,8 +43,6 @@ Yes, that easy.
 ## Getting Started
 
 You might have seen some instructions on [http://builtbybalance.com/Tabletop/](http://builtbybalance.com/Tabletop/), but please ignore them, because they're *super super out of date*. Probably don't *break* anything, but they sure ain't current (not my domain, can't take them down). These docs here are the most up-to-date, so treat them as the gospel truth!
-
-*Important note!* Google's been throwing up weird logins walls every now and again to spreadsheet content, you might want to check out a caching mechanism like [Flatware](https://github.com/jsoma/flatware) to help you avoid those sorts of situations.
 
 ### 1) Getting your data out there
 
