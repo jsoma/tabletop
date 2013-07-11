@@ -4,7 +4,23 @@
 
 Tabletop.js easily integrates Google Spreadsheets with Backbone.js, Handlebars, and anything else that is hip and cool. It will also help you make new friends and play jazz piano.
 
-### Okay, wait, we've got a big problem. But a solution, too.
+### Like how easy?
+
+    function init() {
+      Tabletop.init( { key: '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE',
+                       callback: function(data, tabletop) { console.log(data) },
+                       simpleSheet: true } )
+    }
+
+Will give you
+
+    [ { name: "Carrot", category: "Vegetable", healthiness: "Adequate" }, 
+      { name: "Pork Shoulder", category: "Meat", healthiness: "Questionable" }, 
+      { name: "Bubblegum", category: "Candy", healthiness: "Super High"} ]
+
+Yes, that easy.
+
+## Okay, wait, we've got a big problem. But a solution, too.
 
 **Google broke Tabletop**. Kind of.
 
@@ -21,22 +37,6 @@ I highly highly recommend you use [Flatware](https://github.com/jsoma/flatware) 
 I tried to make Flatware pretty easy to set up, but if you'd like a hand feel free to drop me a line at [jonathan.soma@gmail.com](mailto:jonathan.soma@gmail.com).
 
 To ease the pain I've set up a public instance of Flatware at [http://flatware.herokuapp.com](http://flatware.herokuapp.com), although you're going to have to manually click `Sync all spreadsheets` when you want your updates to go out. If you plan on using it, you'll want to set `proxy: 'https://s3.amazonaws.com/flatware-live'` when initializing Tabletop. I'd also appreciate it if you dropped me an [email](mailto:jonathan.soma@gmail.com) or a [tweet](http://twitter.com/dangerscarf) giving me a heads up.
-
-### Like how easy?
-
-    function init() {
-      Tabletop.init( { key: '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE',
-                       callback: function(data, tabletop) { console.log(data) },
-                       simpleSheet: true } )
-    }
-
-Will give you
-
-    [ { name: "Carrot", category: "Vegetable", healthiness: "Adequate" }, 
-      { name: "Pork Shoulder", category: "Meat", healthiness: "Questionable" }, 
-      { name: "Bubblegum", category: "Candy", healthiness: "Super High"} ]
-
-Yes, that easy.
 
 ## Notes
 
