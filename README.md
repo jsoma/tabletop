@@ -32,7 +32,7 @@ This *will break* existing apps.
 
 Google knows it's an issue, but it isn't high priority, so they **don't have a fix planned until September 30th**. That's a long time to have a broken app, 'eh?
 
-I highly highly recommend you use [Flatware](https://github.com/jsoma/flatware) (or your own proxying solution) in the meantime. Proxies don't run into this bug since they never sign into a Google account, and they'll probably make your app faster, too.
+I highly highly recommend you use [Flatware](https://github.com/jsoma/flatware) or [table-service](https://github.com/martinburch/table-service) (or your own proxying solution) in the meantime. Proxies don't run into this bug since they never sign into a Google account, and they'll probably make your app faster, too.
 
 I tried to make Flatware pretty easy to set up, but if you'd like a hand feel free to drop me a line at [jonathan.soma@gmail.com](mailto:jonathan.soma@gmail.com).
 
@@ -228,6 +228,10 @@ Yeah, Google Spreadsheets can sometimes be slow or sometimes be overwhelmed or *
 ### Using Flatware
 
 If you don't mind running around with Heroku and AWS, [Flatware](https://github.com/jsoma/flatware) is an app I built that uploads the spreadsheet JSON response to S3.
+
+### Using table-service
+
+[table-service](https://github.com/martinburch/table-service) hosts it on your own server using a python script, and auto-updates thanks to a tiny script you add to your spreadsheet.
 
 ### Using gs-proxy
 
