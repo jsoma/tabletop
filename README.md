@@ -24,7 +24,7 @@ Yes, that easy.
 
 **Google broke Tabletop**. Kind of.
 
-If you're signed in to Google and your session expires, Google now requires you to sign in to view published spreadsheets. Practically speaking, **this means Tabletop will fail for anyone who hasn't signed into Gmail for a while**.
+If you're signed in to Google and your session expires, Google now requires you to sign in to view published spreadsheets. Practically speaking, **this means Tabletop will fail for anyone who hasn't signed into Gmail for a while**. [More details here](http://productforums.google.com/forum/#!category-topic/docs/documents/0pneogfgzN0).
 
 If you don't ever sign into Google, you're fine. If you're signed in, you're fine. It's only expired sessions that run into this issue, which is why it took so long for us to figure out what the deal was.
 
