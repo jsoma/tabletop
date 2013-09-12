@@ -114,7 +114,7 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `parseNumbers` can be true or false (default false). If true, Tabletop will automatically parse any numbers for you so they don't run around as strings.
 
-`order` asks Google to sort the results by a column. You'll need to strip spaces and lowercase your column names, i.e. `{order: 'firstname'}` for a column called **First Name**. You'll want to use this when you only have a single sheet, though, otherwise it will try to sort by the same column on every single sheet.
+`orderby` asks Google to sort the results by a column. You'll need to strip spaces and lowercase your column names, i.e. `{order: 'firstname'}` for a column called **First Name**. You'll want to use this when you only have a single sheet, though, otherwise it will try to sort by the same column on every single sheet.
 
 `reverse` reverses the order if set to true.
 
