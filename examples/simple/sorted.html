@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+    <p>Food sorted by 'name' column, reversed:</p>
+    <p id="food"></p>
+    
+    <p>If you're using orderby, you'll need to strip spaces and capital letters out of your column names (e.g. 'firstname' instead of 'First Name')</p>
+
+    <script type="text/javascript" src="../../src/tabletop.js"></script>
+    <script type="text/javascript">
+      window.onload = function() { init() };
+
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
+
+      function init() {
+        // because we're using orderby: 'name' it will sort by the 'name' column
+        // and reverse: true will reverse that sort, so it should be in reverse
+        // alphabetical order
+        Tabletop.init( { key: public_spreadsheet_url,
+                         callback: showInfo,
+                         simpleSheet: true,
+                         orderby: 'name',
+                         reverse: true } );
+      }
+
+      function showInfo(data) {
+        // data comes through as a simple array since simpleSheet is turned on
+        document.getElementById("food").innerHTML = "<strong>Foods:</strong> " + [ data[0].name, data[1].name, data[2].name ].join(", ");
+        console.log(data);
+      }
+
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");        
+    </script>
+  </body>
+</html>

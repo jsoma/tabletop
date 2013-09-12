@@ -63,9 +63,11 @@
     this.simpleSheet = !!options.simpleSheet;
     this.parseNumbers = !!options.parseNumbers;
     this.wait = !!options.wait;
+    this.reverse = !!options.reverse;
     this.postProcess = options.postProcess;
     this.debug = !!options.debug;
     this.query = options.query || '';
+    this.orderby = options.orderby;
     this.endpoint = options.endpoint || "https://spreadsheets.google.com";
     this.singleton = !!options.singleton;
     this.simple_url = !!options.simple_url;
@@ -280,6 +282,12 @@
             json_path += 'json';
           } else {
             json_path += 'json-in-script';
+          }
+          if(this.orderby) {
+            json_path += "&orderby=column:" + this.orderby.toLowerCase();
+          }
+          if(this.reverse) {
+            json_path += "&reverse=true";
           }
           toLoad.push(json_path);
         }

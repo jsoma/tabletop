@@ -114,6 +114,10 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `parseNumbers` can be true or false (default false). If true, Tabletop will automatically parse any numbers for you so they don't run around as strings.
 
+`order` asks Google to sort the results by a column. You'll need to strip spaces and lowercase your column names, i.e. `{order: 'firstname'}` for a column called **First Name**.
+
+`reverse` reverses the order if set to true.
+
 `postProcess` is a function that processes each row after it has been created. Use this to rename columns, compute attributes, etc. See the TimelineSetter example below.
 
 `wanted` is an array of sheets you'd like to pull. If you have 20 sheets in a public spreadsheet you might as well only pull what you need to access. See the example in simple/multiple.html. Defaults to all.
