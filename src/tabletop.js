@@ -7,6 +7,20 @@
     var request = require('request');
   }
 
+  var supportsCORS = false;
+  var inLegacyIE = false;
+  try {
+    var testXHR = new XMLHttpRequest();
+    if (typeof testXHR.withCredentials !== 'undefined') {
+      supportsCORS = true;
+    } else {
+      if ("XDomainRequest" in window) {
+        supportsCORS = true;
+        inLegacyIE = true;
+      }
+    }
+  } catch (e) { }
+
   // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
   if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (searchElement, fromIndex) {
@@ -147,8 +161,27 @@
       if (inNodeJS) {
         this.serverSideFetch(path, callback);
       } else {
-        this.injectScript(path, callback);
+        //CORS only works in IE8 across the same protocol
+        var protocol = path.split("//").shift() || "http";
+        if (supportsCORS && (!inLegacyIE || protocol === location.protocol)) {
+          this.xhrFetch(path, callback);
+        } else {
+          this.injectScript(path, callback);
+        }
       }
+    },
+
+    /*
+      Use Cross-Origin XMLHttpRequest to get the data in browsers that support it.
+    */
+    xhrFetch: function(path, callback) {
+      //support IE8's separate cross-domain object
+      var xhr = "XDomainRequest" in window ? new XDomainRequest() : new XMLHttpRequest();
+      xhr.open("GET", path);
+      xhr.onload = function() {
+        callback.call(this, xhr.responseText);
+      };
+      xhr.send();
     },
     
     /*
