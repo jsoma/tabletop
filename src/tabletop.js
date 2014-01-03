@@ -120,7 +120,7 @@
 
     this.base_json_path = "/feeds/worksheets/" + this.key + "/public/basic?alt=";
 
-    if (inNodeJS) {
+    if (inNodeJS || supportsCORS) {
       this.base_json_path += 'json';
     } else {
       this.base_json_path += 'json-in-script';
@@ -161,8 +161,9 @@
       if (inNodeJS) {
         this.serverSideFetch(path, callback);
       } else {
-        //CORS only works in IE8 across the same protocol
-        var protocol = path.split("//").shift() || "http";
+        //CORS only works in IE8/9 across the same protocol
+        //You must have your server on HTTPS to talk to Google, or it'll fall back on injection
+        var protocol = this.endpoint.split("//").shift() || "http";
         if (supportsCORS && (!inLegacyIE || protocol === location.protocol)) {
           this.xhrFetch(path, callback);
         } else {
@@ -177,9 +178,15 @@
     xhrFetch: function(path, callback) {
       //support IE8's separate cross-domain object
       var xhr = "XDomainRequest" in window ? new XDomainRequest() : new XMLHttpRequest();
-      xhr.open("GET", path);
+      xhr.open("GET", this.endpoint + path);
+      var self = this;
       xhr.onload = function() {
-        callback.call(this, xhr.responseText);
+        try {
+          var json = JSON.parse(xhr.responseText);
+        } catch (e) {
+          throw e;
+        }
+        callback.call(self, json);
       };
       xhr.send();
     },
@@ -311,7 +318,7 @@
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var sheet_id = data.feed.entry[i].link[3].href.substr( data.feed.entry[i].link[3].href.length - 3, 3);
           var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?sq=" + this.query + '&alt='
-          if (inNodeJS) {
+          if (inNodeJS || supportsCORS) {
             json_path += 'json';
           } else {
             json_path += 'json-in-script';
