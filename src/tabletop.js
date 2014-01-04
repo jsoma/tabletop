@@ -177,14 +177,14 @@
     */
     xhrFetch: function(path, callback) {
       //support IE8's separate cross-domain object
-      var xhr = "XDomainRequest" in window ? new XDomainRequest() : new XMLHttpRequest();
+      var xhr = inLegacyIE ? new XDomainRequest() : new XMLHttpRequest();
       xhr.open("GET", this.endpoint + path);
       var self = this;
       xhr.onload = function() {
         try {
           var json = JSON.parse(xhr.responseText);
         } catch (e) {
-          throw e;
+          console.error(e);
         }
         callback.call(self, json);
       };
