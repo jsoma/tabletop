@@ -91,6 +91,9 @@
       this.endpoint = options.proxy;
       this.simple_url = true;
       this.singleton = true;
+      // Let's only use CORS (straight JSON request) when
+      // fetching straight from Google
+      supportsCORS = false
     }
     
     this.parameterize = options.parameterize || false;
