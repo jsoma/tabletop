@@ -1,8 +1,6 @@
 (function(global) {
   "use strict";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   var inNodeJS = false;
   if (typeof process !== 'undefined') {
     inNodeJS = true;
@@ -23,8 +21,6 @@
     }
   } catch (e) { }
 
-=======
->>>>>>> c8cda1842f2c234c9bfa6af46aa4c8bb20a0c3df
   // Create a simple indexOf function for support
   // of older browsers.  Uses native indexOf if 
   // available.  Code similar to underscores.
