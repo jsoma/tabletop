@@ -213,7 +213,7 @@
       if(this.simple_url) {
         // We've gone down a rabbit hole of passing injectScript the path, so let's
         // just pull the sheet_id out of the path like the least efficient worker bees
-        if(ttIndexOf(path, "/list/") !== -1) {
+        if(path.indexOf("/list/") !== -1) {
           script.src = this.endpoint + "/" + this.key + "-" + path.split("/")[4];
         } else {
           script.src = this.endpoint + "/" + this.key;
