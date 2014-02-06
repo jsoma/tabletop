@@ -24,19 +24,9 @@ Yes, that easy.
 
 **Google broke Tabletop**. Kind of.
 
-If you're signed in to Google and your session expires, Google now requires you to sign in to view published spreadsheets. Practically speaking, **this means Tabletop will fail for anyone who hasn't signed into Gmail for a while**. [More details here](http://productforums.google.com/forum/#!category-topic/docs/documents/0pneogfgzN0).
+If you're signed in to Google and your session expires, Google now requires you [to sign in to view published spreadsheets](http://productforums.google.com/forum/#!category-topic/docs/documents/0pneogfgzN0). While we've worked around the problem in recent versions of Tabletop (CORS to the rescue), old versions will experience this problem.
 
-If you don't ever sign into Google, you're fine. If you're signed in, you're fine. It's only expired sessions that run into this issue, which is why it took so long for us to figure out what the deal was.
-
-This *will break* existing apps.
-
-Google knows it's an issue, but it isn't high priority, so they **don't have a fix planned until September 30th**. That's a long time to have a broken app, 'eh?
-
-I highly highly recommend you use [Flatware](https://github.com/jsoma/flatware) or [table-service](https://github.com/martinburch/table-service) (or your own proxying solution) in the meantime. Proxies don't run into this bug since they never sign into a Google account, and they'll probably make your app faster, too.
-
-I tried to make Flatware pretty easy to set up, but if you'd like a hand feel free to drop me a line at [jonathan.soma@gmail.com](mailto:jonathan.soma@gmail.com).
-
-To ease the pain I've set up a public instance of Flatware at [http://flatware.herokuapp.com](http://flatware.herokuapp.com), although you're going to have to manually click `Sync all spreadsheets` when you want your updates to go out. If you plan on using it, you'll want to set `proxy: 'https://s3.amazonaws.com/flatware-live'` when initializing Tabletop. I'd also appreciate it if you dropped me an [email](mailto:jonathan.soma@gmail.com) or a [tweet](http://twitter.com/dangerscarf) giving me a heads up.
+[Most browsers support CORS](http://caniuse.com/cors) so you will *probably* be okay. Google's sat on this for over a year so I doubt it's getting fixed. If you're still running into issues I recommend trying [Flatware](https://github.com/jsoma/flatware) or [table-service](https://github.com/martinburch/table-service) (or your own proxying solution) in the meantime. Proxies don't run into this bug since they never sign into a Google account, and they'll probably make your app faster, too.
 
 ## Notes
 
