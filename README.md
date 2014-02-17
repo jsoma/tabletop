@@ -20,6 +20,10 @@ Will give you
 
 Yes, that easy.
 
+## new Google Sheets
+
+Google is letting you test a new version of Sheets, but with the warning **Warning: some features aren’t ready yet.**. And hiding right there in the list is **API support**, so don't you dare go upgrade, because there's no updated API for Tabletop to support.
+
 ## Okay, wait, we've got a big problem. But a solution, too.
 
 **Google broke Tabletop**. Kind of.

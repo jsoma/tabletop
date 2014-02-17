@@ -91,8 +91,14 @@
     
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
-      this.log("You passed a key as a URL! Attempting to parse.");
+      this.log("You passed an old Google Docs url as the key! Attempting to parse.");
       this.key = this.key.match("key=(.*?)&")[1];
+    }
+
+    if(/pubhtml/.test(this.key)) {
+      alert("You passed a new Google Spreadsheets url as the key! This won't work yet, you'll need to change back to old Sheets.");
+      this.key = this.key.match("d\\/(.*?)\\/pubhtml")[1];
+      console.log(this.key);
     }
 
     if(!this.key) {
