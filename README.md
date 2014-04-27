@@ -24,8 +24,6 @@ Yes, that easy.
 
 Google is letting you test a new version of Sheets, but with the warning **Warning: some features aren’t ready yet.**. And hiding right there in the list is **API support**, so don't you dare go upgrade, because there's no updated API for Tabletop to support.
 
-## Notes
-
 ## Getting Started
 
 You might have seen some instructions on [http://builtbybalance.com/Tabletop/](http://builtbybalance.com/Tabletop/), but please ignore them, because they're *super super out of date*. Probably don't *break* anything, but they sure ain't current (not my domain, can't take them down). These docs here are the most up-to-date, so treat them as the gospel truth!
