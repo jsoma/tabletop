@@ -24,14 +24,6 @@ Yes, that easy.
 
 Google is letting you test a new version of Sheets, but with the warning **Warning: some features aren’t ready yet.**. And hiding right there in the list is **API support**, so don't you dare go upgrade, because there's no updated API for Tabletop to support.
 
-## Okay, wait, we've got a big problem. But a solution, too.
-
-**Google broke Tabletop**. Kind of.
-
-If you're signed in to Google and your session expires, Google now requires you [to sign in to view published spreadsheets](http://productforums.google.com/forum/#!category-topic/docs/documents/0pneogfgzN0). While we've worked around the problem in recent versions of Tabletop (CORS to the rescue), old versions will experience this problem.
-
-[Most browsers support CORS](http://caniuse.com/cors) so you will *probably* be okay. Google's sat on this for over a year so I doubt it's getting fixed. If you're still running into issues I recommend trying [Flatware](https://github.com/jsoma/flatware) or [table-service](https://github.com/martinburch/table-service) (or your own proxying solution) in the meantime. Proxies don't run into this bug since they never sign into a Google account, and they'll probably make your app faster, too.
-
 ## Notes
 
 ## Getting Started
@@ -240,6 +232,12 @@ If you don't mind running around with Heroku and AWS, [Flatware](https://github.
 You can point `proxy` at anything you'd like as long as it has `KEY` and `KEY-SHEET_ID` files sitting in a directory. Feel free to host it on your own server! You can use `/caching/local.rb` if you want a pretty easy solution for generating the flat files.
 
 # Notes
+
+## The time Google broke Tabletop
+
+**This shouldn't be an issue any more, but just in case...**
+
+If you're signed in to Google, and your session expires, Google requires you to sign in to view published spreadsheets (it's a bug!). We work around this by using CORS to make requests when we can, which [most browsers support](http://caniuse.com/cors). If you still run into trouble you can use a proxy like [Flatware](https://github.com/jsoma/flatware) or [table-service](https://github.com/martinburch/table-service) (or your own proxying solution). 
 
 ## Strange behavior
 
