@@ -309,7 +309,7 @@
         // Only pull in desired sheets to reduce loading
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var linkIdx = data.feed.entry[i].link.length-1;
-          var sheet_id = data.feed.entry[i].link[linkIdx].href.substr( data.feed.entry[i].link[linkIdx].href.length - 3, 3);
+          var sheet_id = data.feed.entry[i].link[linkIdx].href.split('/').pop();
           var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt="
           if (inNodeJS || supportsCORS) {
             json_path += 'json';
