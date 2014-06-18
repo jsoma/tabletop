@@ -92,7 +92,7 @@
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
       this.log("You passed an old Google Docs url as the key! Attempting to parse.");
-      this.key = this.key.match("key=(.*?)&")[1];
+      this.key = this.key.match("key=(.*?)(&|#|$)")[1];
     }
 
     if(/pubhtml/.test(this.key)) {
