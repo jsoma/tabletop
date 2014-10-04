@@ -18,9 +18,11 @@
   "readmeFilename": "README.md",
   "gitHead": "fdb1c3ee3bc0f7f3be6ab223a56f9f050fe32496",
   "dependencies": {
-    "request": "~2.16.6",
-    "grunt": "*",
-    "grunt-contrib-connect": "*"
+    "grunt": "^0.4.5",
+    "grunt-contrib-connect": "*",
+    "grunt-contrib-jshint": "^0.10.0",
+    "jshint-stylish": "^1.0.0",
+    "request": "~2.16.6"
   },
   "engines": {
     "node": ">=0.10.0"
