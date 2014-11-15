@@ -128,7 +128,9 @@ Once you've initialized a `tabletop` object you can access its good parts.
 
 `.sheets(name)` is how you access a specific sheet. Say I have a worksheet called **Cats I Know**, I'll access it via `tabletop.sheets("Cats I Know")`
 
-`.model_names` are the names of the models [read: sheets] that Tabletop knows about
+`.model_names` are the names of the models [read: sheets] that Tabletop knows about. The sheet names do *not* reflect their ordering in the original spreadsheet.
+
+`.foundSheetNames` are the names of the sheets [read: models] that Tabletop knows about. Their order reflects the sheets' order in the original spreadsheet.
 
 `.data()` returns the rows of the first model if you're in simpleSheet mode. It's the same as `.sheets()` otherwise. This is just a little sugar.
 
