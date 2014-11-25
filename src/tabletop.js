@@ -69,6 +69,7 @@
     this.singleton = !!options.singleton;
     this.simple_url = !!options.simple_url;
     this.callbackContext = options.callbackContext;
+    this.authkey = options.authkey;
     
     if(typeof(options.proxy) !== 'undefined') {
       // Remove trailing slash, it will break the app
@@ -110,14 +111,22 @@
     this.models = {};
     this.model_names = [];
 
-    this.base_json_path = "/feeds/worksheets/" + this.key + "/public/basic?alt=";
-
+      if (this.authkey) {
+	  this.base_json_path = "/feeds/worksheets/" + this.key + "/private/full?alt=";
+      } else {
+	  this.base_json_path = "/feeds/worksheets/" + this.key + "/public/full?alt=";
+      }
+      
     if (inNodeJS || supportsCORS) {
       this.base_json_path += 'json';
     } else {
       this.base_json_path += 'json-in-script';
     }
     
+      if (this.authkey) {
+	  this.base_json_path += '&oauth_token=' + this.authkey
+      }
+
     if(!this.wait) {
       this.fetch();
     }
@@ -299,41 +308,48 @@
 
       Used as a callback for the worksheet-based JSON
     */
-    loadSheets: function(data) {
-      var i, ilen;
-      var toLoad = [];
-      this.foundSheetNames = [];
-
-      for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
-        this.foundSheetNames.push(data.feed.entry[i].title.$t);
-        // Only pull in desired sheets to reduce loading
-        if( this.isWanted(data.feed.entry[i].content.$t) ) {
-          var linkIdx = data.feed.entry[i].link.length-1;
-          var sheet_id = data.feed.entry[i].link[linkIdx].href.split('/').pop();
-          var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt="
-          if (inNodeJS || supportsCORS) {
-            json_path += 'json';
-          } else {
-            json_path += 'json-in-script';
-          }
-          if(this.query) {
-            json_path += "&sq=" + this.query;
-          }
-          if(this.orderby) {
-            json_path += "&orderby=column:" + this.orderby.toLowerCase();
-          }
-          if(this.reverse) {
-            json_path += "&reverse=true";
-          }
-          toLoad.push(json_path);
-        }
-      }
-
-      this.sheetsToLoad = toLoad.length;
-      for(i = 0, ilen = toLoad.length; i < ilen; i++) {
-        this.requestData(toLoad[i], this.loadSheet);
-      }
-    },
+      loadSheets: function(data) {
+	  var i, ilen;
+	  var toLoad = [];
+	  this.foundSheetNames = [];
+	  
+	  for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
+              this.foundSheetNames.push(data.feed.entry[i].title.$t);
+              // Only pull in desired sheets to reduce loading
+              if( this.isWanted(data.feed.entry[i].content.$t) ) {
+		  var sheet_id = data.feed.entry[i].id.$t.split('/').pop();
+		  var json_path = "/feeds/list/" + this.key + "/" + sheet_id
+		  if (this.authkey) {
+		      json_path += "/private/full?alt="
+		  } else {
+		      json_path += "/public/full?alt="
+		  }
+		  if (inNodeJS || supportsCORS) {
+		      json_path += 'json';
+		  } else {
+		      json_path += 'json-in-script';
+		  }
+		  if(this.query) {
+		      json_path += "&sq=" + this.query;
+		  }
+		  if(this.orderby) {
+		      json_path += "&orderby=column:" + this.orderby.toLowerCase();
+		  }
+		  if(this.reverse) {
+		      json_path += "&reverse=true";
+		  }
+		  if (this.authkey) {
+		      json_path += '&oauth_token=' + this.authkey
+		  }
+		  toLoad.push(json_path);
+              }
+	  }
+	  
+	  this.sheetsToLoad = toLoad.length;
+	  for(i = 0, ilen = toLoad.length; i < ilen; i++) {
+              this.requestData(toLoad[i], this.loadSheet);
+	  }
+      },
 
     /*
       Access layer for the this.models
