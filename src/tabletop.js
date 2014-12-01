@@ -69,6 +69,7 @@
     this.singleton = !!options.singleton;
     this.simple_url = !!options.simple_url;
     this.callbackContext = options.callbackContext;
+    this.prettyColumnNames = !!options.prettyColumnNames;
     
     if(typeof(options.proxy) !== 'undefined') {
       // Remove trailing slash, it will break the app
@@ -368,8 +369,32 @@
         this.model_names.push(model.name);
       }
       this.sheetsToLoad--;
+      if (this.prettyColumnNames) {
+        var cellurl = data.feed.link[3].href.replace('/feeds/list/', '/feeds/cells/').replace('https://spreadsheets.google.com', '');
+        this.requestData(cellurl, this.loadPrettyColumnNames);
+      }
       if(this.sheetsToLoad === 0)
         this.doCallback();
+    },
+
+    /*
+     * Add an object storing column names as an object
+     * with key of Google-formatted "columnName"
+     * and value of uman-readable "Column name"
+     */
+    loadPrettyColumnNames: function(data) {
+      var pretty_columns = {};
+
+      var column_names = this.models[data.feed.title.$t].column_names;
+
+      var i = 0;
+      var l = column_names.length;
+
+      for (; i < l; i++) {
+        pretty_columns[column_names[i]] = data.feed.entry[i].content.$t;
+      }
+
+      this.models[data.feed.title.$t].pretty_columns = pretty_columns;
     },
 
     /*
