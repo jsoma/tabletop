@@ -378,9 +378,9 @@
     },
 
     /*
-     * Add an object storing column names as an object
-     * with key of Google-formatted "columnName"
-     * and value of uman-readable "Column name"
+     * Store column names as an object
+     * with keys of Google-formatted "columnName"
+     * and values of uman-readable "Column name"
      */
     loadPrettyColumnNames: function(data) {
       var pretty_columns = {};
