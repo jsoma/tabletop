@@ -368,11 +368,11 @@
       if(ttIndexOf(this.model_names, model.name) === -1) {
         this.model_names.push(model.name);
       }
-      this.sheetsToLoad--;
       if (this.prettyColumnNames) {
         var cellurl = data.feed.link[3].href.replace('/feeds/list/', '/feeds/cells/').replace('https://spreadsheets.google.com', '');
         this.requestData(cellurl, this.loadPrettyColumnNames);
       } else {
+        this.sheetsToLoad--;
         if(this.sheetsToLoad === 0)
           this.doCallback();
       }
@@ -392,11 +392,16 @@
       var l = column_names.length;
 
       for (; i < l; i++) {
-        pretty_columns[column_names[i]] = data.feed.entry[i].content.$t;
+        if (typeof data.feed.entry[i].content.$t !== 'undefined') {
+          pretty_columns[column_names[i]] = data.feed.entry[i].content.$t;
+        } else {
+          pretty_columns[column_names[i]] = column_names[i];
+        }
       }
 
       this.models[data.feed.title.$t].pretty_columns = pretty_columns;
 
+      this.sheetsToLoad--;
       if(this.sheetsToLoad === 0)
         this.doCallback();
     },
