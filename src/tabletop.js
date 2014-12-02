@@ -372,9 +372,10 @@
       if (this.prettyColumnNames) {
         var cellurl = data.feed.link[3].href.replace('/feeds/list/', '/feeds/cells/').replace('https://spreadsheets.google.com', '');
         this.requestData(cellurl, this.loadPrettyColumnNames);
+      } else {
+        if(this.sheetsToLoad === 0)
+          this.doCallback();
       }
-      if(this.sheetsToLoad === 0)
-        this.doCallback();
     },
 
     /*
@@ -395,6 +396,9 @@
       }
 
       this.models[data.feed.title.$t].pretty_columns = pretty_columns;
+
+      if(this.sheetsToLoad === 0)
+        this.doCallback();
     },
 
     /*
