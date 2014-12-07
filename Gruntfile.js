@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
     grunt.loadNpmTasks("grunt-contrib-connect");
+    grunt.loadNpmTasks("grunt-contrib-jshint");
 
     grunt.initConfig({
         connect: {
@@ -16,8 +17,14 @@ module.exports = function(grunt) {
                     protocol: "https"
                 }
             }
+        },
+        jshint: {
+          options: {
+            reporter: require('jshint-stylish')
+          },
+          all: ['Gruntfile.js', 'src/**/*.js']
         }
     });
 
     grunt.registerTask("default", ["connect"]);
-}
+};

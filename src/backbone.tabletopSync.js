@@ -1,4 +1,4 @@
-/* 
+/*
   A drop-in read-only Google-Spreadsheets-backed replacement for Backbone.sync
 
   Tabletop must be successfully initialized prior to using fetch()
@@ -15,7 +15,7 @@ Backbone.tabletopSync = function(method, model, options, error) {
       error: error
     };
   }
-  
+
   var resp;
 
   var tabletopOptions = model.tabletop || model.collection.tabletop;
@@ -25,21 +25,21 @@ Backbone.tabletopSync = function(method, model, options, error) {
   if(typeof(instance) == "undefined") {
     instance = Tabletop.init( { key: tabletopOptions.key,
                                 wanted: [ tabletopOptions.sheet ],
-                                wait: true } )
+                                wait: true } );
     tabletopOptions.instance = instance;
   } else {
     instance.addWanted(tabletopOptions.sheet);
   }
-  
+
   if(typeof(tabletopOptions.sheet) == "undefined") {
     return;
   }
-  
+
   var sheet = instance.sheets( tabletopOptions.sheet );
 
   if(typeof(sheet) === "undefined") {
     // Hasn't been fetched yet, let's fetch!
-    
+
     // Let's make sure we aren't re-requesting a sheet that doesn't exist
     if(typeof(instance.foundSheetNames) !== 'undefined' && _.indexOf(instance.foundSheetNames, tabletopOptions.sheet) === -1) {
       throw("Can't seem to find sheet " + tabletopOptions.sheet);
@@ -47,10 +47,10 @@ Backbone.tabletopSync = function(method, model, options, error) {
 
     instance.fetch( function() {
       Backbone.tabletopSync(method, model, options, error);
-    })
+    });
     return;
   }
-  
+
   switch (method) {
     case "read":
       if(model.id) {
