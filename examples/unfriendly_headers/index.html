@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+    <h2>Human-Readable Column Names (default)</h2>
+    <table id="pretty">
+    </table>
+
+    <h2>Google-Readable Column Names (legacy)</h2>
+    <table id="original">
+    </table>
+
+    <script type="text/javascript" src="../common/jquery.js"></script>
+    <script type="text/javascript" src="../../src/tabletop.js"></script>
+    <script type="text/javascript">
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1qtIb80I0-psGEhvs1n-qhdoRYzBYhdIUfa9wor2d8dQ/pubhtml';
+      var tabletop;
+      
+      $(document).ready( function() {
+        
+        /*
+          Draw two tables, one using 
+            prettyColumnNames: true (default)
+          and the other one 
+            prettyColumnNames: false (the old default)
+        */
+        
+        Tabletop.init( { key: public_spreadsheet_url,
+                         callback: drawTable } );
+                         
+        Tabletop.init( { key: public_spreadsheet_url,
+                         callback: drawTable,
+                         prettyColumnNames: false } );
+      })
+
+      function drawTable(sheets, tabletop) {
+        var sheet = sheets['Sheet1'],
+            column_names = sheet.column_names;
+        
+        if(tabletop.prettyColumnNames)
+          var table = $("#pretty");
+        else
+          var table = $("#original");
+        
+        
+        var header = $("<thead></thead>");
+        for(var i = 0; i < column_names.length; i++) {
+          $("<th></th>").text(column_names[i]).appendTo(header);
+        }
+        table.append(header);
+        
+        var tbody = $("<tbody></tbody>");
+        for(var i = 0; i < sheet.elements.length; i++) {
+          var row = sheet.elements[i];
+          var html_row = $("<tr></tr>");
+          for(var j = 0; j < column_names.length; j++) {
+            var column_name = column_names[j];
+            $("<td></td>").text(row[column_name]).appendTo(html_row);
+          }
+          tbody.append(html_row);
+        }
+        table.append(tbody);
+      }
+
+      document.write("<p>The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a></p>"); 
+    </script>
+  </body>
+</html>

@@ -86,6 +86,10 @@
       });
       
       function showInfo(cats) {
+        var henry_view = new CatView({ model: cats.get('Henry') });
+
+        $("#content").append( henry_view.render().el );
+
         var bosco_view = new CatView({ model: cats.get('Bosco') });
 
         $("#content").append( bosco_view.render().el );

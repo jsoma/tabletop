@@ -120,7 +120,9 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `callbackContext` sets the `this` for your callback. It's the tabletop object by default.
 
-`prettyColumnNames` can be true or false (default to false). It adds an object `pretty_columns` as a sibling to `column_names` which contains human-readable column names.
+`prettyColumnNames` can be true or false (default to true). Since Google doesn't pass us exactly the same column names as in the header ('$ Processed' becomes 'processed'), it takes an extra request to correct them. If you don't want the extra request, you'll want to set it to `false`
+
+> See the **unfriendly_headers** example for more info. Only works for newer Google Sheets.
 
 ### Tabletop itself
 
@@ -147,6 +149,10 @@ Tabletop.Model is pretty boring, let's be honest.
 `.name` is the name of the worksheet it came from (the tab at the bottom of the spreadsheet)
 
 `.column_names` gives you the names of the columns in that table
+
+`.original_columns` gives you the names of the columns that Google sends on the first pass (numbers stripped, lowercase, etc)
+
+`.pretty_columns` gives you the mapping between the column headers in the spreadsheet and the and the `column_names`. Disabled by passing `prettyColumnNames: false` when initializing Tabletop.
 
 `.all()` returns an array of the rows of the table, in the style of `[ { name: "Tom", age: 5}, { name: "Liz", age: 12 } ]`
 
