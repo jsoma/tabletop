@@ -120,6 +120,8 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `callbackContext` sets the `this` for your callback. It's the tabletop object by default.
 
+`prettyColumnNames` can be true or false (default to false). It adds an object `pretty_columns` as a sibling to `column_names` which contains human-readable column names.
+
 ### Tabletop itself
 
 Once you've initialized a `tabletop` object you can access its good parts.
