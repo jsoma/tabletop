@@ -553,6 +553,10 @@
 
   if(inNodeJS) {
     module.exports = Tabletop;
+  } else if (typeof define === 'function' && define.amd) {
+    define(function () {
+        return Tabletop;
+    });
   } else {
     global.Tabletop = Tabletop;
   }
