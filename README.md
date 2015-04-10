@@ -43,7 +43,11 @@ Copy that! In theory you're interested in the part between `key=` and `&` but yo
 
 _Now you're going to feed your spreadsheet into Tabletop_
 
-Include Tabletop in your HTML, then try the following, substituting your URL for `public_spreadsheet_url`
+Include Tabletop in your HTML (for easy use post this line to your header).
+
+    <script type="text/javascript" src="https://raw.githubusercontent.com/jsoma/tabletop/master/src/tabletop.js"></script>
+
+Then try the following, substituting your URL for `public_spreadsheet_url`
 
     <script type="text/javascript">
       window.onload = function() { init() };
