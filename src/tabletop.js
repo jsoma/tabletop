@@ -1,10 +1,17 @@
 (function(global) {
   "use strict";
 
-  var inNodeJS = false;
+  var inCommonJS = false;
   if (typeof module !== 'undefined' && module.exports) {
-    inNodeJS = true;
-    var request = require('request');
+    inCommonJS = true;
+  }
+
+  var inBrowser = true;
+
+  if(inCommonJS) {
+    if(typeof XMLHttpRequest === 'undefined'){
+      inBrowser = false;
+    }
   }
 
   var supportsCORS = false;
@@ -113,7 +120,7 @@
 
     this.base_json_path = "/feeds/worksheets/" + this.key + "/public/basic?alt=";
 
-    if (inNodeJS || supportsCORS) {
+    if (!inBrowser || supportsCORS) {
       this.base_json_path += 'json';
     } else {
       this.base_json_path += 'json-in-script';
@@ -151,7 +158,7 @@
       In browser it will use JSON-P, in node it will use request()
     */
     requestData: function(path, callback) {
-      if (inNodeJS) {
+      if (!inBrowser) {
         this.serverSideFetch(path, callback);
       } else {
         //CORS only works in IE8/9 across the same protocol
@@ -312,7 +319,7 @@
           var linkIdx = data.feed.entry[i].link.length-1;
           var sheet_id = data.feed.entry[i].link[linkIdx].href.split('/').pop();
           var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt="
-          if (inNodeJS || supportsCORS) {
+          if (!inBrowser || supportsCORS) {
             json_path += 'json';
           } else {
             json_path += 'json-in-script';
@@ -551,7 +558,7 @@
     }
   };
 
-  if(inNodeJS) {
+  if(inCommonJS) {
     module.exports = Tabletop;
   } else if (typeof define === 'function' && define.amd) {
     define(function () {
