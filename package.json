@@ -20,9 +20,13 @@
   "dependencies": {
     "request": "~2.16.6",
     "grunt": "*",
-    "grunt-contrib-connect": "*"
+    "grunt-contrib-connect": "*",
+    "node-noop"
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "browser":{
+    "request":"node-noop"
   }
 }
