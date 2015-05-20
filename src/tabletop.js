@@ -11,6 +11,7 @@
   if(inCommonJS) {
     if(typeof XMLHttpRequest === 'undefined'){
       inBrowser = false;
+      var request = require('request');
     }
   }
 
