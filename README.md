@@ -174,6 +174,12 @@ I've put together a Backbone.tabletopSync driver for Backbone collections and mo
 
 Source is, of course, in `/src`, and you can check it out in action in `/examples/backbone/`
 
+### Working with Tabletop and AngularJS
+
+[Ændrew Rininsland (@aendrew)](http://www.github.com/aendrew) at [The Times and Sunday Times](http://www.github.com/times) has created a module that makes using Tabletop with [AngularJS](http://www.angularjs.org) extremely easy. It also includes a loader for  [angular-translate](https://angular-translate.github.io) that gives Tabletop the ability to provide i18n translation strings.
+
+Please see [times/angular-tabletop](http://www.github.com/times/angular-tabletop) for more details.
+
 ### Working with Tabletop and TimelineSetter
 
 Tabletop was originally built to work with ProPublica's <a href="http://propublica.github.com/timeline-setter/">TimelineSetter</a>, a JS+Ruby library that creates timelines. You need some specifically-formatted JSON which is created by a Ruby script from a CSV, which means your workflow is usually spreadsheet -> CSV -> Ruby -> JSON -> JS.
