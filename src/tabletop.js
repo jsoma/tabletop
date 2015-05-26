@@ -70,7 +70,7 @@
     this.simple_url = !!options.simple_url;
     this.callbackContext = options.callbackContext;
     // Default to on, unless there's a proxy, in which case it's default off
-    this.prettyColumnNames = typeof(options.prettyColumnNames) == 'undefined' ? !options.proxy : options.prettyColumnNames
+    this.prettyColumnNames = typeof(options.prettyColumnNames) === 'undefined' ? !options.proxy : options.prettyColumnNames;
     
     if(typeof(options.proxy) !== 'undefined') {
       // Remove trailing slash, it will break the app
@@ -175,8 +175,9 @@
       xhr.open("GET", this.endpoint + path);
       var self = this;
       xhr.onload = function() {
+        var json;
         try {
-          var json = JSON.parse(xhr.responseText);
+          json = JSON.parse(xhr.responseText);
         } catch (e) {
           console.error(e);
         }
@@ -241,7 +242,7 @@
       This will only run if tabletop is being run in node.js
     */
     serverSideFetch: function(path, callback) {
-      var self = this
+      var self = this;
       request({url: this.endpoint + path, json: true}, function(err, resp, body) {
         if (err) {
           return console.error(err);
@@ -312,7 +313,7 @@
         if( this.isWanted(data.feed.entry[i].content.$t) ) {
           var linkIdx = data.feed.entry[i].link.length-1;
           var sheet_id = data.feed.entry[i].link[linkIdx].href.split('/').pop();
-          var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt="
+          var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=";
           if (inNodeJS || supportsCORS) {
             json_path += 'json';
           } else {
@@ -373,7 +374,7 @@
     */
     loadSheet: function(data) {
       var that = this;
-      var model = new Tabletop.Model( { data: data, 
+      new Tabletop.Model( { data: data, 
                                         parseNumbers: this.parseNumbers,
                                         postProcess: this.postProcess,
                                         tabletop: this,
@@ -394,7 +395,7 @@
       }
     },
 
-    log: function(msg) {
+    log: function() {
       if(this.debug) {
         if(typeof console !== "undefined" && typeof console.log !== "undefined") {
           Function.prototype.apply.apply(console.log, [console, arguments]);
@@ -437,7 +438,7 @@
     for(i = 0, ilen =  options.data.feed.entry.length ; i < ilen; i++) {
       var source = options.data.feed.entry[i];
       var element = {};
-      for(var j = 0, jlen = this.column_names.length; j < jlen ; j++) {
+      for(j = 0, jlen = this.column_names.length; j < jlen ; j++) {
         var cell = source[ "gsx$" + this.column_names[j] ];
         if (typeof(cell) !== 'undefined') {
           if(options.parseNumbers && cell.$t !== '' && !isNaN(cell.$t))
@@ -475,7 +476,7 @@
       var cellurl = this.raw.feed.link[3].href.replace('/feeds/list/', '/feeds/cells/').replace('https://spreadsheets.google.com', '');
       var that = this;
       this.tabletop.requestData(cellurl, function(data) {
-        that.loadPrettyColumns(data)
+        that.loadPrettyColumns(data);
       });
     },
     
@@ -520,7 +521,6 @@
           ordered_pretty_names = [],
           i, j, ilen, jlen;
 
-      var ordered_pretty_names;
       for(j = 0, jlen = this.column_names.length; j < jlen ; j++) {
         ordered_pretty_names.push(this.pretty_columns[this.column_names[j]]);
       }

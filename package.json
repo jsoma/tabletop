@@ -24,5 +24,9 @@
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.11.2",
+    "jshint-stylish": "^2.0.0"
   }
 }

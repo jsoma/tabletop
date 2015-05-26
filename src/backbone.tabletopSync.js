@@ -5,11 +5,14 @@
 
   Backbone.tabletopSync only supports the 'read' method, and will fail
     loudly on any other operations
+    
 */
+
+'use strict';
 
 Backbone.tabletopSync = function(method, model, options, error) {
   // Backwards compatibility with Backbone <= 0.3.3
-  if (typeof options == 'function') {
+  if (typeof options === 'function') {
     options = {
       success: options,
       error: error
@@ -22,16 +25,16 @@ Backbone.tabletopSync = function(method, model, options, error) {
 
   var instance = tabletopOptions.instance;
 
-  if(typeof(instance) == "undefined") {
+  if(typeof(instance) === "undefined") {
     instance = Tabletop.init( { key: tabletopOptions.key,
                                 wanted: [ tabletopOptions.sheet ],
-                                wait: true } )
+                                wait: true } );
     tabletopOptions.instance = instance;
   } else {
     instance.addWanted(tabletopOptions.sheet);
   }
   
-  if(typeof(tabletopOptions.sheet) == "undefined") {
+  if(typeof(tabletopOptions.sheet) === "undefined") {
     return;
   }
   
@@ -47,7 +50,7 @@ Backbone.tabletopSync = function(method, model, options, error) {
 
     instance.fetch( function() {
       Backbone.tabletopSync(method, model, options, error);
-    })
+    });
     return;
   }
   
@@ -55,7 +58,7 @@ Backbone.tabletopSync = function(method, model, options, error) {
     case "read":
       if(model.id) {
         resp = _.find( sheet.all(), function(item) {
-          return model.id == item[model.idAttribute];
+          return model.id === item[model.idAttribute];
         }, this);
       } else {
         resp = sheet.all();
