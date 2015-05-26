@@ -69,7 +69,8 @@
     this.singleton = !!options.singleton;
     this.simple_url = !!options.simple_url;
     this.callbackContext = options.callbackContext;
-    this.prettyColumnNames = typeof(options.prettyColumnNames) == 'undefined' ? true : options.prettyColumnNames
+    // Default to on, unless there's a proxy, in which case it's default off
+    this.prettyColumnNames = typeof(options.prettyColumnNames) == 'undefined' ? !options.proxy : options.prettyColumnNames
     
     if(typeof(options.proxy) !== 'undefined') {
       // Remove trailing slash, it will break the app
@@ -78,7 +79,7 @@
       this.singleton = true;
       // Let's only use CORS (straight JSON request) when
       // fetching straight from Google
-      supportsCORS = false
+      supportsCORS = false;
     }
     
     this.parameterize = options.parameterize || false;
@@ -469,6 +470,7 @@
     fetchPrettyColumns: function() {
       if(!this.raw.feed.link[3])
         return this.ready();
+      this.log("Fetching pretty columns");
       var cellurl = this.raw.feed.link[3].href.replace('/feeds/list/', '/feeds/cells/').replace('https://spreadsheets.google.com', '');
       var that = this;
       this.tabletop.requestData(cellurl, function(data) {
