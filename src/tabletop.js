@@ -421,7 +421,9 @@
 
     if(typeof(options.data.feed.entry) === 'undefined') {
       options.tabletop.log("Missing data for " + this.name + ", make sure you didn't forget column headers");
+      this.original_columns = [];
       this.elements = [];
+      this.onReady.call(this);
       return;
     }
     
@@ -470,7 +472,6 @@
     fetchPrettyColumns: function() {
       if(!this.raw.feed.link[3])
         return this.ready();
-      this.log("Fetching pretty columns");
       var cellurl = this.raw.feed.link[3].href.replace('/feeds/list/', '/feeds/cells/').replace('https://spreadsheets.google.com', '');
       var that = this;
       this.tabletop.requestData(cellurl, function(data) {
