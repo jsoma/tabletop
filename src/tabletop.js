@@ -1,5 +1,5 @@
 (function(global) {
-  "use strict";
+  'use strict';
 
   var inNodeJS = false;
   if (typeof module !== 'undefined' && module.exports) {
@@ -14,7 +14,7 @@
     if (typeof testXHR.withCredentials !== 'undefined') {
       supportsCORS = true;
     } else {
-      if ("XDomainRequest" in window) {
+      if ('XDomainRequest' in window) {
         supportsCORS = true;
         inLegacyIE = true;
       }
@@ -31,8 +31,15 @@
   var ttIndexOf = function(array, item) {
     var i = 0, l = array.length;
     
-    if (indexOfProto && array.indexOf === indexOfProto) return array.indexOf(item);
-    for (; i < l; i++) if (array[i] === item) return i;
+    if (indexOfProto && array.indexOf === indexOfProto) {
+      return array.indexOf(item);
+    }
+    
+    for (; i < l; i++) {
+      if (array[i] === item) {
+        return i;
+      }
+    }
     return -1;
   };
   
@@ -65,9 +72,9 @@
     this.debug = !!options.debug;
     this.query = options.query || '';
     this.orderby = options.orderby;
-    this.endpoint = options.endpoint || "https://spreadsheets.google.com";
+    this.endpoint = options.endpoint || 'https://spreadsheets.google.com';
     this.singleton = !!options.singleton;
-    this.simple_url = !!options.simple_url;
+    this.simpleUrl = !!(options.simpleUrl || options.simple_url); //jshint ignore:line
     this.callbackContext = options.callbackContext;
     // Default to on, unless there's a proxy, in which case it's default off
     this.prettyColumnNames = typeof(options.prettyColumnNames) === 'undefined' ? !options.proxy : options.prettyColumnNames;
@@ -75,7 +82,7 @@
     if(typeof(options.proxy) !== 'undefined') {
       // Remove trailing slash, it will break the app
       this.endpoint = options.proxy.replace(/\/$/,'');
-      this.simple_url = true;
+      this.simpleUrl = true;
       this.singleton = true;
       // Let's only use CORS (straight JSON request) when
       // fetching straight from Google
@@ -84,40 +91,41 @@
     
     this.parameterize = options.parameterize || false;
     
-    if(this.singleton) {
-      if(typeof(Tabletop.singleton) !== 'undefined') {
-        this.log("WARNING! Tabletop singleton already defined");
+    if (this.singleton) {
+      if (typeof(Tabletop.singleton) !== 'undefined') {
+        this.log('WARNING! Tabletop singleton already defined');
       }
       Tabletop.singleton = this;
     }
     
     /* Be friendly about what you accept */
-    if(/key=/.test(this.key)) {
-      this.log("You passed an old Google Docs url as the key! Attempting to parse.");
-      this.key = this.key.match("key=(.*?)(&|#|$)")[1];
+    if (/key=/.test(this.key)) {
+      this.log('You passed an old Google Docs url as the key! Attempting to parse.');
+      this.key = this.key.match('key=(.*?)(&|#|$)')[1];
     }
 
-    if(/pubhtml/.test(this.key)) {
-      this.log("You passed a new Google Spreadsheets url as the key! Attempting to parse.");
-      this.key = this.key.match("d\\/(.*?)\\/pubhtml")[1];
+    if (/pubhtml/.test(this.key)) {
+      this.log('You passed a new Google Spreadsheets url as the key! Attempting to parse.');
+      this.key = this.key.match('d\\/(.*?)\\/pubhtml')[1];
     }
 
-    if(!this.key) {
-      this.log("You need to pass Tabletop a key!");
+    if (!this.key) {
+      this.log('You need to pass Tabletop a key!');
       return;
     }
 
-    this.log("Initializing with key " + this.key);
+    this.log('Initializing with key ' + this.key);
 
     this.models = {};
-    this.model_names = [];
+    this.modelNames = [];
+    this.model_names = this.modelNames; //jshint ignore:line
 
-    this.base_json_path = "/feeds/worksheets/" + this.key + "/public/basic?alt=";
+    this.baseJsonPath = '/feeds/worksheets/' + this.key + '/public/basic?alt=';
 
     if (inNodeJS || supportsCORS) {
-      this.base_json_path += 'json';
+      this.baseJsonPath += 'json';
     } else {
-      this.base_json_path += 'json-in-script';
+      this.baseJsonPath += 'json-in-script';
     }
     
     if(!this.wait) {
@@ -134,16 +142,16 @@
   };
 
   Tabletop.sheets = function() {
-    this.log("Times have changed! You'll want to use var tabletop = Tabletop.init(...); tabletop.sheets(...); instead of Tabletop.sheets(...)");
+    this.log('Times have changed! You\'ll want to use var tabletop = Tabletop.init(...); tabletop.sheets(...); instead of Tabletop.sheets(...)');
   };
 
   Tabletop.prototype = {
 
     fetch: function(callback) {
-      if(typeof(callback) !== "undefined") {
+      if (typeof(callback) !== 'undefined') {
         this.callback = callback;
       }
-      this.requestData(this.base_json_path, this.loadSheets);
+      this.requestData(this.baseJsonPath, this.loadSheets);
     },
     
     /*
@@ -157,7 +165,7 @@
       } else {
         //CORS only works in IE8/9 across the same protocol
         //You must have your server on HTTPS to talk to Google, or it'll fall back on injection
-        var protocol = this.endpoint.split("//").shift() || "http";
+        var protocol = this.endpoint.split('//').shift() || 'http';
         if (supportsCORS && (!inLegacyIE || protocol === location.protocol)) {
           this.xhrFetch(path, callback);
         } else {
@@ -172,7 +180,7 @@
     xhrFetch: function(path, callback) {
       //support IE8's separate cross-domain object
       var xhr = inLegacyIE ? new XDomainRequest() : new XMLHttpRequest();
-      xhr.open("GET", this.endpoint + path);
+      xhr.open('GET', this.endpoint + path);
       var self = this;
       xhr.onload = function() {
         var json;
@@ -197,8 +205,8 @@
       var script = document.createElement('script');
       var callbackName;
       
-      if(this.singleton) {
-        if(callback === this.loadSheets) {
+      if (this.singleton) {
+        if (callback === this.loadSheets) {
           callbackName = 'Tabletop.singleton.loadSheets';
         } else if (callback === this.loadSheet) {
           callbackName = 'Tabletop.singleton.loadSheet';
@@ -217,15 +225,15 @@
         callbackName = 'Tabletop.callbacks.' + callbackName;
       }
       
-      var url = path + "&callback=" + callbackName;
+      var url = path + '&callback=' + callbackName;
       
-      if(this.simple_url) {
+      if (this.simpleUrl) {
         // We've gone down a rabbit hole of passing injectScript the path, so let's
         // just pull the sheet_id out of the path like the least efficient worker bees
-        if(path.indexOf("/list/") !== -1) {
-          script.src = this.endpoint + "/" + this.key + "-" + path.split("/")[4];
+        if(path.indexOf('/list/') !== -1) {
+          script.src = this.endpoint + '/' + this.key + '-' + path.split('/')[4];
         } else {
-          script.src = this.endpoint + "/" + this.key;
+          script.src = this.endpoint + '/' + this.key;
         }
       } else {
         script.src = this.endpoint + url;
@@ -257,7 +265,7 @@
       Pulls all sheets if none are specified
     */
     isWanted: function(sheetName) {
-      if(this.wanted.length === 0) {
+      if (this.wanted.length === 0) {
         return true;
       } else {
         return (ttIndexOf(this.wanted, sheetName) !== -1);
@@ -272,14 +280,14 @@
     data: function() {
       // If the instance is being queried before the data's been fetched
       // then return undefined.
-      if(this.model_names.length === 0) {
+      if (this.modelNames.length === 0) {
         return undefined;
       }
-      if(this.simpleSheet) {
-        if(this.model_names.length > 1 && this.debug) {
-          this.log("WARNING You have more than one sheet but are using simple sheet mode! Don't blame me when something goes wrong.");
+      if (this.simpleSheet) {
+        if (this.modelNames.length > 1 && this.debug) {
+          this.log('WARNING You have more than one sheet but are using simple sheet mode! Don\'t blame me when something goes wrong.');
         }
-        return this.models[ this.model_names[0] ].all();
+        return this.models[this.modelNames[0]].all();
       } else {
         return this.models;
       }
@@ -307,28 +315,28 @@
       var toLoad = [];
       this.foundSheetNames = [];
 
-      for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
+      for (i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
         this.foundSheetNames.push(data.feed.entry[i].title.$t);
         // Only pull in desired sheets to reduce loading
-        if( this.isWanted(data.feed.entry[i].content.$t) ) {
+        if (this.isWanted(data.feed.entry[i].content.$t)) {
           var linkIdx = data.feed.entry[i].link.length-1;
-          var sheet_id = data.feed.entry[i].link[linkIdx].href.split('/').pop();
-          var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt=";
+          var sheetId = data.feed.entry[i].link[linkIdx].href.split('/').pop();
+          var jsonPath = '/feeds/list/' + this.key + '/' + sheetId + '/public/values?alt=';
           if (inNodeJS || supportsCORS) {
-            json_path += 'json';
+            jsonPath += 'json';
           } else {
-            json_path += 'json-in-script';
+            jsonPath += 'json-in-script';
           }
-          if(this.query) {
-            json_path += "&sq=" + this.query;
+          if (this.query) {
+            jsonPath += '&sq=' + this.query;
           }
-          if(this.orderby) {
-            json_path += "&orderby=column:" + this.orderby.toLowerCase();
+          if (this.orderby) {
+            jsonPath += '&orderby=column:' + this.orderby.toLowerCase();
           }
-          if(this.reverse) {
-            json_path += "&reverse=true";
+          if (this.reverse) {
+            jsonPath += '&reverse=true';
           }
-          toLoad.push(json_path);
+          toLoad.push(jsonPath);
         }
       }
 
@@ -344,27 +352,28 @@
       .sheets('Sheet1') gets you the sheet named Sheet1
     */
     sheets: function(sheetName) {
-      if(typeof sheetName === "undefined") {
+      if (typeof sheetName === 'undefined') {
         return this.models;
       } else {
-        if(typeof(this.models[ sheetName ]) === "undefined") {
+        if (typeof(this.models[sheetName]) === 'undefined') {
           // alert( "Can't find " + sheetName );
           return;
         } else {
-          return this.models[ sheetName ];
+          return this.models[sheetName];
         }
       }
     },
 
     sheetReady: function(model) {
-      this.models[ model.name ] = model;
-      if(ttIndexOf(this.model_names, model.name) === -1) {
-        this.model_names.push(model.name);
+      this.models[model.name] = model;
+      if (ttIndexOf(this.modelNames, model.name) === -1) {
+        this.modelNames.push(model.name);
       }
-
+      
       this.sheetsToLoad--;
-      if(this.sheetsToLoad === 0)
+      if (this.sheetsToLoad === 0) {
         this.doCallback();
+      }
     },
     
     /*
@@ -374,14 +383,16 @@
     */
     loadSheet: function(data) {
       var that = this;
-      new Tabletop.Model( { data: data, 
-                                        parseNumbers: this.parseNumbers,
-                                        postProcess: this.postProcess,
-                                        tabletop: this,
-                                        prettyColumnNames: this.prettyColumnNames,
-                                        onReady: function() {
-                                          that.sheetReady(this);
-                                        } } );
+      new Tabletop.Model({ 
+        data: data, 
+        parseNumbers: this.parseNumbers,
+        postProcess: this.postProcess,
+        tabletop: this,
+        prettyColumnNames: this.prettyColumnNames,
+        onReady: function() {
+          that.sheetReady(this);
+        } 
+      });
     },
 
     /*
@@ -397,7 +408,7 @@
 
     log: function() {
       if(this.debug) {
-        if(typeof console !== "undefined" && typeof console.log !== "undefined") {
+        if(typeof console !== 'undefined' && typeof console.log !== 'undefined') {
           Function.prototype.apply.apply(console.log, [console, arguments]);
         }
       }
@@ -413,53 +424,62 @@
   */
   Tabletop.Model = function(options) {
     var i, j, ilen, jlen;
-    this.column_names = [];
+    this.columnNames = [];
+    this.column_names = this.columnNames; // jshint ignore:line
     this.name = options.data.feed.title.$t;
     this.tabletop = options.tabletop;
     this.elements = [];
     this.onReady = options.onReady;
     this.raw = options.data; // A copy of the sheet's raw data, for accessing minutiae
 
-    if(typeof(options.data.feed.entry) === 'undefined') {
-      options.tabletop.log("Missing data for " + this.name + ", make sure you didn't forget column headers");
-      this.original_columns = [];
+    if (typeof(options.data.feed.entry) === 'undefined') {
+      options.tabletop.log('Missing data for ' + this.name + ', make sure you didn\'t forget column headers');
+      this.originalColumns = [];
       this.elements = [];
       this.onReady.call(this);
       return;
     }
     
-    for(var key in options.data.feed.entry[0]){
-      if(/^gsx/.test(key))
-        this.column_names.push( key.replace("gsx$","") );
+    for (var key in options.data.feed.entry[0]){
+      if (/^gsx/.test(key)) {
+        this.columnNames.push(key.replace('gsx$',''));
+      }
     }
 
-    this.original_columns = this.column_names;
+    this.originalColumns = this.columnNames;
+    this.original_columns = this.originalColumns; // jshint ignore:line
     
-    for(i = 0, ilen =  options.data.feed.entry.length ; i < ilen; i++) {
+    for (i = 0, ilen =  options.data.feed.entry.length ; i < ilen; i++) {
       var source = options.data.feed.entry[i];
       var element = {};
-      for(j = 0, jlen = this.column_names.length; j < jlen ; j++) {
-        var cell = source[ "gsx$" + this.column_names[j] ];
+      for (j = 0, jlen = this.columnNames.length; j < jlen ; j++) {
+        var cell = source['gsx$' + this.columnNames[j]];
         if (typeof(cell) !== 'undefined') {
-          if(options.parseNumbers && cell.$t !== '' && !isNaN(cell.$t))
-            element[ this.column_names[j] ] = +cell.$t;
-          else
-            element[ this.column_names[j] ] = cell.$t;
+          if (options.parseNumbers && cell.$t !== '' && !isNaN(cell.$t)) {
+            element[this.columnNames[j]] = +cell.$t;
+          } else {
+            element[this.columnNames[j]] = cell.$t;
+          }
         } else {
-            element[ this.column_names[j] ] = '';
+          element[this.columnNames[j]] = '';
         }
       }
-      if(element.rowNumber === undefined)
+      if (element.rowNumber === undefined) {
         element.rowNumber = i + 1;
-      if( options.postProcess )
+      }
+        
+      if (options.postProcess) {
         options.postProcess(element);
+      }
+        
       this.elements.push(element);
     }
     
-    if(options.prettyColumnNames)
+    if (options.prettyColumnNames) {
       this.fetchPrettyColumns();
-    else
+    } else {
       this.onReady.call(this);
+    }
   };
 
   Tabletop.Model.prototype = {
@@ -471,8 +491,10 @@
     },
     
     fetchPrettyColumns: function() {
-      if(!this.raw.feed.link[3])
+      if (!this.raw.feed.link[3]) {
         return this.ready();
+      }
+        
       var cellurl = this.raw.feed.link[3].href.replace('/feeds/list/', '/feeds/cells/').replace('https://spreadsheets.google.com', '');
       var that = this;
       this.tabletop.requestData(cellurl, function(data) {
@@ -490,23 +512,23 @@
      * and values of human-readable "Column name"
      */
     loadPrettyColumns: function(data) {
-      var pretty_columns = {};
+      var prettyColumns = {};
 
-      var column_names = this.column_names;
+      var columnNames = this.columnNames;
 
       var i = 0;
-      var l = column_names.length;
+      var l = columnNames.length;
 
       for (; i < l; i++) {
         if (typeof data.feed.entry[i].content.$t !== 'undefined') {
-          pretty_columns[column_names[i]] = data.feed.entry[i].content.$t;
+          prettyColumns[columnNames[i]] = data.feed.entry[i].content.$t;
         } else {
-          pretty_columns[column_names[i]] = column_names[i];
+          prettyColumns[columnNames[i]] = columnNames[i];
         }
       }
 
-      this.pretty_columns = pretty_columns;
-
+      this.prettyColumns = prettyColumns;
+      this.pretty_columns = this.prettyColumns; // jshint ignore:line
       this.prettifyElements();
       this.ready();
     },
@@ -517,24 +539,24 @@
      * with human-readable "Column name"
      */
     prettifyElements: function() {
-      var pretty_elements = [],
-          ordered_pretty_names = [],
+      var prettyElements = [],
+          orderedPrettyNames = [],
           i, j, ilen, jlen;
 
-      for(j = 0, jlen = this.column_names.length; j < jlen ; j++) {
-        ordered_pretty_names.push(this.pretty_columns[this.column_names[j]]);
+      for (j = 0, jlen = this.columnNames.length; j < jlen ; j++) {
+        orderedPrettyNames.push(this.prettyColumns[this.columnNames[j]]);
       }
 
-      for(i = 0, ilen = this.elements.length; i < ilen; i++) {
-        var new_element = {};
-        for(j = 0, jlen = this.column_names.length; j < jlen ; j++) {
-          var new_column_name = this.pretty_columns[this.column_names[j]];
-          new_element[new_column_name] = this.elements[i][this.column_names[j]];
+      for (i = 0, ilen = this.elements.length; i < ilen; i++) {
+        var newElement = {};
+        for (j = 0, jlen = this.columnNames.length; j < jlen ; j++) {
+          var newColumnName = this.prettyColumns[this.columnNames[j]];
+          newElement[newColumnName] = this.elements[i][this.columnNames[j]];
         }
-        pretty_elements.push(new_element);
+        prettyElements.push(newElement);
       }
-      this.elements = pretty_elements;
-      this.column_names = ordered_pretty_names;
+      this.elements = prettyElements;
+      this.columnNames = orderedPrettyNames;
     },
 
     /*
@@ -543,25 +565,25 @@
     toArray: function() {
       var array = [],
           i, j, ilen, jlen;
-      for(i = 0, ilen = this.elements.length; i < ilen; i++) {
+      for (i = 0, ilen = this.elements.length; i < ilen; i++) {
         var row = [];
-        for(j = 0, jlen = this.column_names.length; j < jlen ; j++) {
-          row.push( this.elements[i][ this.column_names[j] ] );
+        for (j = 0, jlen = this.columnNames.length; j < jlen ; j++) {
+          row.push(this.elements[i][ this.columnNames[j]]);
         }
         array.push(row);
       }
+      
       return array;
     }
   };
 
-  if(inNodeJS) {
+  if (inNodeJS) {
     module.exports = Tabletop;
   } else if (typeof define === 'function' && define.amd) {
     define(function () {
-        return Tabletop;
+      return Tabletop;
     });
   } else {
     global.Tabletop = Tabletop;
   }
-
 })(this);
