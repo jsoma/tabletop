@@ -18,13 +18,9 @@
   "readmeFilename": "README.md",
   "gitHead": "fdb1c3ee3bc0f7f3be6ab223a56f9f050fe32496",
   "dependencies": {
-    "browser-request": "^0.3.3",
     "grunt": "*",
     "grunt-contrib-connect": "*",
     "request": "~2.51.0"
-  },
-  "browser": {
-    "request": "browser-request"
   },
   "engines": {
     "node": ">=0.10.0"
