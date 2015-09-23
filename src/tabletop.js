@@ -1,10 +1,10 @@
-(function(global) {
+(function() {
   "use strict";
 
   var inNodeJS = false;
-  if (typeof module !== 'undefined' && module.exports) {
+  if (typeof process !== undefined && !process.browser) {
     inNodeJS = true;
-    var request = require('request');
+    var request = require('request'.trim()); //prevents browserify from bundling the module
   }
 
   var supportsCORS = false;
@@ -554,14 +554,14 @@
     }
   };
 
-  if(inNodeJS) {
+  if(typeof module !== "undefined" && module.exports) { //don't just use inNodeJS, we may be in Browserify
     module.exports = Tabletop;
   } else if (typeof define === 'function' && define.amd) {
     define(function () {
         return Tabletop;
     });
   } else {
-    global.Tabletop = Tabletop;
+    window.Tabletop = Tabletop;
   }
 
-})(this);
+})();
