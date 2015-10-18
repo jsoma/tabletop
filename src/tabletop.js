@@ -2,7 +2,7 @@
   "use strict";
 
   var inNodeJS = false;
-  if (typeof process !== undefined && !process.browser) {
+  if (typeof process !== "undefined" && !process.browser) {
     inNodeJS = true;
     var request = require('request'.trim()); //prevents browserify from bundling the module
   }
