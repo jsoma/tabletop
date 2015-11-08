@@ -9,10 +9,10 @@
 
     <script id="cat-template" type="text/underscore-template">
       <div class="entry">
-        <h2><%= name %>!</h2>
-        <h3>age <%= age %></h3>
+        <h2><%= Name %>!</h2>
+        <h3>age <%= Age %></h3>
         <div class="body">
-          <%= description %>
+          <%= Description %>
         </div>
       </div>
     </script>
@@ -40,7 +40,7 @@
        Can specify tabletop attributes, or you can do it on the collection
       */
       var Cat = Backbone.Model.extend({
-        idAttribute: 'name',
+        idAttribute: 'Name',
         tabletop: {
           instance: storage,
           sheet: 'Cats'
@@ -95,6 +95,8 @@
         $("#content").append( bosco_view.render().el );
         
         /*
+          NOT WORKING, NOT SURE WHY.
+          
           Fetching on models works as long as you've specified a sheet
           and an idAttribute for the Backbone.Model (you can always
           use rowNumber, it comes baked in to Tabletop)

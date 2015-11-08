@@ -2,11 +2,9 @@
 <html>
   <body>
 
-    <p>Food sorted by 'name' column, reversed:</p>
+    <p>Food sorted by 'Name' column, reversed:</p>
     <p id="food"></p>
     
-    <p>If you're using orderby, you'll need to strip spaces and capital letters out of your column names (e.g. 'firstname' instead of 'First Name')</p>
-
     <script type="text/javascript" src="../../src/tabletop.js"></script>
     <script type="text/javascript">
       window.onload = function() { init() };
@@ -20,13 +18,13 @@
         Tabletop.init( { key: public_spreadsheet_url,
                          callback: showInfo,
                          simpleSheet: true,
-                         orderby: 'name',
+                         orderby: 'Name',
                          reverse: true } );
       }
 
       function showInfo(data) {
         // data comes through as a simple array since simpleSheet is turned on
-        document.getElementById("food").innerHTML = "<strong>Foods:</strong> " + [ data[0].name, data[1].name, data[2].name ].join(", ");
+        document.getElementById("food").innerHTML = "<strong>Foods:</strong> " + [ data[0].Name, data[1].Name, data[2].Name ].join(", ");
         console.log(data);
       }
 

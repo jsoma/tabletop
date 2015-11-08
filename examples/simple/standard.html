@@ -32,7 +32,7 @@
         });
 
         $.each( tabletop.sheets("Cats").all(), function(i, cat) {
-          var cat_li = $('<li><h4>' + cat.name + '</h4></li>')
+          var cat_li = $('<li><h4>' + cat.Name + '</h4></li>')
           cat_li.append(cat.description);
           cat_li.appendTo("#cats");
         })
