@@ -304,6 +304,7 @@
     loadSheets: function(data) {
       var i, ilen;
       var toLoad = [];
+      this.googleSheetName = data.feed.title.$t;
       this.foundSheetNames = [];
 
       for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
