@@ -245,12 +245,6 @@ You can point `proxy` at anything you'd like as long as it has `KEY` and `KEY-SH
 
 # Notes
 
-## The time Google broke Tabletop
-
-**This shouldn't be an issue any more, but just in case...**
-
-If you're signed in to Google, and your session expires, Google requires you to sign in to view published spreadsheets (it's a bug!). We work around this by using CORS to make requests when we can, which [most browsers support](http://caniuse.com/cors). If you still run into trouble you can use a proxy like [Flatware](https://github.com/jsoma/flatware) or [table-service](https://github.com/martinburch/table-service) (or your own proxying solution). 
-
 ## Strange behavior
 
 **Empty tables are trouble.** We can't get column names from them (c'mon, Google!), so don't be too confused when a table with 0 rows is coming back with an empty `.column_names` or your code starts throwing weird errors when processing the results.
