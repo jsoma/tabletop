@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "node examples/nodejs/test.js"
+    "test": "snyk test && node examples/nodejs/test.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,10 @@
   "dependencies": {
     "grunt": "*",
     "grunt-contrib-connect": "*",
-    "request": "~2.51.0"
+    "request": "^2.68.0"
+  },
+  "devDependencies": {
+    "snyk": "^1.13.3"
   },
   "engines": {
     "node": ">=0.10.0"
