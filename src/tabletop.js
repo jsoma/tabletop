@@ -103,7 +103,7 @@
     }
     
     if(/spreadsheets\/d/.test(this.key)) {
-      this.log("You passed a new Google Spreadsheets url as the key! Attempting to parse.");
+      this.log("You passed the most recent version of Google Spreadsheets url as the key! Attempting to parse.");
       this.key = this.key.match("d\\/(.*?)\/")[1];
     }
 
