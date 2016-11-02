@@ -101,6 +101,11 @@
       this.log("You passed a new Google Spreadsheets url as the key! Attempting to parse.");
       this.key = this.key.match("d\\/(.*?)\\/pubhtml")[1];
     }
+    
+    if(/spreadsheets\/d/.test(this.key)) {
+      this.log("You passed a new Google Spreadsheets url as the key! Attempting to parse.");
+      this.key = this.key.match("d\\/(.*?)\/")[1];
+    }
 
     if(!this.key) {
       this.log("You need to pass Tabletop a key!");
