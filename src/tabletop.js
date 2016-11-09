@@ -55,6 +55,7 @@
     }
 
     this.callback = options.callback;
+    this.errorCallback = options.errorCallback;
     this.wanted = options.wanted || [];
     this.key = options.key;
     this.simpleSheet = !!options.simpleSheet;
@@ -144,11 +145,14 @@
 
   Tabletop.prototype = {
 
-    fetch: function(callback) {
+    fetch: function(callback, errorCallback) {
       if(typeof(callback) !== "undefined") {
         this.callback = callback;
       }
-      this.requestData(this.base_json_path, this.loadSheets);
+      if(typeof(errorCallback) !== "undefined") {
+        this.errorCallback = errorCallback;
+      }
+      this.requestData(this.base_json_path, this.loadSheets, this.errorCallback);
     },
     
     /*
@@ -156,17 +160,17 @@
       
       In browser it will use JSON-P, in node it will use request()
     */
-    requestData: function(path, callback) {
+    requestData: function(path, callback, errorCallback) {
       if (inNodeJS) {
-        this.serverSideFetch(path, callback);
+        this.serverSideFetch(path, callback, errorCallback);
       } else {
         //CORS only works in IE8/9 across the same protocol
         //You must have your server on HTTPS to talk to Google, or it'll fall back on injection
         var protocol = this.endpoint.split("//").shift() || "http";
         if (supportsCORS && (!inLegacyIE || protocol === location.protocol)) {
-          this.xhrFetch(path, callback);
+          this.xhrFetch(path, callback, errorCallback);
         } else {
-          this.injectScript(path, callback);
+          this.injectScript(path, callback, errorCallback);
         }
       }
     },
@@ -174,7 +178,7 @@
     /*
       Use Cross-Origin XMLHttpRequest to get the data in browsers that support it.
     */
-    xhrFetch: function(path, callback) {
+    xhrFetch: function(path, callback, errorCallback) {
       //support IE8's separate cross-domain object
       var xhr = inLegacyIE ? new XDomainRequest() : new XMLHttpRequest();
       xhr.open("GET", this.endpoint + path);
@@ -184,6 +188,7 @@
           var json = JSON.parse(xhr.responseText);
         } catch (e) {
           console.error(e);
+          errorCallback.call(self, e);
         }
         callback.call(self, json);
       };
@@ -197,7 +202,7 @@
 
       Let's be plain-Jane and not use jQuery or anything.
     */
-    injectScript: function(path, callback) {
+    injectScript: function(path, callback, errorCallback) {
       var script = document.createElement('script');
       var callbackName;
       
@@ -238,6 +243,10 @@
       if (this.parameterize) {
         script.src = this.parameterize + encodeURIComponent(script.src);
       }
+
+      script.onError = function (e) {
+          errorCallback(self, e);
+      };
       
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
     },
@@ -245,10 +254,11 @@
     /* 
       This will only run if tabletop is being run in node.js
     */
-    serverSideFetch: function(path, callback) {
+    serverSideFetch: function(path, callback, errorCallback) {
       var self = this
       request({url: this.endpoint + path, json: true}, function(err, resp, body) {
         if (err) {
+          errorCallback.call(self, err);
           return console.error(err);
         }
         callback.call(self, body);
