@@ -311,7 +311,8 @@
       var toLoad = [];
       this.foundSheetNames = [];
       if (!data || !data.feed) {
-        this.callback(null, null, data)
+        var errorMessage = "The spreadsheet at this URL could not be found. Make sure that you have the right URL and that the owner of the spreadsheet has not deleted it.";
+        this.callback(null, null, data || errorMessage)
       } else {
         for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
           this.foundSheetNames.push(data.feed.entry[i].title.$t);
