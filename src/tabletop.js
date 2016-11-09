@@ -309,31 +309,34 @@
     loadSheets: function(data) {
       var i, ilen;
       var toLoad = [];
-      this.googleSheetName = data.feed.title.$t;
       this.foundSheetNames = [];
-
-      for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
-        this.foundSheetNames.push(data.feed.entry[i].title.$t);
-        // Only pull in desired sheets to reduce loading
-        if( this.isWanted(data.feed.entry[i].content.$t) ) {
-          var linkIdx = data.feed.entry[i].link.length-1;
-          var sheet_id = data.feed.entry[i].link[linkIdx].href.split('/').pop();
-          var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt="
-          if (inNodeJS || supportsCORS) {
-            json_path += 'json';
-          } else {
-            json_path += 'json-in-script';
+      if (!data || !data.feed) {
+        var errorMessage = "The spreadsheet at this URL could not be found. Make sure that you have the right URL and that the owner of the spreadsheet has not deleted it.";
+        this.callback(null, null, data || errorMessage)
+      } else {
+        for(i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
+          this.foundSheetNames.push(data.feed.entry[i].title.$t);
+          // Only pull in desired sheets to reduce loading
+          if( this.isWanted(data.feed.entry[i].content.$t) ) {
+            var linkIdx = data.feed.entry[i].link.length-1;
+            var sheet_id = data.feed.entry[i].link[linkIdx].href.split('/').pop();
+            var json_path = "/feeds/list/" + this.key + "/" + sheet_id + "/public/values?alt="
+            if (inNodeJS || supportsCORS) {
+              json_path += 'json';
+            } else {
+              json_path += 'json-in-script';
+            }
+            if(this.query) {
+              json_path += "&sq=" + this.query;
+            }
+            if(this.orderby) {
+              json_path += "&orderby=column:" + this.orderby.toLowerCase();
+            }
+            if(this.reverse) {
+              json_path += "&reverse=true";
+            }
+            toLoad.push(json_path);
           }
-          if(this.query) {
-            json_path += "&sq=" + this.query;
-          }
-          if(this.orderby) {
-            json_path += "&orderby=column:" + this.orderby.toLowerCase();
-          }
-          if(this.reverse) {
-            json_path += "&reverse=true";
-          }
-          toLoad.push(json_path);
         }
       }
 
