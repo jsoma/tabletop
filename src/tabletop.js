@@ -325,7 +325,8 @@
             json_path += 'json-in-script';
           }
           if(this.query) {
-            json_path += "&sq=" + this.query;
+            // Query Language Reference (0.7)
+            json_path += "&tq=" + this.query;
           }
           if(this.orderby) {
             json_path += "&orderby=column:" + this.orderby.toLowerCase();
