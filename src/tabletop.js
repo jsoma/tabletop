@@ -114,7 +114,7 @@
        * FIXED: This used to say to pass Tabletop a key. But the problem I experienced was that the URL validation did not pass, due to missing parts like /pubhtml/ or /spreadsheets\d/, etc. So, I think this is a better message – it suggests clearly that the URL is in the wrong format, prior to even attempting fetching.
        */
     if(!this.key) {
-      this.log("You need to pass Tabletop a URL in a valid format!");
+      this.log("You need to pass Tabletop an URL in a valid format!");
       return;
     }
 
