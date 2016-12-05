@@ -102,7 +102,7 @@
        */
     if(/pubhtml/.test(this.key)) {
       this.log("You passed a new Google Spreadsheets url as the key! Attempting to parse.");
-      const match = this.key.match("d\\/(.*?)\\/pubhtml")
+      var match = this.key.match("d\\/(.*?)\\/pubhtml")
       this.key = match ? match[1] : this.key;
     }
 
@@ -186,10 +186,9 @@
       xhr.open("GET", this.endpoint + path);
       var self = this;
       xhr.onload = function() {
-        console.warn("xhr.onload: " + xhr.status);
-          if(xhr.status > 200) {
-              return self.callback.call(self, xhr.status)
-          }
+        if(xhr.status >= 400) {
+          return self.callback.call(self, xhr.status)
+        }
         try {
           var json = JSON.parse(xhr.responseText);
         } catch (e) {
