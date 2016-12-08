@@ -22,7 +22,7 @@
   } catch (e) { }
 
   // Create a simple indexOf function for support
-  // of older browsers.  Uses native indexOf if 
+  // of older browsers.  Uses native indexOf if
   // available.  Code similar to underscores.
   // By making a separate function, instead of adding
   // to the prototype, we will not break bad for loops
@@ -30,12 +30,12 @@
   var indexOfProto = Array.prototype.indexOf;
   var ttIndexOf = function(array, item) {
     var i = 0, l = array.length;
-    
+
     if (indexOfProto && array.indexOf === indexOfProto) return array.indexOf(item);
     for (; i < l; i++) if (array[i] === item) return i;
     return -1;
   };
-  
+
   /*
     Initialize with Tabletop.init( { key: '0AjAPaAU9MeLFdHUxTlJiVVRYNGRJQnRmSnQwTlpoUXc' } )
       OR!
@@ -49,7 +49,7 @@
     if(!this || !(this instanceof Tabletop)) {
       return new Tabletop(options);
     }
-    
+
     if(typeof(options) === 'string') {
       options = { key : options };
     }
@@ -71,7 +71,7 @@
     this.callbackContext = options.callbackContext;
     // Default to on, unless there's a proxy, in which case it's default off
     this.prettyColumnNames = typeof(options.prettyColumnNames) == 'undefined' ? !options.proxy : options.prettyColumnNames
-    
+
     if(typeof(options.proxy) !== 'undefined') {
       // Remove trailing slash, it will break the app
       this.endpoint = options.proxy.replace(/\/$/,'');
@@ -81,34 +81,40 @@
       // fetching straight from Google
       supportsCORS = false;
     }
-    
+
     this.parameterize = options.parameterize || false;
-    
+
     if(this.singleton) {
       if(typeof(Tabletop.singleton) !== 'undefined') {
         this.log("WARNING! Tabletop singleton already defined");
       }
       Tabletop.singleton = this;
     }
-    
+
     /* Be friendly about what you accept */
     if(/key=/.test(this.key)) {
       this.log("You passed an old Google Docs url as the key! Attempting to parse.");
       this.key = this.key.match("key=(.*?)(&|#|$)")[1];
     }
-
+      /*
+        FIXED: The first RegEx test /pubhtml/ has a lower degree of specificity than the following match. This leads JS to throw an error when there is no match, because accessing [1] on an empty array throws an error. The error I experienced can be simulated by including pubhtml at the end while substituting /d/ for something else. E.g. this URL would throw an error:
+        https://docs.google.com/spreadshsadfeets/a/1Pmuwz6asdffOpomoRUpFZvLJL3Dz403fD2HcVqQW8cOYs4A/pubhtml
+       */
     if(/pubhtml/.test(this.key)) {
       this.log("You passed a new Google Spreadsheets url as the key! Attempting to parse.");
-      this.key = this.key.match("d\\/(.*?)\\/pubhtml")[1];
+      var match = this.key.match("d\\/(.*?)\\/pubhtml")
+      this.key = match ? match[1] : this.key;
     }
-    
+
     if(/spreadsheets\/d/.test(this.key)) {
       this.log("You passed the most recent version of Google Spreadsheets url as the key! Attempting to parse.");
       this.key = this.key.match("d\\/(.*?)\/")[1];
     }
-
+      /**
+       * FIXED: This used to say to pass Tabletop a key. But the problem I experienced was that the URL validation did not pass, due to missing parts like /pubhtml/ or /spreadsheets\d/, etc. So, I think this is a better message – it suggests clearly that the URL is in the wrong format, prior to even attempting fetching.
+       */
     if(!this.key) {
-      this.log("You need to pass Tabletop a key!");
+      this.log("You need to pass Tabletop an URL in a valid format!");
       return;
     }
 
@@ -124,7 +130,7 @@
     } else {
       this.base_json_path += 'json-in-script';
     }
-    
+
     if(!this.wait) {
       this.fetch();
     }
@@ -150,10 +156,10 @@
       }
       this.requestData(this.base_json_path, this.loadSheets);
     },
-    
+
     /*
       This will call the environment appropriate request method.
-      
+
       In browser it will use JSON-P, in node it will use request()
     */
     requestData: function(path, callback) {
@@ -180,16 +186,20 @@
       xhr.open("GET", this.endpoint + path);
       var self = this;
       xhr.onload = function() {
+        if(xhr.status >= 400) {
+          return self.callback.call(self, xhr.status)
+        }
         try {
           var json = JSON.parse(xhr.responseText);
         } catch (e) {
           console.error(e);
         }
-        callback.call(self, json);
+        callback.call(self, null, json);
       };
+
       xhr.send();
     },
-    
+
     /*
       Insert the URL into the page as a script tag. Once it's loaded the spreadsheet data
       it triggers the callback. This helps you avoid cross-domain errors
@@ -200,7 +210,7 @@
     injectScript: function(path, callback) {
       var script = document.createElement('script');
       var callbackName;
-      
+
       if(this.singleton) {
         if(callback === this.loadSheets) {
           callbackName = 'Tabletop.singleton.loadSheets';
@@ -220,9 +230,9 @@
         };
         callbackName = 'Tabletop.callbacks.' + callbackName;
       }
-      
+
       var url = path + "&callback=" + callbackName;
-      
+
       if(this.simple_url) {
         // We've gone down a rabbit hole of passing injectScript the path, so let's
         // just pull the sheet_id out of the path like the least efficient worker bees
@@ -234,15 +244,15 @@
       } else {
         script.src = this.endpoint + url;
       }
-      
+
       if (this.parameterize) {
         script.src = this.parameterize + encodeURIComponent(script.src);
       }
-      
+
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
     },
-    
-    /* 
+
+    /*
       This will only run if tabletop is being run in node.js
     */
     serverSideFetch: function(path, callback) {
@@ -255,7 +265,7 @@
       });
     },
 
-    /* 
+    /*
       Is this a sheet you want to pull?
       If { wanted: ["Sheet1"] } has been specified, only Sheet1 is imported
       Pulls all sheets if none are specified
@@ -267,7 +277,7 @@
         return (ttIndexOf(this.wanted, sheetName) !== -1);
       }
     },
-    
+
     /*
       What gets send to the callback
       if simpleSheet === true, then don't return an array of Tabletop.this.models,
@@ -297,7 +307,7 @@
         this.wanted.push(sheet);
       }
     },
-    
+
     /*
       Load all worksheets of the spreadsheet, turning each into a Tabletop Model.
       Need to use injectScript because the worksheet view that you're working from
@@ -372,7 +382,7 @@
       if(this.sheetsToLoad === 0)
         this.doCallback();
     },
-    
+
     /*
       Parse a single list-based worksheet, turning it into a Tabletop Model
 
@@ -380,7 +390,7 @@
     */
     loadSheet: function(data) {
       var that = this;
-      var model = new Tabletop.Model( { data: data, 
+      var model = new Tabletop.Model( { data: data,
                                         parseNumbers: this.parseNumbers,
                                         postProcess: this.postProcess,
                                         tabletop: this,
@@ -397,7 +407,7 @@
     */
     doCallback: function() {
       if(this.sheetsToLoad === 0) {
-        this.callback.apply(this.callbackContext || this, [this.data(), this]);
+        this.callback.apply(this.callbackContext || this, null, [this.data(), this]);
       }
     },
 
@@ -433,14 +443,14 @@
       this.onReady.call(this);
       return;
     }
-    
+
     for(var key in options.data.feed.entry[0]){
       if(/^gsx/.test(key))
         this.column_names.push( key.replace("gsx$","") );
     }
 
     this.original_columns = this.column_names;
-    
+
     for(i = 0, ilen =  options.data.feed.entry.length ; i < ilen; i++) {
       var source = options.data.feed.entry[i];
       var element = {};
@@ -461,7 +471,7 @@
         options.postProcess(element);
       this.elements.push(element);
     }
-    
+
     if(options.prettyColumnNames)
       this.fetchPrettyColumns();
     else
@@ -475,7 +485,7 @@
     all: function() {
       return this.elements;
     },
-    
+
     fetchPrettyColumns: function() {
       if(!this.raw.feed.link[3])
         return this.ready();
@@ -485,11 +495,11 @@
         that.loadPrettyColumns(data)
       });
     },
-    
+
     ready: function() {
       this.onReady.call(this);
     },
-    
+
     /*
      * Store column names as an object
      * with keys of Google-formatted "columnName"
@@ -516,7 +526,7 @@
       this.prettifyElements();
       this.ready();
     },
-    
+
     /*
      * Go through each row, substitutiting
      * Google-formatted "columnName"
