@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha"
+    "test": "node node_modules/mocha/bin/mocha && node node_modules/nsp/bin/nsp check"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,8 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
-    "request": "~2.51.0"
+    "nsp": "^2.6.2",
+    "request": "^2.51.0"
   },
   "engines": {
     "node": ">=0.10.0"
