@@ -41,6 +41,8 @@ In Google Docs, then go up to the `File` menu and pick `Publish to the web`. Fid
 
 Copy that! In theory you're interested in the `1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc` part but you can use the whole thing if you want.
 
+> **Note:** For an unknown reason that URL sometimes doesn't work, especially if it has a `/d/e` in it. If you get an error, 1) Open your spreadsheet, 2) Click the **Share** link in the upper right-hand corner, 3) `Change...` access to "On - Anyone with a link", and 4) try the URL Google provides you.
+
 ### 2) Setting up Tabletop
 
 _Now you're going to feed your spreadsheet into Tabletop_
