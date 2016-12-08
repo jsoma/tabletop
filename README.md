@@ -4,7 +4,7 @@
 
 Tabletop.js easily integrates Google Spreadsheets with templating systems and anything else that is hip and cool. It will also help you make new friends and play jazz piano.
 
-![Build Status](https://travis-ci.org/jsoma/tabletop.svg?branch=master)](https://travis-ci.org/jsoma/tabletop)
+[![Build Status](https://travis-ci.org/jsoma/tabletop.svg?branch=master)](https://travis-ci.org/jsoma/tabletop)
 
 ### Like how easy?
 
