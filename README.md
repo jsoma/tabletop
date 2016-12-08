@@ -120,11 +120,11 @@ You pass in either `key` as the actual spreadsheet key, or just the full publish
 
 `callbackContext` sets the `this` for your callback. It's the tabletop object by default.
 
-`prettyColumnNames` can be true or false (default to true, unless `proxy` is enabled**). Since Google doesn't pass us exactly the same column names as in the header ('$ Processed' becomes 'processed'), it takes an extra request to correct them. If you don't want the extra request, you'll want to set it to `false`
+`prettyColumnNames` can be true or false (default to true, unless `proxy` is enabled&dagger;). Since Google doesn't pass us exactly the same column names as in the header ('$ Processed' becomes 'processed'), it takes an extra request to correct them. If you don't want the extra request, you'll want to set it to `false`
 
-> See the **unfriendly_headers** example for more info. Only works for newer Google Sheets.
+See the **unfriendly_headers** example for more info. Only works for newer Google Sheets.
 
-> ** prettyColumnNames doesn't work with [Flatware](https://github.com/jsoma/flatware), is why we disable it with a proxy by default
+> &dagger; prettyColumnNames doesn't work with [Flatware](https://github.com/jsoma/flatware), is why we disable it with a proxy by default
 
 ### Tabletop itself
 
