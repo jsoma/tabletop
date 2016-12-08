@@ -25,8 +25,7 @@ describe('2011-ish era spreadsheets', function() {
       callback: function(data, tabletop) {
         assert(tabletop.sheets('Sheet1'), 'can access Sheet1')
         done()
-      },
-      simpleSheet: true
+      }
     })
   })
 });
@@ -49,8 +48,7 @@ describe('2014-ish era spreadsheets', function() {
       callback: function(data, tabletop) {
         assert(tabletop.sheets('Sheet1'), 'can access Sheet1')
         done()
-      },
-      simpleSheet: true
+      }
     })
   })
 });

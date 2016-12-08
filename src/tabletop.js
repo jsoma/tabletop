@@ -157,6 +157,8 @@
       In browser it will use JSON-P, in node it will use request()
     */
     requestData: function(path, callback) {
+      this.log("Requesting", path)
+
       if (inNodeJS) {
         this.serverSideFetch(path, callback);
       } else {
@@ -238,7 +240,9 @@
       if (this.parameterize) {
         script.src = this.parameterize + encodeURIComponent(script.src);
       }
-      
+
+      this.log("Injecting", script.src)
+
       document.getElementsByTagName('script')[0].parentNode.appendChild(script);
     },
     
@@ -247,6 +251,9 @@
     */
     serverSideFetch: function(path, callback) {
       var self = this
+      
+      this.log("Fetching", this.endpoint + path)
+      
       request({url: this.endpoint + path, json: true}, function(err, resp, body) {
         if (err) {
           return console.error(err);
