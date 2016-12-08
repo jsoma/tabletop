@@ -37,9 +37,9 @@ Take a Google Spreadsheet. Give it some column headers, give it some content.
     Pork Shoulder   Meat       Questionable
     Bubblegum       Candy      Super High
   
-In Google Docs, then go up to the `File` menu and pick `Publish to the web`. Fiddle with whatever you want, then click `Start publishing`. A URL will appear, something like `https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html`
+In Google Docs, then go up to the `File` menu and pick `Publish to the web`. Fiddle with whatever you want, then click `Start publishing`. A URL will appear, something like `https://docs.google.com/spreadsheets/d/1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc/pubhtml` (although it might look different if you're using an especially old or new Sheet).
 
-Copy that! In theory you're interested in the part between `key=` and `&` but you can use the whole thing if you want.
+Copy that! In theory you're interested in the `1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc` part but you can use the whole thing if you want.
 
 ### 2) Setting up Tabletop
 
@@ -50,7 +50,7 @@ Include Tabletop in your HTML, then try the following, substituting your URL for
     <script type="text/javascript">
       window.onload = function() { init() };
     
-      var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc/pubhtml';
 
       function init() {
         Tabletop.init( { key: public_spreadsheet_url,
