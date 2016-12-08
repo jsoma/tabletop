@@ -2,7 +2,9 @@
 
 **Tabletop.js** takes a Google Spreadsheet and makes it easily accessible through JavaScript. With zero dependencies! If you've ever wanted to get JSON from a Google Spreadsheet without jumping through a thousand hoops, welcome home.
 
-Tabletop.js easily integrates Google Spreadsheets with Backbone.js, Handlebars, and anything else that is hip and cool. It will also help you make new friends and play jazz piano.
+Tabletop.js easily integrates Google Spreadsheets with templating systems and anything else that is hip and cool. It will also help you make new friends and play jazz piano.
+
+![Build Status](https://travis-ci.org/jsoma/tabletop.svg?branch=master)](https://travis-ci.org/jsoma/tabletop)
 
 ### Like how easy?
 
