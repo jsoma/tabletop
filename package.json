@@ -7,19 +7,21 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "node examples/nodejs/test.js"
+    "test": "node node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/jsoma/tabletop.git"
   },
-  "author": "",
-  "license": "BSD",
+  "author": "Jonathan Soma <jonathan.soma@gmail.com>",
+  "license": "MIT",
   "readmeFilename": "README.md",
   "gitHead": "fdb1c3ee3bc0f7f3be6ab223a56f9f050fe32496",
   "devDependencies": {
+    "chai": "^3.5.0",
     "grunt": "*",
     "grunt-contrib-connect": "*",
+    "mocha": "^3.2.0"
   },
   "dependencies": {
     "request": "~2.51.0"
