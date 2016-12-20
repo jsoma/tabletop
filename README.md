@@ -13,7 +13,7 @@ Tabletop.js easily integrates Google Spreadsheets with templating systems and an
 **Step Two:** Write a page that invokes Tabletop with the published URL Google gives you.
 
     function init() {
-      Tabletop.init( { key: '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE',
+      Tabletop.init( { key: 'https://docs.google.com/spreadsheets/d/0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE/pubhtml',
                        callback: function(data, tabletop) { 
 	                       console.log(data)
                        },
@@ -27,6 +27,8 @@ Tabletop.js easily integrates Google Spreadsheets with templating systems and an
       { name: "Bubblegum", category: "Candy", healthiness: "Super High"} ]
 
 Yes, it's that easy.
+
+**NOTE:** If your share URL has a `/d/e` in it, keep reading a little more.
 
 ## Getting Started
 
@@ -45,7 +47,7 @@ Now go up to the `File` menu and pick `Publish to the web`. Fiddle with the opti
 
 Copy that! In theory you're interested in the `1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc` but you can use the whole thing if you want.
 
-> **Note:** For an unknown reason that URL sometimes doesn't work, especially if it has a `/d/e` in it. If you get an error, 1) Open your spreadsheet, 2) Click the **Share** link in the upper right-hand corner, 3) `Change...` access to "On - Anyone with a link", and 4) try the URL Google provides you.
+**NOTE:** For an unknown reason **the Publish to Web URL sometimes doesn't work**, especially if it has a `/d/e` in it. If you get an error, 1) Open your spreadsheet, 2) Click the **Share** link in the upper right-hand corner, 3) `Change...` access to "On - Anyone with a link", and 4) try the URL Google provides you.
 
 ### 2) Setting up Tabletop
 
