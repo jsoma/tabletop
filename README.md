@@ -53,15 +53,15 @@ Copy that! In theory you're interested in the `1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMO
 
 _Now you're going to feed your spreadsheet into Tabletop_
 
-Include the Tabletop JavaScript file in your HTML, then try the following, substituting your URL for `public_spreadsheet_url`
+Include the Tabletop JavaScript file in your HTML, then try the following, substituting your URL for `publicSpreadsheetUrl`
 
     <script type="text/javascript">
       window.onload = function() { init() };
     
-      var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc/pubhtml';
+      var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc/pubhtml';
 
       function init() {
-        Tabletop.init( { key: public_spreadsheet_url,
+        Tabletop.init( { key: publicSpreadsheetUrl,
                          callback: showInfo,
                          simpleSheet: true } )
       }
@@ -151,7 +151,7 @@ For example:
 
 #### simple_url
 
-`simple_url`, if true, changes all requests to `KEY` and `KEY-SHEET_ID`. Defaults to `false`.
+`simpleUrl`, if true, changes all requests to `KEY` and `KEY-SHEET_ID`. Defaults to `false`.
 
 #### proxy
 
@@ -173,15 +173,13 @@ For example:
 
 `parameterize` changes the src of all injected scripts. Instead of `src`, `src` is URI encoded and appended to `parameterize`, e.g. set it to `http://example.herokuapp.com/?url=`. Mostly for [gs-proxy](https://github.com/MinnPost/gs-proxy).
 
-#### callbackCOntext
+#### callbackContext
 
 `callbackContext` sets the `this` for your callback. It's the tabletop object by default.
 
 #### prettyColumnNames
 
 `prettyColumnNames` can be true or false (default to true, unless `proxy` is enabled&dagger;). Since Google doesn't pass us exactly the same column names as in the header ('$ Processed' becomes 'processed'), it takes an extra request to correct them. If you don't want the extra request, you'll want to set it to `false`
-
-See the **unfriendly_headers** example for more info. Only works for newer Google Sheets.
 
 > &dagger; prettyColumnNames doesn't work with [Flatware](https://github.com/jsoma/flatware), is why we disable it with a proxy by default
 
@@ -195,9 +193,9 @@ Once you've initialized a `tabletop` object you can access its good parts.
 
 `.sheets(name)` is how you access a specific sheet. Say I have a worksheet called **Cats I Know**, I'll access it via `tabletop.sheets("Cats I Know")`
 
-#### .model_names
+#### .modelNames
 
-`.model_names` are the names of the models [read: sheets] that Tabletop knows about. The sheet names do *not* reflect their ordering in the original spreadsheet.
+`.modelNames` are the names of the models [read: sheets] that Tabletop knows about. The sheet names do *not* reflect their ordering in the original spreadsheet.
 
 #### .foundSheetNames
 
@@ -223,17 +221,17 @@ Tabletop refers to sheets as **Models,** which have a few extra abilities compar
 
 `.name` is the name of the worksheet it came from (the tab at the bottom of the spreadsheet)
 
-#### .column_names
+#### .columnNames
 
-`.column_names` gives you the names of the columns in that table
+`.columnNames` gives you the names of the columns in that table
 
-#### .original_columns
+#### .originalColumns
 
-`.original_columns` gives you the names of the columns that Google sends on the first pass (numbers stripped, lowercase, etc)
+`.originalColumns` gives you the names of the columns that Google sends on the first pass (numbers stripped, lowercase, etc)
 
-#### .pretty_columns
+#### .prettyColumns
 
-`.pretty_columns` gives you the mapping between the column headers in the spreadsheet and the and the `column_names`. Disabled by passing `prettyColumnNames: false` when initializing Tabletop.
+`.prettyColumns` gives you the mapping between the column headers in the spreadsheet and the and the `columnNames`. Disabled by passing `prettyColumnNames: false` when initializing Tabletop.
 
 #### .all()
 
