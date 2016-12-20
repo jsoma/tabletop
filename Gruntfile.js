@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
-    grunt.loadNpmTasks("grunt-contrib-connect");
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     grunt.initConfig({
         connect: {
@@ -13,11 +14,21 @@ module.exports = function(grunt) {
                 options: {
                     port: 8081,
                     keepalive: true,
-                    protocol: "https"
+                    protocol: 'https'
                 }
+            }
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            my_target: {
+              files: {
+                'src/tabletop.min.js': ['src/tabletop.js']
+              }
             }
         }
     });
 
-    grunt.registerTask("default", ["connect"]);
+    grunt.registerTask("default", ["uglify","connect"]);
 }
