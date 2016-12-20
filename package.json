@@ -1,6 +1,6 @@
 {
   "name": "tabletop",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "**Tabletop.js** takes a Google Spreadsheet and makes it easily accessible through JavaScript. With zero dependencies!",
   "main": "src/tabletop.js",
   "directories": {
@@ -32,5 +32,9 @@
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.11.2",
+    "jshint-stylish": "^2.0.0"
   }
 }
