@@ -23,6 +23,7 @@
     "grunt-contrib-connect": "*",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-uglify": "^2.0.0",
+    "jshint-stylish": "^2.2.1",
     "mocha": "^3.2.0"
   },
   "dependencies": {
