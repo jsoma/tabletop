@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             options: {
                 mangle: false
             },
-            my_target: {
+            tabletop: {
               files: {
                 'src/tabletop.min.js': ['src/tabletop.js']
               }
