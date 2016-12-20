@@ -185,7 +185,7 @@ For example:
 
 ## Tabletop object attributes and methods
 
-Once you've initialized a `tabletop` object you can access its good parts.
+Once you're in the callback, you get the data **and** a `tabletop` object. That object is capable of all sorts of fun things.
 
 #### .sheets()
 
@@ -201,11 +201,11 @@ Once you've initialized a `tabletop` object you can access its good parts.
 
 `.foundSheetNames` are the names of the sheets [read: models] that Tabletop knows about. Their order reflects the sheets' order in the original spreadsheet.
 
-#### .data
+#### .data()
 
 `.data()` returns the rows of the first model if you're in simpleSheet mode. It's the same as `.sheets()` otherwise. This is just a little sugar.
 
-#### .fetch
+#### .fetch()
 
 `.fetch()` manually initializes a data request to the Google Sheet.
 
