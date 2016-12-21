@@ -28,11 +28,11 @@ Tabletop.js easily integrates Google Spreadsheets with templating systems and an
 
 Yes, it's that easy.
 
-**NOTE:** If your share URL has a `/d/e` in it, try refreshing the page to see if it goes away. If it doesn't, keep reading a little more.
+**NOTE:** If your share URL has a `/d/e` in it, try refreshing the page to see if it goes away. If it doesn't, [try this](#if-your-publish-to-web-url-doesnt-work).
 
 # Getting Started
 
-## 1) Pubishing your Google Sheet
+### 1) Publishing your Google Sheet
 
 _The first step is to get your data out into a form Tabletop can digest_
 
@@ -47,15 +47,7 @@ Now go up to the `File` menu and pick `Publish to the web`. Fiddle with the opti
 
 Copy that! In theory you're interested in the `1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc` but you can use the whole thing if you want.
 
-### 1.5) If your Publish to Web URL doesn't work
-
-> I'd put this in "troubleshooting" but it's *important*
-
-For an unknown reason **the Publish to Web URL sometimes doesn't work**, especially if it has a `/d/e` in it. If yours has a `/d/e`, try refreshing the page to see if it goes away. If it doesn't the following steps will work:
-
-1. Click the **Share** link in the upper right-hand corner
-2. **Change...** access to "On - Anyone with a link"
-3. Use the URL from that window
+If your URL has a `/d/e` in it [read this part](#if-your-publish-to-web-url-doesnt-work).
 
 ### 2) Setting up Tabletop
 
@@ -87,6 +79,14 @@ After Tabletop reads your Sheet, it hops to the `showInfo` function with your da
 Check out the reference and the examples, but basically you're set. The only thing to think about right _now_ is if you want to deal with multiple sheets you can get rid of `simpleSheet: true` (more on that later).
 
 You might also be interested in the publishing/republishing/publish-as-it-changes aspects of Google Spreadsheets, but you'll need to google that for any specifics.
+
+### If your Publish to Web URL doesn't work
+
+For an unknown reason the **Publish to Web** URL sometimes doesn't work, especially if it has a `/d/e` in it. If yours has a `/d/e`, try refreshing the page to see if it goes away. If it doesn't the following steps will work:
+
+1. Click the **Share** link in the upper right-hand corner
+2. **Change...** access to "On - Anyone with a link"
+3. Use the URL from that window
 
 # Reference
 
