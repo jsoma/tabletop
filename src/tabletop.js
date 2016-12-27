@@ -203,7 +203,7 @@
         } catch (e) {
           console.error(e);
         }
-        callback.call(self, null, json);
+        callback.call(self, json);
       };
       xhr.send();
     },
