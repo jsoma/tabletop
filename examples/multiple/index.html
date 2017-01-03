@@ -7,7 +7,6 @@
     <script type="text/javascript" src="../../src/tabletop.js"></script>
     <script type="text/javascript">
       var a,b;
-      window.onload = function() { init() };
 
       var public_spreadsheet_url_1 = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html',
           public_spreadsheet_url_2 = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdE5OcDE1SENpT1g2R2JEX2tnZ3ZIWHc&output=html';
@@ -40,6 +39,8 @@
         }
         div.innerHTML = div.innerHTML + html;
       }
+
+      window.addEventListener('DOMContentLoaded', init)
     </script>
   </body>
 </html>

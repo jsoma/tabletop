@@ -7,8 +7,6 @@
     
     <script type="text/javascript" src="../../src/tabletop.js"></script>
     <script type="text/javascript">
-      window.onload = function() { init() };
-
       var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
 
       function init() {
@@ -21,6 +19,8 @@
                          orderby: 'Name',
                          reverse: true } );
       }
+
+      window.addEventListener('DOMContentLoaded', init)
 
       function showInfo(data) {
         // data comes through as a simple array since simpleSheet is turned on

@@ -19,6 +19,7 @@ Tabletop.js easily integrates Google Spreadsheets with templating systems and an
                        },
                        simpleSheet: true } )
     }
+    window.addEventListener('DOMContentLoaded', init)
 
 **Step Three:** Enjoy your data!
 
@@ -55,9 +56,8 @@ _Now you're going to feed your spreadsheet into Tabletop_
 
 Include the Tabletop JavaScript file in your HTML, then try the following, substituting your URL for `publicSpreadsheetUrl`
 
-    <script type="text/javascript">
-      window.onload = function() { init() };
-    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+    <script type='text/javascript'>    
       var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc/pubhtml';
 
       function init() {
@@ -67,9 +67,11 @@ Include the Tabletop JavaScript file in your HTML, then try the following, subst
       }
 
       function showInfo(data, tabletop) {
-        alert("Successfully processed!")
+        alert('Successfully processed!')
         console.log(data);
       }
+
+      window.addEventListener('DOMContentLoaded', init)
     </script>
 
 After Tabletop reads your Sheet, it hops to the `showInfo` function with your data. Open up your console and check out the data it retrieved. All of those rows were turned right into objects! **See how easy that was?** 
