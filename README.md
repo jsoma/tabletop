@@ -179,6 +179,10 @@ For example:
 
 `debug` returns on debug mode, which gives you plenty of messaging about what's going on under the hood.
 
+#### authkey
+
+`authkey` is the authorization key for private sheet support.
+
 #### parameterize
 
 `parameterize` changes the src of all injected scripts. Instead of `src`, `src` is URI encoded and appended to `parameterize`, e.g. set it to `http://example.herokuapp.com/?url=`. Mostly for [gs-proxy](https://github.com/MinnPost/gs-proxy).

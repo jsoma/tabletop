@@ -78,6 +78,9 @@
     this.endpoint = options.endpoint || 'https://spreadsheets.google.com';
     this.singleton = !!options.singleton;
     this.simpleUrl = !!(options.simpleUrl || options.simple_url); //jshint ignore:line
+    this.authkey = options.authkey;
+    this.sheetPrivacy = this.authkey ? 'private' : 'public'
+
     this.callbackContext = options.callbackContext;
     // Default to on, unless there's a proxy, in which case it's default off
     this.prettyColumnNames = typeof(options.prettyColumnNames) === 'undefined' ? !options.proxy : options.prettyColumnNames;
@@ -128,7 +131,7 @@
     this.modelNames = [];
     this.model_names = this.modelNames; //jshint ignore:line
 
-    this.baseJsonPath = '/feeds/worksheets/' + this.key + '/public/basic?alt=';
+    this.baseJsonPath = '/feeds/worksheets/' + this.key + '/' + this.sheetPrivacy +'/basic?alt=';
 
     if (inNodeJS || supportsCORS) {
       this.baseJsonPath += 'json';
@@ -336,7 +339,7 @@
         if (this.isWanted(data.feed.entry[i].content.$t)) {
           var linkIdx = data.feed.entry[i].link.length-1;
           var sheetId = data.feed.entry[i].link[linkIdx].href.split('/').pop();
-          var jsonPath = '/feeds/list/' + this.key + '/' + sheetId + '/public/values?alt=';
+          var jsonPath = '/feeds/list/' + this.key + '/' + sheetId + '/' + this.sheetPrivacy + '/values?alt=';
           if (inNodeJS || supportsCORS) {
             jsonPath += 'json';
           } else {
