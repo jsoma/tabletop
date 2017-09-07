@@ -1,6 +1,6 @@
 {
   "name": "tabletop",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "**Tabletop.js** takes a Google Spreadsheet and makes it easily accessible through JavaScript. With zero dependencies!",
   "main": "src/tabletop.js",
   "directories": {

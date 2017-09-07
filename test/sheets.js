@@ -79,6 +79,54 @@ function testTabletop(Tabletop) {
       })
     })
   });
+
+  describe('Pretty columns', function() {
+
+    it('does not use real column names if disabled', function(done) {
+      var tabletop = Tabletop.init({
+        key: sheets['2016'],
+        callback: function(data, tabletop) {
+          var columns = Object.keys(data[0])
+          assert(columns.indexOf('onamazon') !== -1)
+          assert(columns.indexOf('goodreadsrating') !== -1)
+          done()
+        },
+        simpleSheet: true,
+        prettyColumnNames: false
+      })
+    })
+
+    it('restores actual column names if enabled', function(done) {
+      var tabletop = Tabletop.init({
+        key: sheets['2016'],
+        callback: function(data, tabletop) {
+          var columns = Object.keys(data[0])
+          assert(columns.indexOf('$ on amazon') !== -1)
+          assert(columns.indexOf('goodreads_rating') !== -1)
+          done()
+        },
+        simpleSheet: true,
+        prettyColumnNames: true
+      })
+    })
+
+    it('runs before postProcess', function(done) {
+      var tabletop = Tabletop.init({
+        key: sheets['2016'],
+        callback: function(data, tabletop) {
+          done()
+        },
+        postProcess: function(element) {
+          var columns = Object.keys(element)
+          assert(columns.indexOf('$ on amazon') !== -1)
+          assert(columns.indexOf('goodreads_rating') !== -1)
+        },
+        simpleSheet: true,
+        prettyColumnNames: true
+      })
+    })
+
+  })
 }
 
 describe("Non-minified Tabletop", function() {

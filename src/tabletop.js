@@ -455,7 +455,7 @@
       options.tabletop.log('Missing data for ' + this.name + ', make sure you didn\'t forget column headers');
       this.originalColumns = [];
       this.elements = [];
-      this.onReady.call(this);
+      this.ready();
       return;
     }
 
@@ -487,17 +487,13 @@
         element.rowNumber = i + 1;
       }
 
-      if (options.postProcess) {
-        options.postProcess(element);
-      }
-
       this.elements.push(element);
     }
 
     if (options.prettyColumnNames) {
       this.fetchPrettyColumns();
     } else {
-      this.onReady.call(this);
+      this.ready();
     }
   };
 
@@ -521,7 +517,16 @@
       });
     },
 
+    beforeReady: function() {
+      if(this.postProcess) {
+        for (i = 0, ilen = this.elements.length; i < ilen; i++) {
+          this.postProcess(element);
+        }
+      }
+    },
+
     ready: function() {
+      this.beforeReady();
       this.onReady.call(this);
     },
 
