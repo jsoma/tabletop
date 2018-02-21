@@ -44,11 +44,19 @@ Make a [Google Spreadsheet](http://drive.google.com). Give it some column header
     Pork Shoulder   Meat       Questionable
     Bubblegum       Candy      Super High
   
-Now go up to the `File` menu and pick `Publish to the web`. Fiddle with the options, then click `Start publishing`. A URL will appear, something like `https://docs.google.com/spreadsheets/d/1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc/pubhtml` (although it might look different if you're using an especially old or new Sheet).
+Now go up to the `File` menu and pick `Publish to the web`. Fiddle with the options, then click `Start publishing`. A URL will appear, something like `https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2qq5UByYNkhsujdrWlDXtpSUhh7ovl0Ak6pyY3sWZqEaWS2lJ0iuqcag8iDLsoTuZ4XTiaEBtbbi0/pubhtml` .
 
-Copy that! In theory you're interested in the `1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc` but you can use the whole thing if you want.
+**IGNORE THIS URL!** You used to be able to use it, you can't anymore (you still need to do this step, though).
 
-If your URL has a `/d/e` in it [read this part](#if-your-publish-to-web-url-doesnt-work).
+Now that you've published your sheet, you now need to share it, too.
+
+1. Click the **Share** link in the upper right-hand corner
+2. Click the very pale **Advanced** button
+3. **Change...** access to "On - Anyone with a link"
+4. Make sure **Access: Anyone** says **Can view**, since you don't want strangers editing your data
+5. Click **Save**
+
+Copy the **Link to Share**. Your URL should look something like `https://docs.google.com/spreadsheets/d/1Io6W5XitNvifEXER9ECTsbHhAjXsQLq6VEz7kSPDPiQ/edit?usp=sharing`. It should **not** have a `/d/e` in it.
 
 ### 2) Setting up Tabletop
 
@@ -81,14 +89,6 @@ After Tabletop reads your Sheet, it hops to the `showInfo` function with your da
 Check out the reference and the examples, but basically you're set. The only thing to think about right _now_ is if you want to deal with multiple sheets you can get rid of `simpleSheet: true` (more on that later).
 
 You might also be interested in the publishing/republishing/publish-as-it-changes aspects of Google Spreadsheets, but you'll need to google that for any specifics.
-
-### If your Publish to Web URL doesn't work
-
-For an unknown reason the **Publish to Web** URL sometimes doesn't work, especially if it has a `/d/e` in it. If yours has a `/d/e`, try refreshing the page to see if it goes away. If it doesn't the following steps will work:
-
-1. Click the **Share** link in the upper right-hand corner
-2. **Change...** access to "On - Anyone with a link"
-3. Use the URL from that window
 
 # Reference
 
