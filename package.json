@@ -29,7 +29,7 @@
     "uglifyjs": "^2.4.10"
   },
   "dependencies": {
-    "nsp": "^2.6.2",
+    "nsp": "^3.0.0",
     "request": "^2.51.0"
   },
   "engines": {
