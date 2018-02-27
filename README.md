@@ -90,6 +90,35 @@ Check out the reference and the examples, but basically you're set. The only thi
 
 You might also be interested in the publishing/republishing/publish-as-it-changes aspects of Google Spreadsheets, but you'll need to google that for any specifics.
 
+## A note on node
+To use this in a node environment:
+
+```
+npm install tabletop -save
+```
+
+Copy and paste this in your `index.js` file:
+
+```js
+ const Tabletop = require('tabletop');
+
+ var publicSpreadsheetUrl = 'URL OF SPREADSHEET AS YOU FIND IN THE BROWSER ADDRESS BAR';
+
+function init() {
+    Tabletop.init( { key: publicSpreadsheetUrl,
+                     callback: showInfo,
+                     simpleSheet: false } )
+  }
+
+ function showInfo(data, tabletop) {
+  // do something with the data
+  console.log(JSON.stringify(data, null, 2);
+}
+
+//initialise and kickstart the whole thing.
+init()
+```
+
 # Reference
 
 ## Tabletop initialization
