@@ -80,6 +80,7 @@
     this.simpleUrl = !!(options.simpleUrl || options.simple_url); //jshint ignore:line
     this.authkey = options.authkey;
     this.sheetPrivacy = this.authkey ? 'private' : 'public'
+    this.httpProxyUrl = option.httpProxyUrl;
 
     this.callbackContext = options.callbackContext;
     // Default to on, unless there's a proxy, in which case it's default off
@@ -268,7 +269,15 @@
       var self = this;
 
       this.log('Fetching', this.endpoint + path);
-      request({url: this.endpoint + path, json: true}, function(err, resp, body) {
+      var requestOpts = {};
+      typeof(this.httpProxyUrl) === 'undefined'
+        ? (requestOpts = { url: this.endpoint + path, json: true })
+        : (requestOpts = {
+            url: this.endpoint + path,
+            json: true,
+            proxy: this.httpProxyUrl,
+          });
+      request(requestOpts, function(err, resp, body) {
         if (err) {
           return console.error(err);
         }
