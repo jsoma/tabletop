@@ -167,6 +167,11 @@ For example:
 
 `proxy` allows you to easily use spreadsheets not located on Google Spreadsheet servers. Setting `proxy: "http://www.proxy.com"` is equivalent to setting `{ simple_url: true, singleton: true, endpoint: "http://www.proxy.com" }`. [Flatware](https://github.com/jsoma/flatware) might provide better documentation.
 
+
+#### httpProxyUrl
+
+`httpProxyUrl` if tabletop is being used in a node.js environment and httpProxyUrl is provided, Tabletop will pass the proxy url as the proxy argument to the JS request module, e.g.  `httpProxyUrl: "http:uname:pw@proxy:port"`
+
 #### wait
 
 `wait` prevents tabletop from pulling the Google spreadsheet until you're ready. Used in the backbone.js example.
