@@ -80,7 +80,7 @@
     this.simpleUrl = !!(options.simpleUrl || options.simple_url); //jshint ignore:line
     this.authkey = options.authkey;
     this.sheetPrivacy = this.authkey ? 'private' : 'public'
-    this.httpProxyUrl = option.httpProxyUrl;
+    this.httpProxyUrl = options.httpProxyUrl;
 
     this.callbackContext = options.callbackContext;
     // Default to on, unless there's a proxy, in which case it's default off
