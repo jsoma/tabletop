@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --timeout 5000 && node node_modules/nsp/bin/nsp check",
+    "test": "node node_modules/mocha/bin/mocha --timeout 5000",
     "uglify": "node node_modules/uglify-js/bin/uglifyjs src/tabletop.js > src/tabletop.min.js "
   },
   "repository": {
@@ -25,11 +25,11 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-uglify": "^2.0.0",
     "jshint-stylish": "^2.0.0",
-    "mocha": "^3.2.0",
+    "mocha": "^6.2.1",
     "uglifyjs": "^2.4.10"
   },
   "dependencies": {
-    "nsp": "^3.0.0",
+    "lodash": "^4.17.12",
     "request": "^2.51.0"
   },
   "engines": {
