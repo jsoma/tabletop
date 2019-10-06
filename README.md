@@ -8,7 +8,7 @@ Tabletop.js easily integrates Google Spreadsheets with templating systems and an
 
 ### Like how easy?
 
-**Step One:** make a Google Spreadsheet and "Publish to Web."
+**Step One:** make a Google Spreadsheet and "Publish to Web." It doesn't matter what publishing method you pick.
 
 **Step Two:** Write a page that invokes Tabletop with the published URL Google gives you.
 
