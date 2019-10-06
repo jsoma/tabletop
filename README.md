@@ -315,6 +315,8 @@ You can point `proxy` at anything you'd like as long as it has `KEY` and `KEY-SH
 
 **Weird-named columns are trouble.** A [column named %](https://github.com/jsoma/tabletop/issues/124) might cause your spreadsheet to stop processing.
 
+**Unnamed columns are trouble.** A [column without a name](https://github.com/jsoma/tabletop/issues/114) will get in the way of your data successfully coming through.
+
 ## If you are having trouble
 
 Turn on debugging by passing `debug: true` when you initialize Tabletop. Check out the console, I try to keep my error messages chatty and informative. Or just email me at [jonathan.soma@gmail.com](mailto:jonathan.soma@gmail.com), I'm happy to help!
