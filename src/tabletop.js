@@ -140,6 +140,10 @@
       this.baseJsonPath += 'json-in-script';
     }
 
+    if (this.authkey) {
+      this.baseJsonPath += '&oauth_token=' + this.authkey;
+    }
+  
     if(!this.wait) {
       return this.fetch();
     }
@@ -372,6 +376,9 @@
           }
           if (this.reverse) {
             jsonPath += '&reverse=true';
+          }
+          if (this.authkey) {
+            jsonPath += '&oauth_token=' + this.authkey;
           }
           toLoad.push(jsonPath);
         }
