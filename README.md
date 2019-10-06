@@ -100,10 +100,12 @@ The simplest Tabletop initialization works like this:
       key: '1sbyMINQHPsJctjAtMW0lCfLrcpMqoGMOJj6AN-sNQrc', 
       callback: showInfo 
     })
-  
+
 You pass in either `key` as the actual spreadsheet key, or just the full published-spreadsheet URL.
 
 `showInfo` is a function elsewhere in your code that gets called with your data.
+
+**Depending on how recently you've published your spreadsheet, your `key` comes from different places.** Either the spreadsheet's URL in the address bar, the Publish URL, or the Share URL. [Read this](https://github.com/jsoma/tabletop#if-your-publish-to-web-url-doesnt-work)
 
 ## Tabletop initialization options
 
