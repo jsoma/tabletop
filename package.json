@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --timeout 5000",
+    "test": "node node_modules/mocha/bin/mocha --timeout 10000",
     "uglify": "node node_modules/uglify-js/bin/uglifyjs src/tabletop.js > src/tabletop.min.js "
   },
   "repository": {
