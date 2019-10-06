@@ -141,7 +141,7 @@
     }
 
     if(!this.wait) {
-      this.fetch();
+      return this.fetch();
     }
   };
 
@@ -160,10 +160,19 @@
   Tabletop.prototype = {
 
     fetch: function(callback) {
-      if (typeof(callback) !== 'undefined') {
-        this.callback = callback;
-      }
-      this.requestData(this.baseJsonPath, this.loadSheets);
+      var self = this;
+      return new Promise(function(resolve, reject) {
+        if (typeof(callback) !== 'undefined') {
+          self.callback = callback;
+        }
+        if (!self.callback) {
+          self.callback = resolve;
+        }
+        if (!self.error) {
+          self.error = reject;
+        }
+        self.requestData(self.baseJsonPath, self.loadSheets);
+      });
     },
 
     /*

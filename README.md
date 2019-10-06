@@ -12,20 +12,38 @@ Tabletop.js easily integrates Google Spreadsheets with templating systems and an
 
 **Step Two:** Write a page that invokes Tabletop with the published URL Google gives you.
 
-    function init() {
-      Tabletop.init( { key: 'https://docs.google.com/spreadsheets/d/0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE/pubhtml',
-                       callback: function(data, tabletop) { 
-	                       console.log(data)
-                       },
-                       simpleSheet: true } )
-    }
-    window.addEventListener('DOMContentLoaded', init)
+```js
+function init() {
+  Tabletop.init( { key: 'https://docs.google.com/spreadsheets/d/0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE/pubhtml',
+                    callback: function(data, tabletop) { 
+                      console.log(data)
+                    },
+                    simpleSheet: true } )
+}
+window.addEventListener('DOMContentLoaded', init)
+```
+
+**Step Two, modern-er version:** We've moved to the future (aka like a decade ago) by supporting promises.
+
+```js
+function init() {
+  Tabletop.init( {
+    key: 'https://docs.google.com/spreadsheets/d/0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE/pubhtml',
+    simpleSheet: true }
+  ).then(function(data, tabletop) { 
+    console.log(data)
+  })
+}
+window.addEventListener('DOMContentLoaded', init)
+```
 
 **Step Three:** Enjoy your data!
 
-    [ { name: "Carrot", category: "Vegetable", healthiness: "Adequate" }, 
-      { name: "Pork Shoulder", category: "Meat", healthiness: "Questionable" }, 
-      { name: "Bubblegum", category: "Candy", healthiness: "Super High"} ]
+```json
+[ { name: "Carrot", category: "Vegetable", healthiness: "Adequate" }, 
+  { name: "Pork Shoulder", category: "Meat", healthiness: "Questionable" }, 
+  { name: "Bubblegum", category: "Candy", healthiness: "Super High"} ]
+```
 
 Yes, it's that easy.
 
