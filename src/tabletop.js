@@ -65,6 +65,7 @@
     }
 
     this.callback = options.callback;
+    this.error = options.error;
     this.wanted = options.wanted || [];
     this.key = options.key;
     this.simpleSheet = !!options.simpleSheet;
@@ -172,7 +173,7 @@
     */
     requestData: function(path, callback) {
       this.log('Requesting', path);
-
+      this.encounteredError = false;
       if (inNodeJS) {
         this.serverSideFetch(path, callback);
       } else {
@@ -204,6 +205,9 @@
         }
         callback.call(self, json);
       };
+      if(this.error) {
+        xhr.addEventListener('error', this.error);
+      }
       xhr.send();
     },
 
@@ -330,7 +334,12 @@
     loadSheets: function(data) {
       var i, ilen;
       var toLoad = [];
-      this.googleSheetName = data.feed.title.$t;
+      try {
+        this.googleSheetName = data.feed.title.$t;
+      } catch(err) {
+        this.error(err);
+        return;
+      }
       this.foundSheetNames = [];
 
       for (i = 0, ilen = data.feed.entry.length; i < ilen ; i++) {
