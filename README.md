@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', init)
 
 **Step Three:** Enjoy your data!
 
-```json
+```js
 [ { name: "Carrot", category: "Vegetable", healthiness: "Adequate" }, 
   { name: "Pork Shoulder", category: "Meat", healthiness: "Questionable" }, 
   { name: "Bubblegum", category: "Candy", healthiness: "Super High"} ]
