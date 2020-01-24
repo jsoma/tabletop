@@ -130,7 +130,7 @@ function init() {
 
  function showInfo(data, tabletop) {
   // do something with the data
-  console.log(JSON.stringify(data, null, 2);
+  console.log(JSON.stringify(data, null, 2));
 }
 
 //initialise and kickstart the whole thing.
