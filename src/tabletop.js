@@ -80,7 +80,7 @@
     this.singleton = !!options.singleton;
     this.simpleUrl = !!(options.simpleUrl || options.simple_url); //jshint ignore:line
     this.authkey = options.authkey;
-    this.sheetPrivacy = this.authkey ? 'private' : 'public'
+    this.sheetPrivacy = this.authkey ? 'private' : 'public';
 
     this.callbackContext = options.callbackContext;
     // Default to on, unless there's a proxy, in which case it's default off
@@ -543,9 +543,9 @@
     },
 
     beforeReady: function() {
-      if(this.postProcess) {
-        for (i = 0, ilen = this.elements.length; i < ilen; i++) {
-          this.postProcess(element);
+      if(this.tabletop.postProcess) {
+        for (var i = 0, ilen = this.elements.length; i < ilen; i++) {
+          this.tabletop.postProcess(this.elements[i]);
         }
       }
     },

@@ -134,16 +134,21 @@ function testTabletop(Tabletop) {
       })
     })
 
-    it('runs before postProcess', function(done) {
+    it('runs before postProcess', function (done) {
       var tabletop = Tabletop.init({
         key: sheets['2016'],
         callback: function(data, tabletop) {
+          for (var i = 0; i < data.length; i++) {
+            var element = data[i];
+            assert(element.titleAndAuthor === element.title + ' ' + element.author)
+          }
           done()
         },
         postProcess: function(element) {
           var columns = Object.keys(element)
           assert(columns.indexOf('$ on amazon') !== -1)
           assert(columns.indexOf('goodreads_rating') !== -1)
+          element.titleAndAuthor = element.title + ' ' + element.author;
         },
         simpleSheet: true,
         prettyColumnNames: true
