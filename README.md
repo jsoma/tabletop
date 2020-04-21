@@ -48,6 +48,8 @@ This also won't work if you're opening up an html file on your computer like a N
 
 But hey, as of September 2020 it's this way or the highway!
 
+## But let's pretend Tabletop isn't leaving
+
 ### Like how easy?
 
 **Step One:** make a Google Spreadsheet and "Publish to Web." You'll need to pick CSV to be forwards-compatible for when Google shuts down the old way of doing things.
