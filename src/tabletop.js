@@ -7,7 +7,7 @@
     throw new Error("The 'request' module is only available while running in Node.");
   };
   if(inNodeJS) { // This will get stripped out by Uglify, and Webpack will not include it
-    request = require('request');
+    var axios = require('axios');
   }
 
   var supportsCORS = false;
@@ -182,7 +182,7 @@
     /*
       This will call the environment appropriate request method.
 
-      In browser it will use JSON-P, in node it will use request()
+      In browser it will use JSON-P, in node it will use axios.get()
     */
     requestData: function(path, callback) {
       this.log('Requesting', path);
@@ -284,13 +284,15 @@
     serverSideFetch: function(path, callback) {
       var self = this;
 
-      this.log('Fetching', this.endpoint + path);
-      request({url: this.endpoint + path, json: true}, function(err, resp, body) {
-        if (err) {
-          return console.error(err);
-        }
-        callback.call(self, body);
-      });
+      axios.get(this.endpoint + path)
+        .then(function(response) {
+          callback.call(self, response.data);
+        })
+        .catch(function(err) {
+          if (err) {
+            return console.error(err);
+          }
+        });
     },
 
     /*

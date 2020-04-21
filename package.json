@@ -29,8 +29,8 @@
     "uglifyjs": "^2.4.10"
   },
   "dependencies": {
-    "lodash": "^4.17.12",
-    "request": "^2.51.0"
+    "axios": "^0.19.2",
+    "lodash": "^4.17.12"
   },
   "engines": {
     "node": ">=0.10.0"
