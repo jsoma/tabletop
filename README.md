@@ -42,6 +42,8 @@ function init() {
 window.addEventListener('DOMContentLoaded', init)
 ```
 
+> Google broke some MORE stuff, so while this will work you'll need to [jump through a few hoops](https://github.com/jsoma/tabletop/issues/189).
+
 One important note is **this won't work with Publish to Web if you have an organizational account.** Like if I use my `@columbia.edu` account Google pretends I'm a terrible criminal and won't give me access via Papa Parse.
 
 This also won't work if you're opening up an html file on your computer like a Normal Person, it requires you to either put it on the internet or run a local server. There are worse things, I guess.
