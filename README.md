@@ -42,13 +42,13 @@ function init() {
 window.addEventListener('DOMContentLoaded', init)
 ```
 
-> Google broke some MORE stuff, so while this will work you'll need to [jump through a few hoops](https://github.com/jsoma/tabletop/issues/189).
-
 One important note is **this won't work with Publish to Web if you have an organizational account.** Like if I use my `@columbia.edu` account Google pretends I'm a terrible criminal and won't give me access via Papa Parse.
 
 This also won't work if you're opening up an html file on your computer like a Normal Person, it requires you to either put it on the internet or run a local server. There are worse things, I guess.
 
 But hey, as of September 2020 it's this way or the highway!
+
+> Google broke some MORE stuff, so you just plan might not be able to do this any more. If it's a PRIVATE project, you can get an API key and [jump through a few hoops](https://github.com/jsoma/tabletop/issues/189). But beware that this [exposes your API key to anyone visiting the site](https://github.com/jsoma/tabletop/issues/187#issuecomment-650942492), which allows people to do whatever they want with your data and run up bills on your end, so you probably don't want this on something facing the world.
 
 ## But let's pretend Tabletop isn't leaving
 
