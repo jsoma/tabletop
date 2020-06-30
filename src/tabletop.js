@@ -210,6 +210,13 @@
       xhr.open('GET', this.endpoint + path);
       var self = this;
       xhr.onload = function() {
+       /*
+         Return early with Node-style err parameter in case of XHR error.
+       */
+        if(xhr.status >= 400) {
+          return self.callback.call(self, xhr.status)
+        }
+        
         var json;
         try {
           json = JSON.parse(xhr.responseText);
@@ -448,7 +455,7 @@
     */
     doCallback: function() {
       if(this.sheetsToLoad === 0) {
-        this.callback.apply(this.callbackContext || this, [this.data(), this]);
+        this.callback.apply(this.callbackContext || this, [null, this.data(), this]);
       }
     },
 
